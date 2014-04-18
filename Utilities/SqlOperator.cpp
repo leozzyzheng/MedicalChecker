@@ -74,13 +74,7 @@ SqlThread::~SqlThread()
 
 void SqlThread::moveToOtherThread()
 {
-    m_pThread = new QThread();
-
-    connect(QGuiApplication::instance(),    SIGNAL(aboutToQuit()),  m_pThread,  SLOT(quit()));
-    connect(m_pThread,                      SIGNAL(finished()),     m_pThread,  SLOT(deleteLater()));
-
-    moveToThread(m_pThread);
-    m_pThread->start();
+    moveToThread(ThreadSingleton::getInstance());
 }
 
 bool SqlThread::isOpen()

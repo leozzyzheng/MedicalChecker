@@ -21,4 +21,5 @@ include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
 qtcAddDeployment()
 
 HEADERS += \
-    Utilities/SqlOperator.h
+    Utilities/SqlOperator.h \
+    Utilities/ThreadSingleton.h

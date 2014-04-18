@@ -13,6 +13,8 @@
 #include <QSqlError>
 #include <QDebug>
 
+#include "Utilities/ThreadSingleton.h"
+
 #define DATABASE_TYPE "QMYSQL"
 
 //数据操作子线程类
@@ -36,7 +38,6 @@ signals:
 
 private:
     QSqlDatabase    m_db;
-    QThread *       m_pThread;
 };
 
 //数据库操作主线程封装类
