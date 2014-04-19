@@ -4,16 +4,17 @@
 #define THREADSINGLETON_H
 
 #include <QThread>
+#include <QDebug>
 
 //单例类
 class ThreadSingleton
 {
 private:
-    static const QThread* m_instance;
+    static QThread* m_instance;
     ThreadSingleton(){}
 
 public:
-    static const QThread* getInstance()
+    static QThread* getInstance()
     {
         return m_instance;
     }

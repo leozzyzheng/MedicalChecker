@@ -11,7 +11,8 @@ QML_IMPORT_PATH =
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
-    Utilities/SqlOperator.cpp
+    Utilities/SqlOperator.cpp \
+    Utilities/SignatureSender.cpp
 
 # Installation path
 # target.path =
@@ -22,4 +23,5 @@ qtcAddDeployment()
 
 HEADERS += \
     Utilities/SqlOperator.h \
-    Utilities/ThreadSingleton.h
+    Utilities/ThreadSingleton.h \
+    Utilities/SignatureSender.h
