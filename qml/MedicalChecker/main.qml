@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import com.zzy.qmlcomponents 1.0
 
 Rectangle {
     width: 360
@@ -12,5 +13,11 @@ Rectangle {
         onClicked: {
             Qt.quit();
         }
+    }
+
+    Signature
+    {
+        width:50
+        height:50
     }
 }

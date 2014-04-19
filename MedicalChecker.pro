@@ -4,7 +4,7 @@ folder_01.target = qml
 
 DEPLOYMENTFOLDERS = folder_01
 
-QT += sql
+QT += sql qml
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
@@ -12,7 +12,8 @@ QML_IMPORT_PATH =
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
     Utilities/SqlOperator.cpp \
-    Utilities/SignatureSender.cpp
+    Utilities/SignatureSender.cpp \
+    Signature.cpp
 
 # Installation path
 # target.path =
@@ -24,4 +25,5 @@ qtcAddDeployment()
 HEADERS += \
     Utilities/SqlOperator.h \
     Utilities/ThreadSingleton.h \
-    Utilities/SignatureSender.h
+    Utilities/SignatureSender.h \
+    Signature.h
