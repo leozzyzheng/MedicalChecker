@@ -30,9 +30,9 @@ int main(int argc, char *argv[])
     viewer.setMainQmlFile(QStringLiteral("qml/MedicalChecker/main.qml"));
     viewer.showExpanded();
 
-    QImage image("D:/GitHub/MedicalChecker/trunk/test.png");
-    SignatureSender sender;
-    sender.sendSigature(image);
+//    QImage image("D:/GitHub/MedicalChecker/trunk/test.png");
+//    SignatureSender sender;
+//    sender.sendSigature(image);
 
     return app.exec();
 }
