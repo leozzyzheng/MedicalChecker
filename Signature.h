@@ -18,17 +18,18 @@ public:
 
 protected:
     void mouseMoveEvent(QMouseEvent *event);
-    void mousePressEvent(QMoveEvent * event);
+    void mousePressEvent(QMouseEvent * event);
     void mouseReleaseEvent(QMouseEvent * event);
-    void wheelEvent(QWheelEvent * event);
-
 signals:
 
 public slots:
-    void clear();
+    void clearImage();
 private:
+    void paintVecPoint(QPainter* painter, std::vector<QPoint> & points);
+
     QImage * m_pPaintImage;
-    std::vector<QPoint> m_vPoints;
+    std::vector< std::vector<QPoint> > m_vPoints;
+    std::vector<QPoint> m_vCurrentPoints;
 };
 
 #endif // SIGNATURE_H
