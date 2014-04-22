@@ -30,10 +30,22 @@ void SignatureSender::sendSigature(QImage &image)
     QBuffer buffer(&ba);
     buffer.open(QIODevice::ReadWrite);
     copy.save(&buffer, "PNG"); // writes image into ba in PNG format
+    copy.save("test2.png");
+    qDebug()<<buffer.size();
     buffer.close();
 
-    QNetworkRequest request(QUrl("http://localhost/up.php?act=up&filename=a.jpg"));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/octet-stream");
+    QString boundary = "---------------------------7de13a39350560";
+
+    QString temp = "--" + boundary + "\r\nContent-Disposition: form-data; name=\"myfile\"; filename=\"test2.png\"";
+    temp += "\r\nContent-Type: image/png\r\n\r\n";
+    ba = temp.toUtf8() + ba;
+    ba = ba.append("\r\n--").append(boundary).append("--\r\n");
+
+
+    QNetworkRequest request(QUrl("http://192.168.0.101:8080/zg/company/Upload.action"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "multipart/form-data; boundary=" + boundary);
+    request.setHeader(QNetworkRequest::ContentLengthHeader, ba.length());
+    qDebug()<<ba.length();
     m_pCurrentReply = m_pNetMgr->post(request , ba);
 
     connect(m_pCurrentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(innerError(QNetworkReply::NetworkError)));
@@ -44,10 +56,13 @@ void SignatureSender::replyFinished(QNetworkReply *pReply)
 {
     disconnect(m_pCurrentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(innerError(QNetworkReply::NetworkError)));
     disconnect(m_pCurrentReply, SIGNAL(uploadProgress ( qint64 ,qint64 )),  this, SIGNAL(progress(qint64 ,qint64 )));
-    emit finished(pReply->readAll());
+    QString respone = pReply->readAll();
+    qDebug()<<"Send Finished:"<<respone;
+    emit finished(respone);
 }
 
-void SignatureSender::innerError(QNetworkReply::NetworkError)
+void SignatureSender::innerError(QNetworkReply::NetworkError err)
 {
+    qDebug()<<"Send error:"<<err;
     emit error(NETWORK_ERROR);
 }

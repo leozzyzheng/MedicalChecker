@@ -13,7 +13,8 @@ QML_IMPORT_PATH =
 SOURCES += main.cpp \
     Utilities/SqlOperator.cpp \
     Utilities/SignatureSender.cpp \
-    Signature.cpp
+    Signature.cpp \
+    SqlEvent.cpp
 
 # Installation path
 # target.path =
@@ -26,4 +27,5 @@ HEADERS += \
     Utilities/SqlOperator.h \
     Utilities/ThreadSingleton.h \
     Utilities/SignatureSender.h \
-    Signature.h
+    Signature.h \
+    SqlEvent.h
