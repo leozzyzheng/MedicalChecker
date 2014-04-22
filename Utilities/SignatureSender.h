@@ -22,18 +22,19 @@ public:
     {
         IMAGE_INVALID,
         NETWORK_ERROR,
-        NETWORK_BUSY
+        NETWORK_BUSY,
+        UNKNOW
     };
 
     explicit SignatureSender(QObject *parent = 0);
 
 signals:
-    void error(ERROR_TYPE err);
+    void sendError(SignatureSender::ERROR_TYPE err);
     void progress(qint64 ,qint64);
-    void finished(QString responseText);
+    void sendFinished(QString responseText);
 
 public slots:
-    void sendSigature(QImage & image);
+    void sendSigature(QImage *image, QString name);
 
 private slots:
     void replyFinished(QNetworkReply * pReply);

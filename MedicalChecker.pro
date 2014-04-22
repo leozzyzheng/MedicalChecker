@@ -29,3 +29,6 @@ HEADERS += \
     Utilities/SignatureSender.h \
     Signature.h \
     SqlEvent.h
+
+OTHER_FILES += \
+    qml/MedicalChecker/Component/signature.qml

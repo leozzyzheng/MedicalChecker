@@ -11,32 +11,31 @@ SignatureSender::SignatureSender(QObject *parent) :
     moveToThread(m_pThread);
 }
 
-void SignatureSender::sendSigature(QImage &image)
+void SignatureSender::sendSigature(QImage * image, QString name)
 {
     if(m_pCurrentReply && m_pCurrentReply->isRunning())
     {
-        emit error(NETWORK_BUSY);
+        emit sendError(NETWORK_BUSY);
         return;
     }
 
-    if(image.isNull())
+    if(!image || image->isNull())
     {
-        emit error(IMAGE_INVALID);
+        emit sendError(IMAGE_INVALID);
         return;
     }
 
-    QImage copy = image.convertToFormat(QImage::Format_Mono);
+    QImage copy = image->convertToFormat(QImage::Format_Mono);
     QByteArray ba;
     QBuffer buffer(&ba);
     buffer.open(QIODevice::ReadWrite);
     copy.save(&buffer, "PNG"); // writes image into ba in PNG format
     copy.save("test2.png");
-    qDebug()<<buffer.size();
     buffer.close();
 
     QString boundary = "---------------------------7de13a39350560";
 
-    QString temp = "--" + boundary + "\r\nContent-Disposition: form-data; name=\"myfile\"; filename=\"test2.png\"";
+    QString temp = "--" + boundary + "\r\nContent-Disposition: form-data; name=\"myfile\"; filename=\""+name+"\"";
     temp += "\r\nContent-Type: image/png\r\n\r\n";
     ba = temp.toUtf8() + ba;
     ba = ba.append("\r\n--").append(boundary).append("--\r\n");
@@ -45,7 +44,6 @@ void SignatureSender::sendSigature(QImage &image)
     QNetworkRequest request(QUrl("http://192.168.0.101:8080/zg/company/Upload.action"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "multipart/form-data; boundary=" + boundary);
     request.setHeader(QNetworkRequest::ContentLengthHeader, ba.length());
-    qDebug()<<ba.length();
     m_pCurrentReply = m_pNetMgr->post(request , ba);
 
     connect(m_pCurrentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(innerError(QNetworkReply::NetworkError)));
@@ -58,11 +56,11 @@ void SignatureSender::replyFinished(QNetworkReply *pReply)
     disconnect(m_pCurrentReply, SIGNAL(uploadProgress ( qint64 ,qint64 )),  this, SIGNAL(progress(qint64 ,qint64 )));
     QString respone = pReply->readAll();
     qDebug()<<"Send Finished:"<<respone;
-    emit finished(respone);
+    emit sendFinished(respone);
 }
 
 void SignatureSender::innerError(QNetworkReply::NetworkError err)
 {
     qDebug()<<"Send error:"<<err;
-    emit error(NETWORK_ERROR);
+    emit sendError(NETWORK_ERROR);
 }
