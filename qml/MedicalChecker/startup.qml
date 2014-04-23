@@ -2,15 +2,18 @@ import QtQuick 2.0
 
 Image
 {
+    width:parent.width
+    height:parent.height
+
     source:"qrc:/qml/Resource/stratup.jpg"
-    opacity:1
 
     Connections {
         target : initProxy
 
         onCompleted:
         {
-            rootStackView.push(Qt.resolvedUrl("Component/signature.qml"));
+            console.log("Successfully get clinicNames");
+            rootStackView.push({item:Qt.resolvedUrl("login.qml"),replace:true});
         }
 
         onError:
@@ -18,10 +21,5 @@ Image
             console.log(errorString);
             rootStackView.exit()
         }
-    }
-
-    Component.onCompleted:
-    {
-        initProxy.excuteInit();
     }
 }

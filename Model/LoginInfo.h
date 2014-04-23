@@ -3,20 +3,28 @@
 
 //初始登录APP信息存储类
 
-#include <map>
+#include <vector>
 #include <QString>
+#include <QStringList>
 
 class LoginInfo
 {
 public:
+    struct dataStruct
+    {
+        QString shownName;
+        QString originName;
+    };
+
     LoginInfo();
 
-    void insert(QString clinicName, QString index = QString());
-    bool get(QString & index , QString & clinicName);
+    void insert(QString clinicName);
+    void get(QString & key , std::vector<dataStruct> & clinicNames);
+    void sort();
     bool isEmpty();
 
 private:
-    std::map<QString,QString> m_mClinic;
+    QStringList m_clinic;
 };
 
 #endif // LOGININFO_H

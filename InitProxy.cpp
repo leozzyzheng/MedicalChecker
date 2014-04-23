@@ -7,8 +7,35 @@ InitProxy::InitProxy(QObject *parent) :
 
 void InitProxy::excuteInit()
 {
-    QString sql = "SELECT clinicName FROM clinic.Clinic";
+    QString sql = "SELECT clinicName FROM QMLTEST.clinic";
     m_pSqlOp->exec(sql);
+}
+
+int InitProxy::getInfoNum()
+{
+    return m_vIndicator.size();
+}
+
+void InitProxy::excuteIndicator(QString key)
+{
+    m_vIndicator.clear();
+    m_logInfo.get(key,m_vIndicator);
+}
+
+QString InitProxy::getShownName(int index)
+{
+    if(m_vIndicator.size() <= index)
+        return QString();
+
+    return m_vIndicator[index].shownName;
+}
+
+QString InitProxy::getOriginName(int index)
+{
+    if(m_vIndicator.size() <= index)
+        return QString();
+
+    return m_vIndicator[index].originName;
 }
 
 void InitProxy::innerError(QSqlError &error)
@@ -18,7 +45,7 @@ void InitProxy::innerError(QSqlError &error)
 
 void InitProxy::innerFinished(QSqlQuery &query)
 {
-    if(!query.isValid())
+    if(!query.isActive())
     {
         emit error("Cannot get clinic information!App is now exiting!");
         return;
@@ -35,6 +62,8 @@ void InitProxy::innerFinished(QSqlQuery &query)
         emit error("There is no clinic information!App is now exiting!");
         return;
     }
+
+    m_logInfo.sort();
 
     emit completed();
 }

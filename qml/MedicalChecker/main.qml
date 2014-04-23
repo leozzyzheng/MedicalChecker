@@ -5,6 +5,10 @@ import "Component"
 
 StackView
 {
+    //for test
+    width:1024
+    height:768
+
     function resetDelegate()
     {
         delegate = defaultDelegate;
@@ -17,7 +21,21 @@ StackView
 
     id: rootStackView
 
-    initialItem: Qt.resolvedUrl("startup.qml");
+    Timer
+    {
+        id: initTimer
+        interval: 1000; running: false; repeat: false
+        onTriggered:
+        {
+            initProxy.excuteInit()
+        }
+    }
+
+    Component.onCompleted:
+    {
+        push(Qt.resolvedUrl("startup.qml"))
+        initTimer.running = true
+    }
 
     StackViewDelegate {
 

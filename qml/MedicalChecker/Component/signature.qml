@@ -6,7 +6,8 @@ import QtQuick.Controls 1.1
 Signature
 {
     id : sig
-    opacity : 1
+    width:parent.width
+    height:parent.height
 
     onFinished:
     {

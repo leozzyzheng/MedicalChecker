@@ -1,34 +1,43 @@
 #include "LoginInfo.h"
+#include <qDebug>
 
 LoginInfo::LoginInfo()
 {
 }
 
-void LoginInfo::insert(QString clinicName, QString index)
+void LoginInfo::insert(QString clinicName)
 {
     if(clinicName.isEmpty())
         return;
 
-    if(index.isEmpty())
-        index = clinicName.at(0);
-
-    m_mClinic[index] = clinicName;
+    m_clinic.append(clinicName);
 }
 
-bool LoginInfo::get(QString &index, QString & clinicName)
+void LoginInfo::get(QString &key, std::vector<dataStruct> & clinicNames)
 {
-    std::map<QString,QString>::const_iterator it = m_mClinic.find(index);
-
-    if(it == m_mClinic.end())
-        return false;
-    else
+    for(int i = 0; i < m_clinic.length(); ++i)
     {
-        clinicName = it->second;
-        return true;
+        QString temp = m_clinic.at(i);
+        int index = temp.indexOf(key, 0, Qt::CaseInsensitive);
+
+        if(index == -1)
+            continue;
+
+        QString boldName = temp.left(index) + "<b>" + key + "</b>" +temp.right(temp.length() - index - key.length());
+        dataStruct tempStruct;
+        tempStruct.shownName = boldName;
+        tempStruct.originName = temp;
+        clinicNames.push_back(tempStruct);
     }
+}
+
+void LoginInfo::sort()
+{
+    m_clinic.sort();
 }
 
 bool LoginInfo::isEmpty()
 {
-    return (m_mClinic.size() == 0) ;
+    return (m_clinic.size() == 0) ;
 }
+
