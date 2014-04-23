@@ -18,6 +18,7 @@ Rectangle {
 
         Rectangle
         {
+            z:100
             width:inputLabel.width + inputRect.width
             anchors.horizontalCenter: parent.horizontalCenter
             y:parent.height * 0.2
@@ -109,6 +110,7 @@ Rectangle {
                     {
                         nameInput.text = originName;
                         visible = false;
+                        indicatorRect.visible = false;
                     }
                 }
             }
