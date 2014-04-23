@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/qml">
+        <file>Resource/stratup.jpg</file>
+    </qresource>
+</RCC>

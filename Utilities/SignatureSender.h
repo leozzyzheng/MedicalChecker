@@ -14,6 +14,9 @@
 
 #include "ThreadSingleton.h"
 
+#define NAME "upload"
+#define BOUNDARY "---------------------------7de13a39350560"
+
 class SignatureSender : public QObject
 {
     Q_OBJECT

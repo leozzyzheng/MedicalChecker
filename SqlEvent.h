@@ -26,6 +26,11 @@ signals:
 public slots:
     EventType type() const;
 
+    //提供两个可以被重写的槽函数来自定义sql查询后的操作
+protected slots:
+    virtual void innerError(QSqlError& error);
+    virtual void innerFinished(QSqlQuery & query);
+
 private:
     EventType m_type;
 

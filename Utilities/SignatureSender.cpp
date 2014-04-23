@@ -30,19 +30,16 @@ void SignatureSender::sendSigature(QImage * image, QString name)
     QBuffer buffer(&ba);
     buffer.open(QIODevice::ReadWrite);
     copy.save(&buffer, "PNG"); // writes image into ba in PNG format
-    copy.save("test2.png");
     buffer.close();
 
-    QString boundary = "---------------------------7de13a39350560";
-
-    QString temp = "--" + boundary + "\r\nContent-Disposition: form-data; name=\"myfile\"; filename=\""+name+"\"";
+    QString temp = QString("--") + BOUNDARY + "\r\nContent-Disposition: form-data; name=\"" + NAME + "\"; filename=\""+name+"\"";
     temp += "\r\nContent-Type: image/png\r\n\r\n";
     ba = temp.toUtf8() + ba;
-    ba = ba.append("\r\n--").append(boundary).append("--\r\n");
+    ba = ba.append("\r\n--").append(BOUNDARY).append("--\r\n");
 
 
-    QNetworkRequest request(QUrl("http://192.168.0.101:8080/zg/company/Upload.action"));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "multipart/form-data; boundary=" + boundary);
+    QNetworkRequest request(QUrl("http://192.168.0.102:8888/Clinic/signUpload.action"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, QString("multipart/form-data; boundary=") + BOUNDARY);
     request.setHeader(QNetworkRequest::ContentLengthHeader, ba.length());
     m_pCurrentReply = m_pNetMgr->post(request , ba);
 

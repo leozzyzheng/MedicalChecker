@@ -15,6 +15,11 @@
 #include "Utilities/ThreadSingleton.h"
 
 #define DATABASE_TYPE "QMYSQL"
+#define DATABASE_HOSTNAME "115.28.226.229"
+#define DATABASE_PORT 3306
+#define DATABASE_USERNAME "root"
+#define DATABASE_PASSWD "root"
+#define DATABASE_DATABASENAME ""  //"clinic"
 
 //数据操作子线程类
 class SqlThread : public QObject

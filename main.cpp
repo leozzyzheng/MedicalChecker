@@ -6,6 +6,7 @@
 #include "Utilities/SqlOperator.h"
 #include "Utilities/SignatureSender.h"
 #include "Signature.h"
+#include "InitProxy.h"
 
 //外部初始化单例
 QThread* ThreadSingleton::m_instance = new QThread();//逻辑单例线程
@@ -14,20 +15,40 @@ SqlOperator* SqlSingleton::m_instance = new SqlOperator;//多线程数据库封�
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+    QtQuick2ApplicationViewer viewer;
 
+    //注册自定义qml组件------------------------------------------------------
     qmlRegisterType<Signature>("com.zzy.qmlcomponents", 1, 0, "Signature");
 
-    //启动逻辑线程
+    //----------------------------------------------------------------------
+
+
+    //注册需要暴露给qml的类--------------------------------------------------
+
+    //实例化类
+    InitProxy initProxy;
+
+    //注册
+    viewer.rootContext()->setContextProperty("initProxy", &initProxy);
+
+    //---------------------------------------------------------------------
+
+
+
+    //启动逻辑线程----------------------------------------------------------
     QThread * pLogicThread = ThreadSingleton::getInstance();
     QObject::connect(QGuiApplication::instance(),    SIGNAL(aboutToQuit()),  pLogicThread,  SLOT(quit()));
     QObject::connect(pLogicThread,                   SIGNAL(finished()),     pLogicThread,  SLOT(deleteLater()));
     pLogicThread->start();
+    //---------------------------------------------------------------------
 
-    //初始化数据库连接
+
+
+    //初始化数据库连接------------------------------------------------------
     SqlSingleton::getInstance()->Init();
+    //---------------------------------------------------------------------
 
-    QtQuick2ApplicationViewer viewer;
-    viewer.setMainQmlFile(QStringLiteral("qml/MedicalChecker/main.qml"));
+    viewer.setSource(QStringLiteral("qml/MedicalChecker/main.qml"));
     viewer.showExpanded();
 
     return app.exec();

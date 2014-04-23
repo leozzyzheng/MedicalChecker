@@ -49,11 +49,11 @@ void SqlOperator::exec(QSqlQuery &sql)
 SqlThread::SqlThread()
 {
     m_db = QSqlDatabase::addDatabase(DATABASE_TYPE);
-    m_db.setHostName("115.28.226.229");
-    m_db.setPort(3306);
-    m_db.setDatabaseName("clinic");
-    m_db.setUserName("root");
-    m_db.setPassword("root");
+    m_db.setHostName(DATABASE_HOSTNAME);
+    m_db.setPort(DATABASE_PORT);
+    m_db.setDatabaseName(DATABASE_DATABASENAME);
+    m_db.setUserName(DATABASE_USERNAME);
+    m_db.setPassword(DATABASE_PASSWD);
 
     if (!m_db.open())
     {

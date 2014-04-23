@@ -14,7 +14,9 @@ SOURCES += main.cpp \
     Utilities/SqlOperator.cpp \
     Utilities/SignatureSender.cpp \
     Signature.cpp \
-    SqlEvent.cpp
+    SqlEvent.cpp \
+    Model/LoginInfo.cpp \
+    InitProxy.cpp
 
 # Installation path
 # target.path =
@@ -28,7 +30,13 @@ HEADERS += \
     Utilities/ThreadSingleton.h \
     Utilities/SignatureSender.h \
     Signature.h \
-    SqlEvent.h
+    SqlEvent.h \
+    Model/LoginInfo.h \
+    InitProxy.h
 
 OTHER_FILES += \
-    qml/MedicalChecker/Component/signature.qml
+    qml/MedicalChecker/Component/signature.qml \
+    qml/MedicalChecker/startup.qml
+
+RESOURCES += \
+    Resource.qrc
