@@ -17,43 +17,99 @@ Rectangle {
 
         Rectangle
         {
+            width:inputLabel.width + inputRect.width
             anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
+            y:parent.height * 0.2
 
-            id: inputRect
-            width:400
-            height:nameInput.height + 10
-            border.color: "black"
-            border.width: 1
-            radius: 5
-
-            TextInput
+            Rectangle
             {
-                id:nameInput
-                width:parent.width
+                x:0
+                id:inputLabel
+                width:innerInputLabel.width
+                height: inputRect.height
 
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
-
-                text: ""
-                font.family : "Consolas"
-                font.pointSize: 14
-                cursorVisible: true
-                focus:true
-
-                onTextChanged:
+                Text
                 {
-                    if(nameInput.text == "")
-                    {
-                        inputIndicator.visible = false;
-                        return;
-                    }
+                    height:inputLabel.height
+                    id:innerInputLabel
+                    text:"UserName:"
+                    font.family : "Consolas"
+                    font.bold: true
+                    verticalAlignment: Text.AlignVCenter
+                }
+            }
 
-                    initProxy.excuteIndicator(nameInput.text)
-                    inputIndicator.model = 0;
-                    inputIndicator.model = initProxy.getInfoNum();
-                    console.log(initProxy.getInfoNum());
-                    inputIndicator.visible = true;
+            Rectangle
+            {
+                id: inputRect
+                width:400
+                height:nameInput.height + 10
+                border.color: "black"
+                border.width: 1
+                radius: 5
+                x:inputLabel.x + inputLabel.width + 10
+
+                TextInput
+                {
+                    x: 10
+                    id:nameInput
+                    width:parent.width - 20
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    text: ""
+                    font.family : "Consolas"
+                    font.pointSize: 14
+                    cursorVisible: true
+                    focus:true
+                    clip: true
+
+                    onTextChanged:
+                    {
+                        if(nameInput.text == "")
+                        {
+                            indicatorRect.visible = false;
+                            return;
+                        }
+
+                        initProxy.excuteIndicator(nameInput.text)
+
+                        if(initProxy.getInfoNum() === 0)
+                        {
+                            indicatorRect.visible = false;
+                            return;
+                        }
+
+                        //console.log(initProxy.getInfoNum());
+
+                        inputIndicator.model = 0;
+                        inputIndicator.model = initProxy.getInfoNum();
+                        inputIndicator.visible = true;
+                        indicatorRect.visible = true;
+                    }
+                }
+            }
+
+            Rectangle
+            {
+                id:indicatorRect
+                clip:true
+                width:nameInput.width;
+                height:inputIndicator.height
+                y:inputRect.y+inputRect.height
+                x:inputRect.x
+                visible:false
+
+                Indicator
+                {
+                    id:inputIndicator
+                    width:nameInput.width;
+
+                    onClickedIndicator:
+                    {
+                        nameInput.text = originName;
+                        visible = false;
+                    }
                 }
             }
 
@@ -65,22 +121,52 @@ Rectangle {
 
         Rectangle
         {
-            clip:true
-            width:nameInput.width;
-            height: inputIndicator.height
+            width:passwdLabel.width + passwdRect.width
             anchors.horizontalCenter: parent.horizontalCenter
-            y:inputRect.y+inputRect.height
-            z:10
+            y:parent.height * 0.1 > height ? parent.height * 0.3 : height + 30
 
-            Indicator
+            Rectangle
             {
-                id:inputIndicator
-                width:nameInput.width;
+                x:0
+                id:passwdLabel
+                width:innerPasswdLabel.width
+                height: passwdRect.height
 
-                onClickedIndicator:
+                Text
                 {
-                    nameInput.text = originName;
-                    visible = false;
+                    height:passwdLabel.height
+                    id:innerPasswdLabel
+                    text:"PassWord:"
+                    font.family : "Consolas"
+                    font.bold: true
+                    verticalAlignment: Text.AlignVCenter
+                }
+            }
+
+            Rectangle
+            {
+                id: passwdRect
+                width:400
+                height:passwdInput.height + 10
+                border.color: "black"
+                border.width: 1
+                radius: 5
+                x:passwdLabel.x + passwdLabel.width + 10
+
+                TextInput
+                {
+                    x: 10
+                    id:passwdInput
+                    width:parent.width - 20
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    text: ""
+                    font.family : "Consolas"
+                    font.pointSize: 14
+                    focus: false
+                    clip: true
+                    echoMode: TextInput.Password
                 }
             }
         }

@@ -31,7 +31,7 @@ ListView {
             y:5
             id : innerText
             width:parent.width
-            verticalAlignment: Text.Center
+            verticalAlignment: Text.AlignHCenter
             wrapMode: Text.Wrap
             elide: Text.ElideRight
             text:initProxy.getShownName(index)
