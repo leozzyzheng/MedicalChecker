@@ -35,9 +35,9 @@ HEADERS += \
     InitProxy.h
 
 OTHER_FILES += \
-    qml/MedicalChecker/Component/signature.qml \
     qml/MedicalChecker/startup.qml \
-    qml/MedicalChecker/Component/indicator.qml
+    qml/MedicalChecker/Component/Indicator.qml \
+    qml/MedicalChecker/Component/Signature.qml
 
 RESOURCES += \
     Resource.qrc

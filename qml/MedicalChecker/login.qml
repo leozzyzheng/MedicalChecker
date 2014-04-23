@@ -1,4 +1,6 @@
 import QtQuick 2.0
+import QtQuick.Controls 1.1
+import QtQuick.Controls.Styles 1.1
 import "Component"
 
 Rectangle {
@@ -7,8 +9,7 @@ Rectangle {
 
     Rectangle
     {
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.centerIn: parent
         width:800
         height:600
 
@@ -54,8 +55,7 @@ Rectangle {
                     x: 10
                     id:nameInput
                     width:parent.width - 20
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.centerIn: parent
 
                     text: ""
                     font.family : "Consolas"
@@ -158,8 +158,7 @@ Rectangle {
                     x: 10
                     id:passwdInput
                     width:parent.width - 20
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.centerIn: parent
 
                     text: ""
                     font.family : "Consolas"
@@ -167,6 +166,36 @@ Rectangle {
                     focus: false
                     clip: true
                     echoMode: TextInput.Password
+                }
+            }
+        }
+
+        Rectangle
+        {
+            width:passwdLabel.width + passwdRect.width
+            anchors.horizontalCenter: parent.horizontalCenter
+            y:parent.height * 0.1 > height ? parent.height * 0.4 : height + 30
+
+            Button
+            {
+                width:130
+                height:40
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                style:
+                    ButtonStyle{
+                    label:Text
+                    {
+                        text:"Login"
+                        font.family : "Consolas"
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+                }
+
+                onClicked:
+                {
+                    console.log(passwdInput.text);
                 }
             }
         }
