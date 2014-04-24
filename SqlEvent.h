@@ -20,8 +20,11 @@ public:
     explicit SqlEvent(QObject *parent = 0);
 
 signals:
-    void        result(QSqlQuery & result);
-    void        error(QSqlError & error);
+    void        originResult(QSqlQuery & result);
+    void        priginError(QSqlError & error);
+
+    void        error(QString errorString);
+    void        completed();
 
 public slots:
     EventType type() const;

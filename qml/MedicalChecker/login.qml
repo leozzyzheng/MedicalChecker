@@ -81,7 +81,7 @@ Rectangle {
                             return;
                         }
 
-                        console.log(initProxy.getInfoNum());
+                        //console.log(initProxy.getInfoNum());
 
                         inputIndicator.model = 0;
                         inputIndicator.height = 0;

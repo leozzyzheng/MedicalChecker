@@ -5,8 +5,8 @@ SqlEvent::SqlEvent(QObject *parent) :
 {
     m_type = NONE;
     m_pSqlOp = SqlSingleton::getInstance();
-    connect(m_pSqlOp, SIGNAL(result(QSqlQuery&)), this, SIGNAL(result(QSqlQuery&)));
-    connect(m_pSqlOp, SIGNAL(error(QSqlError&)),  this, SIGNAL(error(QSqlError&)));
+    connect(m_pSqlOp, SIGNAL(result(QSqlQuery&)), this, SIGNAL(originResult(QSqlQuery&)));
+    connect(m_pSqlOp, SIGNAL(error(QSqlError&)),  this, SIGNAL(priginError(QSqlError&)));
     connect(m_pSqlOp, SIGNAL(error(QSqlError&)), this, SLOT(innerError(QSqlError&)));
     connect(m_pSqlOp, SIGNAL(result(QSqlQuery&)), this, SLOT(innerFinished(QSqlQuery&)));
 }

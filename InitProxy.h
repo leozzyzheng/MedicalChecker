@@ -14,9 +14,6 @@ public:
     Q_INVOKABLE void excuteIndicator(QString key);
     Q_INVOKABLE QString getShownName(int index);
     Q_INVOKABLE QString getOriginName(int index);
-signals:
-    void completed();
-    void error(QString errorString);
 public slots:
 protected slots:
     void innerError(QSqlError& error);
