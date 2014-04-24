@@ -44,13 +44,13 @@ Rectangle {
                     onClicked:
                     {
                         if(nameText.text == checkoff)
-                            rootStackView.push({item:Qt.resolvedUrl("checkoff.qml"),replace:true});
+                            rootStackView.push({item:Qt.resolvedUrl("checkoff.qml"),replace:false});
                         else if(nameText.text == cleaning)
-                            rootStackView.push({item:Qt.resolvedUrl("cleaning.qml"),replace:true});
+                            rootStackView.push({item:Qt.resolvedUrl("cleaning.qml"),replace:false});
                         else if(nameText.text == training)
-                            rootStackView.push({item:Qt.resolvedUrl("training.qml"),replace:true});
+                            rootStackView.push({item:Qt.resolvedUrl("training.qml"),replace:false});
                         else if(nameText.text == sterilization)
-                            rootStackView.push({item:Qt.resolvedUrl("sterilization.qml"),replace:true});
+                            rootStackView.push({item:Qt.resolvedUrl("sterilization.qml"),replace:false});
                         else
                             console.log("What's the" + nameText.text + "????");
                     }

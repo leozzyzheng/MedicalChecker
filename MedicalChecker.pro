@@ -16,7 +16,9 @@ SOURCES += main.cpp \
     Signature.cpp \
     SqlEvent.cpp \
     Model/LoginInfo.cpp \
-    InitProxy.cpp
+    InitProxy.cpp \
+    TrainingProxy.cpp \
+    Model/TrainingInfo.cpp
 
 # Installation path
 # target.path =
@@ -32,7 +34,9 @@ HEADERS += \
     Signature.h \
     SqlEvent.h \
     Model/LoginInfo.h \
-    InitProxy.h
+    InitProxy.h \
+    TrainingProxy.h \
+    Model/TrainingInfo.h
 
 OTHER_FILES += \
     qml/MedicalChecker/startup.qml \

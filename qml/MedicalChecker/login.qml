@@ -81,9 +81,10 @@ Rectangle {
                             return;
                         }
 
-                        //console.log(initProxy.getInfoNum());
+                        console.log(initProxy.getInfoNum());
 
                         inputIndicator.model = 0;
+                        inputIndicator.height = 0;
                         inputIndicator.model = initProxy.getInfoNum();
                         inputIndicator.visible = true;
                         indicatorRect.visible = true;
@@ -96,7 +97,6 @@ Rectangle {
                 id:indicatorRect
                 clip:true
                 width:nameInput.width;
-                height:inputIndicator.height
                 y:inputRect.y+inputRect.height
                 x:inputRect.x
                 visible:false
@@ -111,6 +111,11 @@ Rectangle {
                         nameInput.text = originName;
                         visible = false;
                         indicatorRect.visible = false;
+                    }
+
+                    onHeightChanged:
+                    {
+                        indicatorRect.height = inputIndicator.height
                     }
                 }
             }

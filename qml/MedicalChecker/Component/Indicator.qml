@@ -15,6 +15,8 @@ ListView {
         {
             list.height += height;
 
+            console.log(height + "," + list.height);
+
             if(list.height > maxHeight)
                 list.height = maxHeight;
         }
