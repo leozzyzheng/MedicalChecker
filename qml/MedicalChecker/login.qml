@@ -198,6 +198,7 @@ Rectangle {
                 onClicked:
                 {
                     console.log(passwdInput.text);
+                    rootStackView.push({item:Qt.resolvedUrl("index.qml"),replace:true});
                 }
             }
         }

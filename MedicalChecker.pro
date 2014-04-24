@@ -37,7 +37,8 @@ HEADERS += \
 OTHER_FILES += \
     qml/MedicalChecker/startup.qml \
     qml/MedicalChecker/Component/Indicator.qml \
-    qml/MedicalChecker/Component/Signature.qml
+    qml/MedicalChecker/Component/Signature.qml \
+    qml/MedicalChecker/training.qml
 
 RESOURCES += \
     Resource.qrc
