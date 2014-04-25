@@ -13,7 +13,7 @@ public:
     explicit TrainingProxy(QObject *parent = 0);
     Q_INVOKABLE void queryTraining();
 signals:
-
+    void trainingInfoStandBy();
 public slots:
 
 protected slots:

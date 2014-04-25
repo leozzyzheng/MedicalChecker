@@ -12,6 +12,7 @@
 #define TRAINING_SUBMIT_TAG     "trainingSubmitTime"
 #define TRAINING_STAFFID_TAG    "staff_Id"
 #define TRAINING_STAFFSIGN_TAG  "IsSign_In"
+#define TRAINING_TRAINID_TAG    "training_Id"
 
 
 class TrainingInfo
@@ -32,20 +33,18 @@ public:
         QString staff;
         QString submitTime;
         QString id;
-        std::vector<StaffSignInfo> signInfo;
-
-        void _clear();
     };
 
     TrainingInfo();
 
     void clear();
-    void setData(DataStruct data);
-    const std::vector<TrainingInfo::StaffSignInfo> & getStaffSignInfo() const ;
+    void pushData(DataStruct & data);
     void update(int index, QString signature);
+    void pushSignData(TrainingInfo::StaffSignInfo & signData);
 
 private:
-    DataStruct m_vTrainingInfo;
+    std::vector<DataStruct> m_vTrainingInfo;
+    std::vector<StaffSignInfo> m_vSignInfo;
 };
 
 #endif // TRAININGINFO_H

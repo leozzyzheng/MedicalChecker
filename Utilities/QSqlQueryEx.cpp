@@ -1,7 +1,27 @@
 #include "QSqlQueryEx.h"
 
-QSqlQueryEx::QSqlQueryEx()
+QSqlQueryEx::QSqlQueryEx(QSqlResult *r):
+    QSqlQuery(r)
 {
+
+}
+
+QSqlQueryEx::QSqlQueryEx(const QString &query, QSqlDatabase db):
+    QSqlQuery(query,db)
+{
+
+}
+
+QSqlQueryEx::QSqlQueryEx(QSqlDatabase db):
+    QSqlQuery(db)
+{
+
+}
+
+QSqlQueryEx::QSqlQueryEx(const QSqlQuery &other):
+    QSqlQuery(other)
+{
+
 }
 
 void QSqlQueryEx::setID(QString & id)

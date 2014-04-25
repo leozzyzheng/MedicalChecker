@@ -7,7 +7,11 @@
 class QSqlQueryEx : public QSqlQuery
 {
 public:
-    explicit QSqlQueryEx();
+    explicit QSqlQueryEx(QSqlResult *r);
+    explicit QSqlQueryEx(const QString& query = QString(), QSqlDatabase db = QSqlDatabase());
+    explicit QSqlQueryEx(QSqlDatabase db);
+    QSqlQueryEx(const QSqlQuery& other);
+
     void setID(QString &id);
     const QString & getID() const;
     void setID(QString id);
