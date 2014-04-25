@@ -5,8 +5,10 @@
 
 #include "Utilities/SqlOperator.h"
 #include "Utilities/SignatureSender.h"
+#include "Utilities/QmlHelper.h"
 #include "Signature.h"
 #include "InitProxy.h"
+#include "TrainingProxy.h"
 
 //外部初始化单例
 QThread* ThreadSingleton::m_instance = new QThread();//逻辑单例线程
@@ -27,9 +29,13 @@ int main(int argc, char *argv[])
 
     //实例化类
     InitProxy initProxy;
+    TrainingProxy trainProxy;
+    QmlHelper qmlHelper;
 
     //注册
     viewer.rootContext()->setContextProperty("initProxy", &initProxy);
+    viewer.rootContext()->setContextProperty("trainProxy", &trainProxy);
+    viewer.rootContext()->setContextProperty("qmlHelper", &qmlHelper);
 
     //---------------------------------------------------------------------
 
