@@ -23,10 +23,13 @@ void LoginInfo::get(QString &key, std::vector<dataStruct> & clinicNames)
         if(index == -1)
             continue;
 
-        QString boldName = temp.left(index) + "<b>" + key + "</b>" +temp.right(temp.length() - index - key.length());
+        QString origin = temp;
+        temp.insert(index + key.length(), "</b>");
+        temp.insert(index,"<b>");
+
         dataStruct tempStruct;
-        tempStruct.shownName = boldName;
-        tempStruct.originName = temp;
+        tempStruct.shownName = temp;
+        tempStruct.originName = origin;
         clinicNames.push_back(tempStruct);
     }
 }
