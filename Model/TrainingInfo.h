@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <vector>
+#include <map>
 
 #define TRAINING_TIME_TAG       "trainingTime"
 #define TRAINING_ADDR_TAG       "trainingAddr"
@@ -18,33 +19,39 @@
 class TrainingInfo
 {
 public:
-    struct StaffSignInfo
-    {
-        QString staffId;
-        QString signature;
-    };
+    typedef std::vector<std::map<QString,QString> > InfoVMap;
 
-    struct DataStruct
-    {
-        QString time;
-        QString addr;
-        QString type;
-        QString content;
-        QString staff;
-        QString submitTime;
-        QString id;
-    };
+//    struct StaffSignInfo
+//    {
+//        QString staffId;
+//        QString signature;
+//    };
+
+//    struct DataStruct
+//    {
+//        QString time;
+//        QString addr;
+//        QString type;
+//        QString content;
+//        QString staff;
+//        QString submitTime;
+//        QString id;
+//    };
 
     TrainingInfo();
 
     void clear();
-    void pushData(DataStruct & data);
+    void pushData(std::map<QString,QString> & data);
     void update(int index, QString signature);
-    void pushSignData(TrainingInfo::StaffSignInfo & signData);
+    void pushSignData(std::map<QString,QString> & signData);
+    int  trainingInfoSize();
+    int  trainingStaffSize();
+    QString getTrainingInfo(int index, QString & name);
+    QString getSignInfo(int index, QString & name);
 
 private:
-    std::vector<DataStruct> m_vTrainingInfo;
-    std::vector<StaffSignInfo> m_vSignInfo;
+    InfoVMap m_vTrainingInfo;
+    InfoVMap m_vSignInfo;
 };
 
 #endif // TRAININGINFO_H

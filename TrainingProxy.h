@@ -12,6 +12,10 @@ class TrainingProxy : public SqlEvent
 public:
     explicit TrainingProxy(QObject *parent = 0);
     Q_INVOKABLE void queryTraining();
+    Q_INVOKABLE int getTrainingNum();
+    Q_INVOKABLE QString getTrainingInfo(int index, QString name);
+    Q_INVOKABLE int getStaffNum();
+    Q_INVOKABLE QString getSignInfo(int index, QString name);
 signals:
     void trainingInfoStandBy();
 public slots:
