@@ -43,7 +43,7 @@ void InitProxy::innerError(QSqlError &error)
     emit this->error("An error occured:" + error.text() + "!App is now exiting!");
 }
 
-void InitProxy::innerFinished(QSqlQuery &query)
+void InitProxy::innerFinished(QSqlQueryEx &query)
 {
     if(!query.isActive())
     {

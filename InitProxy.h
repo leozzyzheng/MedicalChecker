@@ -17,7 +17,7 @@ public:
 public slots:
 protected slots:
     void innerError(QSqlError& error);
-    void innerFinished(QSqlQuery & query);
+    void innerFinished(QSqlQueryEx & query);
 private:
     LoginInfo m_logInfo;
     std::vector<LoginInfo::dataStruct> m_vIndicator;

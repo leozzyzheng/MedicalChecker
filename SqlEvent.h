@@ -20,7 +20,7 @@ public:
     explicit SqlEvent(QObject *parent = 0);
 
 signals:
-    void        originResult(QSqlQuery & result);
+    void        originResult(QSqlQueryEx & result);
     void        priginError(QSqlError & error);
 
     void        error(QString errorString);
@@ -32,7 +32,7 @@ public slots:
     //提供两个可以被重写的槽函数来自定义sql查询后的操作
 protected slots:
     virtual void innerError(QSqlError& error);
-    virtual void innerFinished(QSqlQuery & query);
+    virtual void innerFinished(QSqlQueryEx & query);
 
 private:
     EventType m_type;

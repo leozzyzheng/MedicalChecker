@@ -26,6 +26,14 @@ const std::vector<TrainingInfo::StaffSignInfo> &TrainingInfo::getStaffSignInfo()
     return m_vTrainingInfo.signInfo;
 }
 
+void TrainingInfo::update(int index, QString signature)
+{
+    if(m_vTrainingInfo.signInfo.size() <= index)
+        return;
+
+    m_vTrainingInfo.signInfo[index].signature = signature;
+}
+
 
 void TrainingInfo::DataStruct::_clear()
 {

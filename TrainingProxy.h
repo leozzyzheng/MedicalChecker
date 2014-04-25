@@ -18,7 +18,7 @@ public slots:
 
 protected slots:
     void innerError(QSqlError& error);
-    void innerFinished(QSqlQuery & query);
+    void innerFinished(QSqlQueryEx & query);
 private:
     TrainingInfo m_trainingInfo;
 };

@@ -18,7 +18,8 @@ SOURCES += main.cpp \
     Model/LoginInfo.cpp \
     InitProxy.cpp \
     TrainingProxy.cpp \
-    Model/TrainingInfo.cpp
+    Model/TrainingInfo.cpp \
+    Utilities/QSqlQueryEx.cpp
 
 # Installation path
 # target.path =
@@ -36,7 +37,8 @@ HEADERS += \
     Model/LoginInfo.h \
     InitProxy.h \
     TrainingProxy.h \
-    Model/TrainingInfo.h
+    Model/TrainingInfo.h \
+    Utilities/QSqlQueryEx.h
 
 OTHER_FILES += \
     qml/MedicalChecker/startup.qml \

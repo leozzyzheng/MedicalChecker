@@ -14,7 +14,7 @@ void SqlOperator::Init()
 
     m_pSqlThread = new SqlThread();
 
-    connect(m_pSqlThread, SIGNAL(result(QSqlQuery&)),   this, SIGNAL(result(QSqlQuery&)));
+    connect(m_pSqlThread, SIGNAL(result(QSqlQueryEx&)),   this, SIGNAL(result(QSqlQueryEx&)));
     connect(m_pSqlThread, SIGNAL(error(QSqlError&)),    this, SIGNAL(error(QSqlError&)));
 
     m_pSqlThread->moveToOtherThread();
@@ -40,7 +40,7 @@ void SqlOperator::exec(QString &sql)
     m_pSqlThread->exec(sql);
 }
 
-void SqlOperator::exec(QSqlQuery &sql)
+void SqlOperator::exec(QSqlQueryEx &sql)
 {
     m_pSqlThread->exec(sql);
 }
@@ -90,7 +90,7 @@ QSqlError SqlThread::getLastError()
 
 void SqlThread::exec(QString & sql)
 {
-    QSqlQuery query;
+    QSqlQueryEx query;
 
     if(!query.exec(sql))
     {
@@ -103,7 +103,7 @@ void SqlThread::exec(QString & sql)
     }
 }
 
-void SqlThread::exec(QSqlQuery &sql)
+void SqlThread::exec(QSqlQueryEx &sql)
 {
     if(!sql.exec())
     {

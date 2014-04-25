@@ -9,10 +9,11 @@
 #include <QThread>
 #include <QtGui/QGuiApplication>
 #include <QSqlDatabase>
-#include <QSqlQuery>
 #include <QSqlError>
+#include <QSqlRecord>
 
 #include "Utilities/ThreadSingleton.h"
+#include "Utilities/QSqlQueryEx.h"
 
 #define DATABASE_TYPE "QMYSQL"
 #define DATABASE_HOSTNAME "115.28.226.229"
@@ -34,10 +35,10 @@ public :
 
 public slots:
     void        exec(QString & sql);
-    void        exec(QSqlQuery & sql);
+    void        exec(QSqlQueryEx & sql);
 
 signals:
-    void        result(QSqlQuery & result);
+    void        result(QSqlQueryEx & result);
     void        error(QSqlError & error);
 
 private:
@@ -56,12 +57,12 @@ public :
     QSqlError   getLastError();
 
 signals:
-    void        result(QSqlQuery & result);
+    void        result(QSqlQueryEx & result);
     void        error(QSqlError & error);
 
 public slots:
     void        exec(QString & sql);
-    void        exec(QSqlQuery & sql);
+    void        exec(QSqlQueryEx & sql);
 
 private:
     SqlThread * m_pSqlThread;
