@@ -20,6 +20,11 @@ Rectangle {
         {
             rootStackView.push({item:Qt.resolvedUrl("index.qml"),replace:true});
         }
+
+        onError:
+        {
+            console.log(errorString);
+        }
     }
 
     Rectangle

@@ -20,7 +20,7 @@ signals:
     void loginSucc();
 public slots:
 protected slots:
-    void innerError(const QSqlError& error);
+    void innerError(QSqlError error);
     void innerFinished(QSqlQueryEx query);
 private:
     LoginInfo m_logInfo;

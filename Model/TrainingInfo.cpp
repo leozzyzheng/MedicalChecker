@@ -59,6 +59,22 @@ QString TrainingInfo::getSignInfo(int index, QString & name)
         return it->second;
 }
 
+void TrainingInfo::print()
+{
+    for(int i = 0; i < m_vTrainingInfo.size(); ++i)
+    {
+        qDebug()<<"index:"<<i;
+
+        std::map<QString,QString>::iterator it = m_vTrainingInfo[i].begin();
+
+        for(; it != m_vTrainingInfo[i].end(); ++it)
+        {
+            qDebug()<<"name:"<<it->first<<" value:"<<it->second;
+        }
+    }
+
+}
+
 int TrainingInfo::trainingInfoSize()
 {
     return m_vTrainingInfo.size();

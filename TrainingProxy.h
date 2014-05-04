@@ -21,9 +21,10 @@ signals:
 public slots:
 
 protected slots:
-    void innerError(const QSqlError& error);
+    void innerError(QSqlError error);
     void innerFinished(QSqlQueryEx query);
 private:
+    void print();
     TrainingInfo m_trainingInfo;
 };
 

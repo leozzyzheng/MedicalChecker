@@ -40,7 +40,8 @@ HEADERS += \
     TrainingProxy.h \
     Model/TrainingInfo.h \
     Utilities/QSqlQueryEx.h \
-    Utilities/QmlHelper.h
+    Utilities/QmlHelper.h \
+    Model/Marco.h
 
 OTHER_FILES += \
     qml/MedicalChecker/startup.qml \

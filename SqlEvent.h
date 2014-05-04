@@ -21,7 +21,7 @@ public:
 
 signals:
     void        originResult(QSqlQueryEx result);
-    void        priginError(const QSqlError & error);
+    void        originError(QSqlError  error);
 
     void        error(QString errorString);
     void        completed();
@@ -31,7 +31,7 @@ public slots:
 
     //提供两个可以被重写的槽函数来自定义sql查询后的操作
 protected slots:
-    virtual void innerError(const QSqlError& error);
+    virtual void innerError(QSqlError error);
     virtual void innerFinished(QSqlQueryEx query);
 
 private:

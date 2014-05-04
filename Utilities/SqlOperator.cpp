@@ -17,10 +17,10 @@ void SqlOperator::Init()
     m_pSqlThread = new SqlThread();
 
     connect(m_pSqlThread, SIGNAL(result(QSqlQueryEx)),              this, SIGNAL(result(QSqlQueryEx)));
-    connect(m_pSqlThread, SIGNAL(error(const QSqlError&)),          this, SIGNAL(error(const QSqlError&)));
+    connect(m_pSqlThread, SIGNAL(error(QSqlError)),                 this, SIGNAL(error(QSqlError)));
     connect(this,         SIGNAL(innerExec(const QString &)),       m_pSqlThread, SLOT(exec(const QString &)));
-    connect(this,         SIGNAL(innerExec(QSqlQueryEx)),           m_pSqlThread, SLOT(exec(QSqlQueryEx)), Qt::QueuedConnection);
-    connect(this,         SIGNAL(threadInit()),                     m_pSqlThread, SLOT(init()), Qt::QueuedConnection);
+    connect(this,         SIGNAL(innerExec(QSqlQueryEx)),           m_pSqlThread, SLOT(exec(QSqlQueryEx)));
+    connect(this,         SIGNAL(threadInit()),                     m_pSqlThread, SLOT(init()));
 
     m_pSqlThread->moveToOtherThread();
 
@@ -107,7 +107,7 @@ void SqlThread::exec(const QString & sql)
 
     if(!query.exec(sql))
     {
-        const QSqlError err = query.lastError();
+        QSqlError err(query.lastError());
         emit error(err);
     }
     else
@@ -120,7 +120,7 @@ void SqlThread::exec(QSqlQueryEx sql)
 {
     if(!sql.exec())
     {
-        const QSqlError err = sql.lastError();
+        QSqlError err(sql.lastError());
         emit error(err);
     }
     else

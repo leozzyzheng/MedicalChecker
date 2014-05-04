@@ -47,9 +47,9 @@ void InitProxy::login(QString username, QString passwd)
     m_pSqlOp->exec(sql);
 }
 
-void InitProxy::innerError(const QSqlError &error)
+void InitProxy::innerError(QSqlError error)
 {
-    emit this->error("An error occured:" + error.text() + "!App is now exiting!");
+    emit this->error("An error occured:" + error.text() + "!");
 }
 
 void InitProxy::innerFinished(QSqlQueryEx query)

@@ -15,13 +15,7 @@
 
 #include "Utilities/ThreadSingleton.h"
 #include "Utilities/QSqlQueryEx.h"
-
-#define DATABASE_TYPE "QMYSQL"
-#define DATABASE_HOSTNAME "115.28.226.229"
-#define DATABASE_PORT 3306
-#define DATABASE_USERNAME "yclj"
-#define DATABASE_PASSWD "yclj"
-#define DATABASE_DATABASENAME ""  //"clinic"
+#include "Model/Marco.h"
 
 //数据操作子线程类
 class SqlThread : public QObject
@@ -41,7 +35,7 @@ public slots:
 
 signals:
     void        result(QSqlQueryEx result);
-    void        error(const QSqlError & error);
+    void        error(QSqlError error);
 
 private:
     QSqlDatabase    m_db;
@@ -60,7 +54,7 @@ public :
 
 signals:
     void        result(QSqlQueryEx result);
-    void        error(const QSqlError & error);
+    void        error(QSqlError error);
     void        threadInit();
 
 public slots:
