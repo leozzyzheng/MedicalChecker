@@ -14,10 +14,14 @@ public:
     Q_INVOKABLE void excuteIndicator(QString key);
     Q_INVOKABLE QString getShownName(int index);
     Q_INVOKABLE QString getOriginName(int index);
+    Q_INVOKABLE void login(QString username, QString passwd);
+signals:
+    void loginFail();
+    void loginSucc();
 public slots:
 protected slots:
-    void innerError(QSqlError& error);
-    void innerFinished(QSqlQueryEx & query);
+    void innerError(const QSqlError& error);
+    void innerFinished(QSqlQueryEx query);
 private:
     LoginInfo m_logInfo;
     std::vector<LoginInfo::dataStruct> m_vIndicator;

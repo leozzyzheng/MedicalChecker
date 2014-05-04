@@ -19,6 +19,8 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QtQuick2ApplicationViewer viewer;
 
+    qRegisterMetaType<QSqlQueryEx>("QSqlQueryEx");
+
     //注册自定义qml组件------------------------------------------------------
     qmlRegisterType<Signature>("com.zzy.qmlcomponents", 1, 0, "Signature");
 

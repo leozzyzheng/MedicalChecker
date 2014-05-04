@@ -7,6 +7,21 @@ Rectangle {
     width:parent.width
     height:parent.height
 
+    Connections
+    {
+        target: initProxy
+
+        onLoginFail:
+        {
+            console.log("passwd wrong");
+        }
+
+        onLoginSucc:
+        {
+            rootStackView.push({item:Qt.resolvedUrl("index.qml"),replace:true});
+        }
+    }
+
     Rectangle
     {
         anchors.centerIn: parent
@@ -203,7 +218,8 @@ Rectangle {
                 onClicked:
                 {
                     console.log(passwdInput.text);
-                    rootStackView.push({item:Qt.resolvedUrl("index.qml"),replace:true});
+                    initProxy.login(nameInput.text, passwdInput.text);
+                    //rootStackView.push({item:Qt.resolvedUrl("index.qml"),replace:true});
                 }
             }
         }

@@ -32,12 +32,12 @@ QString TrainingProxy::getSignInfo(int index, QString name)
     return m_trainingInfo.getSignInfo(index, name);
 }
 
-void TrainingProxy::innerError(QSqlError &error)
+void TrainingProxy::innerError(const QSqlError &error)
 {
     emit this->error("error");
 }
 
-void TrainingProxy::innerFinished(QSqlQueryEx &query)
+void TrainingProxy::innerFinished(QSqlQueryEx query)
 {
     if(!query.isActive())
     {

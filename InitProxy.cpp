@@ -7,7 +7,7 @@ InitProxy::InitProxy(QObject *parent) :
 
 void InitProxy::excuteInit()
 {
-    QString sql = "SELECT clinicName FROM QMLTEST.clinic";
+    QString sql = "SELECT clinicName FROM `TheWholeClinicName`.ClinicName";
     m_pSqlOp->exec(sql);
 }
 
@@ -38,13 +38,33 @@ QString InitProxy::getOriginName(int index)
     return m_vIndicator[index].originName;
 }
 
-void InitProxy::innerError(QSqlError &error)
+void InitProxy::login(QString username, QString passwd)
+{
+    QSqlQueryEx sql;
+    sql.prepare(QString("select * from") + "`" + username + "`.Clinic where cmPassword = :passwd");
+    sql.bindValue(":passwd",passwd);
+    sql.setID("login");
+    m_pSqlOp->exec(sql);
+}
+
+void InitProxy::innerError(const QSqlError &error)
 {
     emit this->error("An error occured:" + error.text() + "!App is now exiting!");
 }
 
-void InitProxy::innerFinished(QSqlQueryEx &query)
+void InitProxy::innerFinished(QSqlQueryEx query)
 {
+    if(query.getID() == "login")
+    {
+        if(query.size() != 1)
+            emit loginFail();
+        else
+            emit loginSucc();
+
+        return;
+    }
+
+
     if(!query.isActive())
     {
         emit error("Cannot get clinic information!App is now exiting!");

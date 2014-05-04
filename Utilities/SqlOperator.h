@@ -11,6 +11,7 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlRecord>
+#include <QString>
 
 #include "Utilities/ThreadSingleton.h"
 #include "Utilities/QSqlQueryEx.h"
@@ -18,8 +19,8 @@
 #define DATABASE_TYPE "QMYSQL"
 #define DATABASE_HOSTNAME "115.28.226.229"
 #define DATABASE_PORT 3306
-#define DATABASE_USERNAME "root"
-#define DATABASE_PASSWD "root"
+#define DATABASE_USERNAME "yclj"
+#define DATABASE_PASSWD "yclj"
 #define DATABASE_DATABASENAME ""  //"clinic"
 
 //数据操作子线程类
@@ -31,15 +32,16 @@ public :
     ~SqlThread();
     void        moveToOtherThread();
     bool        isOpen();
-    QSqlError   getLastError();
+    const QSqlError   getLastError();
 
 public slots:
-    void        exec(QString & sql);
-    void        exec(QSqlQueryEx & sql);
+    void        exec(const QString & sql);
+    void        exec(QSqlQueryEx sql);
+    void        init();
 
 signals:
-    void        result(QSqlQueryEx & result);
-    void        error(QSqlError & error);
+    void        result(QSqlQueryEx result);
+    void        error(const QSqlError & error);
 
 private:
     QSqlDatabase    m_db;
@@ -54,15 +56,20 @@ public :
     ~           SqlOperator();
     void        Init();
     bool        isOpen();
-    QSqlError   getLastError();
+    const QSqlError   getLastError();
 
 signals:
-    void        result(QSqlQueryEx & result);
-    void        error(QSqlError & error);
+    void        result(QSqlQueryEx result);
+    void        error(const QSqlError & error);
+    void        threadInit();
 
 public slots:
     void        exec(QString & sql);
-    void        exec(QSqlQueryEx & sql);
+    void        exec(QSqlQueryEx sql);
+
+signals:
+    void        innerExec(const QString & sql);
+    void        innerExec(QSqlQueryEx sql);
 
 private:
     SqlThread * m_pSqlThread;

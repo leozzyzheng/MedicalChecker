@@ -5,10 +5,10 @@ SqlEvent::SqlEvent(QObject *parent) :
 {
     m_type = NONE;
     m_pSqlOp = SqlSingleton::getInstance();
-    connect(m_pSqlOp, SIGNAL(result(QSqlQueryEx&)), this, SIGNAL(originResult(QSqlQueryEx&)));
-    connect(m_pSqlOp, SIGNAL(error(QSqlError&)),  this, SIGNAL(priginError(QSqlError&)));
-    connect(m_pSqlOp, SIGNAL(error(QSqlError&)), this, SLOT(innerError(QSqlError&)));
-    connect(m_pSqlOp, SIGNAL(result(QSqlQueryEx&)), this, SLOT(innerFinished(QSqlQueryEx&)));
+    connect(m_pSqlOp, SIGNAL(result(QSqlQueryEx)), this, SIGNAL(originResult(QSqlQueryEx)));
+    connect(m_pSqlOp, SIGNAL(error(const QSqlError&)),  this, SIGNAL(priginError(const QSqlError&)));
+    connect(m_pSqlOp, SIGNAL(error(const QSqlError&)), this, SLOT(innerError(const QSqlError&)));
+    connect(m_pSqlOp, SIGNAL(result(QSqlQueryEx)), this, SLOT(innerFinished(QSqlQueryEx)));
 }
 
 SqlEvent::EventType SqlEvent::type() const
@@ -16,12 +16,12 @@ SqlEvent::EventType SqlEvent::type() const
     return m_type;
 }
 
-void SqlEvent::innerError(QSqlError &error)
+void SqlEvent::innerError(const QSqlError &error)
 {
 
 }
 
-void SqlEvent::innerFinished(QSqlQueryEx &query)
+void SqlEvent::innerFinished(QSqlQueryEx query)
 {
 
 }

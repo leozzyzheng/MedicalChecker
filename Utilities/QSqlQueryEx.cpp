@@ -18,10 +18,10 @@ QSqlQueryEx::QSqlQueryEx(QSqlDatabase db):
 
 }
 
-QSqlQueryEx::QSqlQueryEx(const QSqlQuery &other):
+QSqlQueryEx::QSqlQueryEx(const QSqlQueryEx &other):
     QSqlQuery(other)
 {
-
+    m_id = other.getID();
 }
 
 void QSqlQueryEx::setID(QString & id)

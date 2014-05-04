@@ -7,6 +7,8 @@ SqlOperator::~SqlOperator()
 
 void SqlOperator::Init()
 {
+    qDebug()<<"Init";
+
     if(!m_pSqlThread)
     {
         delete m_pSqlThread;
@@ -14,10 +16,17 @@ void SqlOperator::Init()
 
     m_pSqlThread = new SqlThread();
 
-    connect(m_pSqlThread, SIGNAL(result(QSqlQueryEx&)),   this, SIGNAL(result(QSqlQueryEx&)));
-    connect(m_pSqlThread, SIGNAL(error(QSqlError&)),    this, SIGNAL(error(QSqlError&)));
+    connect(m_pSqlThread, SIGNAL(result(QSqlQueryEx)),              this, SIGNAL(result(QSqlQueryEx)));
+    connect(m_pSqlThread, SIGNAL(error(const QSqlError&)),          this, SIGNAL(error(const QSqlError&)));
+    connect(this,         SIGNAL(innerExec(const QString &)),       m_pSqlThread, SLOT(exec(const QString &)));
+    connect(this,         SIGNAL(innerExec(QSqlQueryEx)),           m_pSqlThread, SLOT(exec(QSqlQueryEx)), Qt::QueuedConnection);
+    connect(this,         SIGNAL(threadInit()),                     m_pSqlThread, SLOT(init()), Qt::QueuedConnection);
 
     m_pSqlThread->moveToOtherThread();
+
+    emit threadInit();
+
+    qDebug()<<"Init Complete";
 }
 
 bool SqlOperator::isOpen()
@@ -25,7 +34,7 @@ bool SqlOperator::isOpen()
     return m_pSqlThread->isOpen();
 }
 
-QSqlError SqlOperator::getLastError()
+const QSqlError SqlOperator::getLastError()
 {
     return m_pSqlThread->getLastError();
 }
@@ -37,16 +46,40 @@ SqlOperator::SqlOperator()
 
 void SqlOperator::exec(QString &sql)
 {
-    m_pSqlThread->exec(sql);
+    emit innerExec(sql);
 }
 
-void SqlOperator::exec(QSqlQueryEx &sql)
+void SqlOperator::exec(QSqlQueryEx sql)
 {
-    m_pSqlThread->exec(sql);
+    emit innerExec(sql);
 }
 
 
 SqlThread::SqlThread()
+{
+}
+
+SqlThread::~SqlThread()
+{
+    m_db.close();
+}
+
+void SqlThread::moveToOtherThread()
+{
+    moveToThread(ThreadSingleton::getInstance());
+}
+
+bool SqlThread::isOpen()
+{
+    return m_db.isOpen();
+}
+
+const QSqlError SqlThread::getLastError()
+{
+    return m_db.lastError();
+}
+
+void SqlThread::init()
 {
     m_db = QSqlDatabase::addDatabase(DATABASE_TYPE);
     m_db.setHostName(DATABASE_HOSTNAME);
@@ -68,33 +101,13 @@ SqlThread::SqlThread()
     connect(QGuiApplication::instance(),    SIGNAL(aboutToQuit()),  this,       SLOT(deleteLater()));
 }
 
-SqlThread::~SqlThread()
-{
-    m_db.close();
-}
-
-void SqlThread::moveToOtherThread()
-{
-    moveToThread(ThreadSingleton::getInstance());
-}
-
-bool SqlThread::isOpen()
-{
-    return m_db.isOpen();
-}
-
-QSqlError SqlThread::getLastError()
-{
-    return m_db.lastError();
-}
-
-void SqlThread::exec(QString & sql)
+void SqlThread::exec(const QString & sql)
 {
     QSqlQueryEx query;
 
     if(!query.exec(sql))
     {
-        QSqlError err = query.lastError();
+        const QSqlError err = query.lastError();
         emit error(err);
     }
     else
@@ -103,11 +116,11 @@ void SqlThread::exec(QString & sql)
     }
 }
 
-void SqlThread::exec(QSqlQueryEx &sql)
+void SqlThread::exec(QSqlQueryEx sql)
 {
     if(!sql.exec())
     {
-        QSqlError err = sql.lastError();
+        const QSqlError err = sql.lastError();
         emit error(err);
     }
     else
