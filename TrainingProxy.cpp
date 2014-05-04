@@ -7,6 +7,8 @@ TrainingProxy::TrainingProxy(QObject *parent) :
 
 void TrainingProxy::queryTraining()
 {
+    qDebug()<<"queryTraining";
+
     QSqlQueryEx sql(QString("select * from clinica.TrainingHistory where ")+TRAINING_TIME_TAG+" ='" + QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm") + "'");
     sql.setID("trainingInfo");
     m_pSqlOp->exec(sql);
@@ -34,6 +36,7 @@ QString TrainingProxy::getSignInfo(int index, QString name)
 
 void TrainingProxy::innerError(QSqlError error)
 {
+    qDebug()<<error.text();
     emit this->error("error");
 }
 

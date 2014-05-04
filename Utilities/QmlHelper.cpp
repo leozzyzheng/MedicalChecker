@@ -33,5 +33,5 @@ QString QmlHelper::addDay(QString date, int num)
         return QString();
 
     tempDate = tempDate.addDays(num);
-    tempDate.toString("yyyy-MM-dd");
+    return tempDate.toString("yyyy-MM-dd");
 }

@@ -6,5 +6,6 @@ Rectangle {
     Component.onCompleted:
     {
         trainProxy.queryTraining();
+        console.log(marco.trTime);
     }
 }

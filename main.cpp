@@ -6,6 +6,7 @@
 #include "Utilities/SqlOperator.h"
 #include "Utilities/SignatureSender.h"
 #include "Utilities/QmlHelper.h"
+#include "Model/Marco.h"
 #include "Signature.h"
 #include "InitProxy.h"
 #include "TrainingProxy.h"
@@ -34,11 +35,13 @@ int main(int argc, char *argv[])
     InitProxy initProxy;
     TrainingProxy trainProxy;
     QmlHelper qmlHelper;
+    QmlMarco marco;
 
     //注册
     viewer.rootContext()->setContextProperty("initProxy", &initProxy);
     viewer.rootContext()->setContextProperty("trainProxy", &trainProxy);
     viewer.rootContext()->setContextProperty("qmlHelper", &qmlHelper);
+    viewer.rootContext()->setContextProperty("marco", &marco);
 
     //---------------------------------------------------------------------
 
