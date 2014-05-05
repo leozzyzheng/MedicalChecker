@@ -9,7 +9,8 @@ void TrainingProxy::queryTraining()
 {
     qDebug()<<"queryTraining";
 
-    QSqlQueryEx sql(QString("select * from clinica.TrainingHistory where ")+TRAINING_TIME_TAG+" ='" + QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm") + "'");
+    //QSqlQueryEx sql(QString("select * from clinica.TrainingHistory where ")+TRAINING_TIME_TAG+" ='" + QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm") + "'");
+    QSqlQueryEx sql(QString("select * from clinica.TrainingHistory where ")+TRAINING_TIME_TAG+" ='2014-01-04 00:00:00'");
     sql.setID("trainingInfo");
     m_pSqlOp->exec(sql);
 }
@@ -48,13 +49,18 @@ void TrainingProxy::innerFinished(QSqlQueryEx query)
         return;
     }
 
+    if(query.size() <= 0)
+    {
+        qDebug()<<"nothing find";
+        return;
+    }
+
     if(query.getID() == "trainingInfo")
     {
         std::map<QString,QString> data;
         int addrNo = query.record().indexOf(TRAINING_ADDR_TAG);
         int contentNo = query.record().indexOf(TRAINING_CONTENT_TAG);
         int staffNo = query.record().indexOf(TRAINING_STAFF_TAG);
-        int submitNo = query.record().indexOf(TRAINING_SUBMIT_TAG);
         int timeNo = query.record().indexOf(TRAINING_TIME_TAG);
         int typeNo = query.record().indexOf(TRAINING_TYPE_TAG);
         int idNo = query.record().indexOf(TRAINING_TRAINID_TAG);
@@ -62,7 +68,6 @@ void TrainingProxy::innerFinished(QSqlQueryEx query)
         if(addrNo == -1 ||
            contentNo == -1 ||
            staffNo == -1 ||
-           submitNo == -1 ||
            timeNo == -1 ||
            typeNo == -1 ||
            idNo == -1)
@@ -76,7 +81,6 @@ void TrainingProxy::innerFinished(QSqlQueryEx query)
             data[TRAINING_ADDR_TAG] = query.value(addrNo).toString();
             data[TRAINING_CONTENT_TAG] = query.value(contentNo).toString();
             data[TRAINING_STAFF_TAG] = query.value(staffNo).toString();
-            data[TRAINING_SUBMIT_TAG] = query.value(submitNo).toString();
             data[TRAINING_TIME_TAG] = query.value(timeNo).toString();
             data[TRAINING_TYPE_TAG] = query.value(typeNo).toString();
             data[TRAINING_TRAINID_TAG] = query.value(idNo).toString();
@@ -96,8 +100,13 @@ void TrainingProxy::innerFinished(QSqlQueryEx query)
     {
         int staffIdNo = query.record().indexOf(TRAINING_STAFFID_TAG);
         int staffSignNo = query.record().indexOf(TRAINING_STAFFSIGN_TAG);
+        int submitNo = query.record().indexOf(TRAINING_SUBMIT_TAG);
+        int remarkNo = query.record().indexOf(TRAINING_REMARK_TAG);
 
-        if(staffIdNo == -1 || staffSignNo == -1)
+        if(staffIdNo == -1 ||
+           staffSignNo == -1 ||
+           submitNo == -1 ||
+           remarkNo == -1)
         {
             emit error("TrainingSign data is broken, please contact developer!");
             return;
@@ -108,6 +117,9 @@ void TrainingProxy::innerFinished(QSqlQueryEx query)
             std::map<QString,QString> data;
             data[TRAINING_STAFFID_TAG] = query.value(staffIdNo).toString();
             data[TRAINING_STAFFSIGN_TAG] = query.value(staffSignNo).toString();
+            data[TRAINING_SUBMIT_TAG] = query.value(submitNo).toString();
+            data[TRAINING_REMARK_TAG] = query.value(remarkNo).toString();
+
             m_trainingInfo.pushSignData(data);
         }
 

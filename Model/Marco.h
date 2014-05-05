@@ -17,9 +17,10 @@
 #define TRAINING_CONTENT_TAG    "trainingContent"
 #define TRAINING_STAFF_TAG      "trainingStaff"
 #define TRAINING_SUBMIT_TAG     "trainingSubmitTime"
-#define TRAINING_STAFFID_TAG    "staff_Id"
+#define TRAINING_STAFFID_TAG    "staffId"
 #define TRAINING_STAFFSIGN_TAG  "IsSign_In"
-#define TRAINING_TRAINID_TAG    "training_Id"
+#define TRAINING_TRAINID_TAG    "trainingId"
+#define TRAINING_REMARK_TAG     "remark"
 
 class QmlMarco : public QObject
 {
@@ -33,6 +34,7 @@ class QmlMarco : public QObject
     Q_PROPERTY(QString trStaffid READ getTRAINING_STAFFID_TAG)
     Q_PROPERTY(QString trSign READ getTRAINING_STAFFSIGN_TAG)
     Q_PROPERTY(QString trTrid READ getTRAINING_TRAINID_TAG)
+    Q_PROPERTY(QString trRemark READ getTRAINING_REMARK_TAG)
 
 public:
     QString getTRAINING_TIME_TAG() const
@@ -78,6 +80,11 @@ public:
     QString getTRAINING_TRAINID_TAG() const
     {
         return TRAINING_TRAINID_TAG;
+    }
+
+    QString getTRAINING_REMARK_TAG() const
+    {
+        return TRAINING_REMARK_TAG;
     }
 };
 

@@ -8,4 +8,14 @@ Rectangle {
         trainProxy.queryTraining();
         console.log(marco.trTime);
     }
+
+    Connections
+    {
+        target:trainProxy
+
+        onError:
+        {
+            console.log(errorString);
+        }
+    }
 }
