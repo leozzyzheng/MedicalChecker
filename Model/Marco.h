@@ -11,6 +11,11 @@
 #define DATABASE_PASSWD "yclj"
 #define DATABASE_DATABASENAME ""  //"clinic"
 
+#define DATABASE_NOCONNECTING 0
+#define DATABASE_CONNECTING 1
+#define DATABASE_CONNECTED_SUCC 2
+#define DATABASE_CONNECTED_FAIL 3
+
 #define TRAINING_TIME_TAG       "trainingTime"
 #define TRAINING_ADDR_TAG       "trainingAddr"
 #define TRAINING_TYPE_TAG       "trainingType"

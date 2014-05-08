@@ -8,7 +8,7 @@ InitProxy::InitProxy(QObject *parent) :
 void InitProxy::excuteInit()
 {
     QString sql = "SELECT clinicName FROM `TheWholeClinicName`.ClinicName";
-    m_pSqlOp->exec(sql);
+    exec(sql);
 }
 
 int InitProxy::getInfoNum()
@@ -44,10 +44,10 @@ void InitProxy::login(QString username, QString passwd)
     sql.prepare(QString("select * from") + "`" + username + "`.Clinic where cmPassword = :passwd");
     sql.bindValue(":passwd",passwd);
     sql.setID("login");
-    m_pSqlOp->exec(sql);
+    exec(sql);
 }
 
-void InitProxy::innerError(QSqlError error)
+void InitProxy::innerError(QSqlError & error)
 {
     emit this->error("An error occured:" + error.text() + "!");
 }

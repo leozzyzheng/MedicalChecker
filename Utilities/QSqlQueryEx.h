@@ -5,6 +5,8 @@
 #include <QString>
 #include <QMetaType>
 
+#include "QueryHelper.h"
+
 class QSqlQueryEx : public QSqlQuery
 {
 public:
@@ -13,12 +15,17 @@ public:
     explicit QSqlQueryEx(QSqlDatabase db);
     QSqlQueryEx(const QSqlQueryEx & other);
 
-    void setID(QString &id);
+    void setID(const QString &id);
     const QString & getID() const;
-    void setID(QString id);
+
+    QueryHelper *getHelper();
+
+    void emitResult();
+    void emitError(QSqlError &error);
 
 private:
     QString m_id;
+    QueryHelper m_helper;
 };
 
 Q_DECLARE_METATYPE(QSqlQueryEx)

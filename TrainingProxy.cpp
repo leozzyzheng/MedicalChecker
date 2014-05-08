@@ -12,7 +12,7 @@ void TrainingProxy::queryTraining()
     //QSqlQueryEx sql(QString("select * from clinica.TrainingHistory where ")+TRAINING_TIME_TAG+" ='" + QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm") + "'");
     QSqlQueryEx sql(QString("select * from clinica.TrainingHistory where ")+TRAINING_TIME_TAG+" ='2014-01-04 00:00:00'");
     sql.setID("trainingInfo");
-    m_pSqlOp->exec(sql);
+    exec(sql);
 }
 
 int TrainingProxy::getTrainingNum()
@@ -35,7 +35,7 @@ QString TrainingProxy::getSignInfo(int index, QString name)
     return m_trainingInfo.getSignInfo(index, name);
 }
 
-void TrainingProxy::innerError(QSqlError error)
+void TrainingProxy::innerError(QSqlError & error)
 {
     qDebug()<<error.text();
     emit this->error("error");
@@ -90,7 +90,7 @@ void TrainingProxy::innerFinished(QSqlQueryEx query)
 
         QSqlQueryEx sql(QString("select * from clinica.TrainingRecord where ")+ TRAINING_TRAINID_TAG +" ='" + data[TRAINING_TRAINID_TAG] + "'");
         sql.setID("signInfo");
-        m_pSqlOp->exec(sql);
+        exec(sql);
 
         emit trainingInfoStandBy();
 

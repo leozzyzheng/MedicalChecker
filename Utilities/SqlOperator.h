@@ -29,16 +29,17 @@ public :
     const QSqlError   getLastError();
 
 public slots:
-    void        exec(const QString & sql);
-    void        exec(QSqlQueryEx sql);
+    void        exec(QSqlQueryEx * sql);
     void        init();
 
 signals:
-    void        result(QSqlQueryEx result);
-    void        error(QSqlError error);
+    void        result(QSqlQueryEx * result);
+    void        error(QSqlError error, QSqlQueryEx* sql);
 
 private:
     QSqlDatabase    m_db;
+    unsigned int    m_status;
+    QSqlError       m_dbError;
 };
 
 //数据库操作主线程封装类
@@ -53,17 +54,16 @@ public :
     const QSqlError   getLastError();
 
 signals:
-    void        result(QSqlQueryEx result);
-    void        error(QSqlError error);
     void        threadInit();
 
 public slots:
-    void        exec(QString & sql);
-    void        exec(QSqlQueryEx sql);
+    void        exec(QSqlQueryEx * sql);
+    void        result(QSqlQueryEx * result);
+    void        error(QSqlError error, QSqlQueryEx *sql);
 
 signals:
     void        innerExec(const QString & sql);
-    void        innerExec(QSqlQueryEx sql);
+    void        innerExec(QSqlQueryEx * sql);
 
 private:
     SqlThread * m_pSqlThread;

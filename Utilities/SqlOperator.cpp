@@ -16,10 +16,9 @@ void SqlOperator::Init()
 
     m_pSqlThread = new SqlThread();
 
-    connect(m_pSqlThread, SIGNAL(result(QSqlQueryEx)),              this, SIGNAL(result(QSqlQueryEx)));
-    connect(m_pSqlThread, SIGNAL(error(QSqlError)),                 this, SIGNAL(error(QSqlError)));
-    connect(this,         SIGNAL(innerExec(const QString &)),       m_pSqlThread, SLOT(exec(const QString &)));
-    connect(this,         SIGNAL(innerExec(QSqlQueryEx)),           m_pSqlThread, SLOT(exec(QSqlQueryEx)));
+    connect(m_pSqlThread, SIGNAL(result(QSqlQueryEx*)),             this, SLOT(result(QSqlQueryEx*)));
+    connect(m_pSqlThread, SIGNAL(error(QSqlError,QSqlQueryEx*)),    this, SLOT(error(QSqlError,QSqlQueryEx*)));
+    connect(this,         SIGNAL(innerExec(QSqlQueryEx *)),         m_pSqlThread, SLOT(exec(QSqlQueryEx *)));
     connect(this,         SIGNAL(threadInit()),                     m_pSqlThread, SLOT(init()));
 
     m_pSqlThread->moveToOtherThread();
@@ -44,19 +43,30 @@ SqlOperator::SqlOperator()
     m_pSqlThread = NULL;
 }
 
-void SqlOperator::exec(QString &sql)
+//do not use it!!!
+void SqlOperator::exec(QSqlQueryEx * sql)
 {
     emit innerExec(sql);
 }
 
-void SqlOperator::exec(QSqlQueryEx sql)
+void SqlOperator::result(QSqlQueryEx * result)
 {
-    emit innerExec(sql);
+    result->emitResult();
+    delete result;
+    result = NULL;
+}
+
+void SqlOperator::error(QSqlError error, QSqlQueryEx * sql)
+{
+    sql->emitError(error);
+    delete sql;
+    sql = NULL;
 }
 
 
 SqlThread::SqlThread()
 {
+    m_status = DATABASE_NOCONNECTING;
 }
 
 SqlThread::~SqlThread()
@@ -88,40 +98,42 @@ void SqlThread::init()
     m_db.setUserName(DATABASE_USERNAME);
     m_db.setPassword(DATABASE_PASSWD);
 
+    m_status = DATABASE_CONNECTING;
+
     if (!m_db.open())
     {
         qDebug()<<m_db.lastError().text();
+        m_status = DATABASE_CONNECTED_FAIL;
+        m_dbError = m_db.lastError();
         return;
     }
     else
     {
         qDebug()<<"Successful open database :" << m_db.databaseName() <<"!";
+        m_status = DATABASE_CONNECTED_SUCC;
     }
 
     connect(QGuiApplication::instance(),    SIGNAL(aboutToQuit()),  this,       SLOT(deleteLater()));
 }
 
-void SqlThread::exec(const QString & sql)
+void SqlThread::exec(QSqlQueryEx * sql)
 {
-    QSqlQueryEx query;
+//    while(m_status != DATABASE_CONNECTED_SUCC)
+//    {
+//        if(m_status == DATABASE_CONNECTED_FAIL)
+//        {
+//            emit error(m_dbError,sql);
+//            return;
+//        }
 
-    if(!query.exec(sql))
-    {
-        QSqlError err(query.lastError());
-        emit error(err);
-    }
-    else
-    {
-        emit result(query);
-    }
-}
+//        qDebug()<<"wait for db connect...";
+//        this->thread()->sleep(500);
+//    }
 
-void SqlThread::exec(QSqlQueryEx sql)
-{
-    if(!sql.exec())
+    if(!sql->exec())
     {
-        QSqlError err(sql.lastError());
-        emit error(err);
+        QSqlError err(sql->lastError());
+        emit error(err,sql);
     }
     else
     {
