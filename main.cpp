@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
     QtQuick2ApplicationViewer viewer;
+    QLocale::setDefault(QLocale::C);
 
     qRegisterMetaType<QSqlQueryEx>("QSqlQueryEx");
     qRegisterMetaType<QSqlError>("QSqlError");

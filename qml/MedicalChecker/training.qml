@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import "Component"
 
 Rectangle {
     width: parent.width
@@ -6,7 +7,6 @@ Rectangle {
     Component.onCompleted:
     {
         trainProxy.queryTraining();
-        console.log(marco.trTime);
     }
 
     Connections
@@ -17,5 +17,10 @@ Rectangle {
         {
             console.log(errorString);
         }
+    }
+
+    TimePicker
+    {
+
     }
 }

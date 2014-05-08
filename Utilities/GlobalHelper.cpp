@@ -8,15 +8,15 @@ GlobalHelper::GlobalHelper(QObject *parent) :
 void GlobalHelper::getUserAndPw(QString &username, QString &passwd)
 {
     QSettings settings("MedicalChecker", "MedicalChecker");
-    settings.setValue("username",username);
-    settings.setValue("passwd",passwd);
-}
-
-bool GlobalHelper::setUserAndPw(QString &username, QString &passwd)
-{
-    QSettings settings("MedicalChecker", "MedicalChecker");
     username = settings.value("username").toString();
     passwd = settings.value("passwd").toString();
+}
+
+void GlobalHelper::setUserAndPw(QString &username, QString &passwd)
+{
+    QSettings settings("MedicalChecker", "MedicalChecker");
+    settings.setValue("username",username);
+    settings.setValue("passwd",passwd);
 }
 
 void GlobalHelper::setGlobalValue(QString &name, QString &value)
@@ -26,5 +26,5 @@ void GlobalHelper::setGlobalValue(QString &name, QString &value)
 
 QString GlobalHelper::getGlobalValue(QString &name)
 {
-    QCoreApplication::instance()->property(name.toUtf8().constData()).toString();
+    return QCoreApplication::instance()->property(name.toUtf8().constData()).toString();
 }

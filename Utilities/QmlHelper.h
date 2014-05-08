@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QDateTime>
 #include <QStringList>
+#include <QTimeZone>
+#include <QDebug>
 
 class QmlHelper : public QObject
 {
@@ -14,9 +16,13 @@ public:
 signals:
 
 public slots:
+    void reset();
     QString getCurrDateTime(QString format = "yyyy-MM-dd");
     QString getCurrWeekDay();
-    QString addDay(QString date, int num);
+    QString getCurrMonthName();
+    QString addDay(int num, QString format = "yyyy-MM-dd");
+private:
+    QDateTime m_date;
 };
 
 #endif // QMLHELPER_H

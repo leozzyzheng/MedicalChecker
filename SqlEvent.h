@@ -30,6 +30,7 @@ public slots:
     EventType type() const;
 
     //提供两个可以被重写的槽函数来自定义sql查询后的操作
+    //默认不做任何操作
 protected slots:
     virtual void innerError(QSqlError error);
     virtual void innerFinished(QSqlQueryEx query);

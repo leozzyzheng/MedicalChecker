@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/qml">
         <file>Resource/stratup.jpg</file>
+        <file>Resource/DecDate.png</file>
+        <file>Resource/IncDate.png</file>
     </qresource>
 </RCC>

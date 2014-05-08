@@ -12,7 +12,7 @@ class GlobalHelper : public QObject
 public:
     explicit GlobalHelper(QObject *parent = 0);
     static void getUserAndPw(QString& username, QString & passwd);
-    static bool setUserAndPw(QString& username, QString & passwd);
+    static void setUserAndPw(QString& username, QString & passwd);
     static void setGlobalValue(QString & name, QString & value);
     static QString getGlobalValue(QString & name);
 signals:
