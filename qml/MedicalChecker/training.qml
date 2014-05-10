@@ -4,6 +4,12 @@ import "Component"
 Rectangle {
     width: parent.width
     height: parent.height
+
+    TopicBar
+    {
+
+    }
+
     Component.onCompleted:
     {
         trainProxy.queryTraining();

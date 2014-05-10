@@ -9,7 +9,7 @@ class InitProxy : public SqlEvent
     Q_OBJECT
 public:
     explicit InitProxy(QObject *parent = 0);
-    Q_INVOKABLE void excuteInit();
+    Q_INVOKABLE bool excuteInit();
     Q_INVOKABLE int getInfoNum();
     Q_INVOKABLE void excuteIndicator(QString key);
     Q_INVOKABLE QString getShownName(int index);
@@ -18,6 +18,7 @@ public:
 signals:
     void loginFail();
     void loginSucc();
+    void notOpened();
 public slots:
 protected slots:
     void innerError(QSqlError & error);

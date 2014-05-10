@@ -18,7 +18,7 @@ Rectangle {
 
         onLoginSucc:
         {
-            rootStackView.push({item:Qt.resolvedUrl("index.qml"),replace:true});
+            rootStackView.push({item:Qt.resolvedUrl("index.qml"),replace:true,destroyOnPop:true});
         }
 
         onError:
@@ -30,14 +30,20 @@ Rectangle {
     Rectangle
     {
         anchors.centerIn: parent
-        width:800
-        height:600
+        width:512
+        height:400
 
-        border.color: "black"
-        border.width: 2
+        Image
+        {
+            x:0
+            y:0
+            source: "qrc:/qml/Resource/login.png"
+        }
 
         Rectangle
         {
+            id:firstLine
+            x:0
             z:100
             width:inputLabel.width + inputRect.width
             anchors.horizontalCenter: parent.horizontalCenter
@@ -54,9 +60,10 @@ Rectangle {
                 {
                     height:inputLabel.height
                     id:innerInputLabel
-                    text:"UserName:"
-                    font.family : "Consolas"
+                    text:"Clinic Name:"
+                    font.family : marco.topicFontFa
                     font.bold: true
+                    horizontalAlignment: Text.AlignRight
                     verticalAlignment: Text.AlignVCenter
                 }
             }
@@ -64,7 +71,7 @@ Rectangle {
             Rectangle
             {
                 id: inputRect
-                width:400
+                width:250
                 height:nameInput.height + 10
                 border.color: "black"
                 border.width: 1
@@ -79,7 +86,7 @@ Rectangle {
                     anchors.centerIn: parent
 
                     text: ""
-                    font.family : "Consolas"
+                    font.family : marco.topicFontFa
                     font.pointSize: 14
                     cursorVisible: true
                     focus:true
@@ -148,24 +155,27 @@ Rectangle {
 
         Rectangle
         {
+            id:secondLine
             width:passwdLabel.width + passwdRect.width
             anchors.horizontalCenter: parent.horizontalCenter
-            y:parent.height * 0.1 > height ? parent.height * 0.3 : height + 30
+            y:parent.height * 0.2 > height ? parent.height * 0.4 : height + 30
 
             Rectangle
             {
                 x:0
                 id:passwdLabel
-                width:innerPasswdLabel.width
+                width:inputLabel.width
                 height: passwdRect.height
 
                 Text
                 {
+                    width:parent.width
                     height:passwdLabel.height
                     id:innerPasswdLabel
                     text:"PassWord:"
-                    font.family : "Consolas"
+                    font.family : marco.topicFontFa
                     font.bold: true
+                    horizontalAlignment: Text.AlignRight
                     verticalAlignment: Text.AlignVCenter
                 }
             }
@@ -173,7 +183,7 @@ Rectangle {
             Rectangle
             {
                 id: passwdRect
-                width:400
+                width:250
                 height:passwdInput.height + 10
                 border.color: "black"
                 border.width: 1
@@ -188,7 +198,7 @@ Rectangle {
                     anchors.centerIn: parent
 
                     text: ""
-                    font.family : "Consolas"
+                    font.family : marco.topicFontFa
                     font.pointSize: 14
                     focus: false
                     clip: true
@@ -201,30 +211,39 @@ Rectangle {
         {
             width:passwdLabel.width + passwdRect.width
             anchors.horizontalCenter: parent.horizontalCenter
-            y:parent.height * 0.1 > height ? parent.height * 0.4 : height + 30
+            y:parent.height * 0.2 > height ? parent.height * 0.6 : height + 30
 
-            Button
+            Image
             {
-                width:130
-                height:40
+                id:loginBtn
+                width:409
+                height:93
                 anchors.horizontalCenter: parent.horizontalCenter
+                source:"qrc:/qml/Resource/btn-login.png"
 
-                style:
-                    ButtonStyle{
-                    label:Text
-                    {
-                        text:"Login"
-                        font.family : "Consolas"
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                    }
-                }
-
-                onClicked:
+                MouseArea
                 {
-                    console.log(passwdInput.text);
-                    initProxy.login(nameInput.text, passwdInput.text);
-                    //rootStackView.push({item:Qt.resolvedUrl("index.qml"),replace:true});
+                    anchors.fill: parent
+                    onClicked:
+                    {
+                        console.log(passwdInput.text);
+                        initProxy.login(nameInput.text, passwdInput.text);
+                    }
+
+                    onPressed:
+                    {
+                        loginBtn.source = "qrc:/qml/Resource/btn-login-click.png";
+                    }
+
+                    onReleased:
+                    {
+                        loginBtn.source = "qrc:/qml/Resource/btn-login.png";
+                    }
+
+                    onExited:
+                    {
+                        loginBtn.source = "qrc:/qml/Resource/btn-login.png";
+                    }
                 }
             }
         }

@@ -1,7 +1,19 @@
 <RCC>
     <qresource prefix="/qml">
-        <file>Resource/stratup.jpg</file>
-        <file>Resource/DecDate.png</file>
-        <file>Resource/IncDate.png</file>
+        <file>Resource/background.png</file>
+        <file>Resource/login.png</file>
+        <file>Resource/arrow-left-small.png</file>
+        <file>Resource/arrow-left-topic.png</file>
+        <file>Resource/arrow-right-small.png</file>
+        <file>Resource/btn-login.png</file>
+        <file>Resource/btn-login-click.png</file>
+        <file>Resource/btn-ok.png</file>
+        <file>Resource/btn-ok-click.png</file>
+        <file>Resource/btn-reset.png</file>
+        <file>Resource/btn-reset-click.png</file>
+        <file>Resource/icon-CHECK.png</file>
+        <file>Resource/icon-training.png</file>
+        <file>Resource/loading.gif</file>
+        <file>Resource/starting page.png</file>
     </qresource>
 </RCC>

@@ -14,7 +14,7 @@ Rectangle {
             width:60
             height:60
             id:decBtn
-            source:"qrc:/qml/Resource/DecDate.png"
+            source:"qrc:/qml/Resource/arrow-left-small.png"
 
             MouseArea
             {
@@ -48,7 +48,7 @@ Rectangle {
             width:60
             height:60
             id:incBtn
-            source:"qrc:/qml/Resource/IncDate.png"
+            source:"qrc:/qml/Resource/arrow-right-small.png"
 
             MouseArea
             {

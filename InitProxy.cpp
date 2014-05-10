@@ -5,10 +5,19 @@ InitProxy::InitProxy(QObject *parent) :
 {
 }
 
-void InitProxy::excuteInit()
+bool InitProxy::excuteInit()
 {
+    QSqlQueryEx test("test");
+
+    if(!test.driver()->isOpen())
+    {
+        emit notOpened();
+        return false;
+    }
+
     QString sql = "SELECT clinicName FROM `TheWholeClinicName`.ClinicName";
     exec(sql);
+    return true;
 }
 
 int InitProxy::getInfoNum()

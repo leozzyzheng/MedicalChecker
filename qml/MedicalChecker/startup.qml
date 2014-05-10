@@ -5,7 +5,7 @@ Image
     width:parent.width
     height:parent.height
 
-    source:"qrc:/qml/Resource/stratup.jpg"
+    source:"qrc:/qml/Resource/starting page.png"
 
     Connections {
         target : initProxy
@@ -13,7 +13,7 @@ Image
         onCompleted:
         {
             console.log("Successfully get clinicNames");
-            rootStackView.push({item:Qt.resolvedUrl("login.qml"),replace:true});
+            rootStackView.push({item:Qt.resolvedUrl("login.qml"),replace:true,destroyOnPop:true});
         }
 
         onError:

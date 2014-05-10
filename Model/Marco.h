@@ -27,19 +27,22 @@
 #define TRAINING_TRAINID_TAG    "trainingId"
 #define TRAINING_REMARK_TAG     "remark"
 
+#define QML_TOPIC_FONT_FAMILY   "verdana,Lucida Sans,trebuchet ms,arial,sans-serif"
+
 class QmlMarco : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString trTime READ getTRAINING_TIME_TAG)
-    Q_PROPERTY(QString trAdd READ getTRAINING_ADDR_TAG)
-    Q_PROPERTY(QString trType READ getTRAINING_TYPE_TAG)
-    Q_PROPERTY(QString trContent READ getTRAINING_CONTENT_TAG)
-    Q_PROPERTY(QString trStaff READ getTRAINING_STAFF_TAG)
-    Q_PROPERTY(QString trSubmit READ getTRAINING_SUBMIT_TAG)
-    Q_PROPERTY(QString trStaffid READ getTRAINING_STAFFID_TAG)
-    Q_PROPERTY(QString trSign READ getTRAINING_STAFFSIGN_TAG)
-    Q_PROPERTY(QString trTrid READ getTRAINING_TRAINID_TAG)
-    Q_PROPERTY(QString trRemark READ getTRAINING_REMARK_TAG)
+    Q_PROPERTY(QString trTime READ getTRAINING_TIME_TAG CONSTANT)
+    Q_PROPERTY(QString trAdd READ getTRAINING_ADDR_TAG CONSTANT)
+    Q_PROPERTY(QString trType READ getTRAINING_TYPE_TAG CONSTANT)
+    Q_PROPERTY(QString trContent READ getTRAINING_CONTENT_TAG CONSTANT)
+    Q_PROPERTY(QString trStaff READ getTRAINING_STAFF_TAG CONSTANT)
+    Q_PROPERTY(QString trSubmit READ getTRAINING_SUBMIT_TAG CONSTANT)
+    Q_PROPERTY(QString trStaffid READ getTRAINING_STAFFID_TAG CONSTANT)
+    Q_PROPERTY(QString trSign READ getTRAINING_STAFFSIGN_TAG CONSTANT)
+    Q_PROPERTY(QString trTrid READ getTRAINING_TRAINID_TAG CONSTANT)
+    Q_PROPERTY(QString trRemark READ getTRAINING_REMARK_TAG CONSTANT)
+    Q_PROPERTY(QString topicFontFa READ getQML_TOPIC_FONT_FAMILY CONSTANT)
 
 public:
     QString getTRAINING_TIME_TAG() const
@@ -90,6 +93,11 @@ public:
     QString getTRAINING_REMARK_TAG() const
     {
         return TRAINING_REMARK_TAG;
+    }
+
+    QString getQML_TOPIC_FONT_FAMILY() const
+    {
+        return QML_TOPIC_FONT_FAMILY;
     }
 };
 

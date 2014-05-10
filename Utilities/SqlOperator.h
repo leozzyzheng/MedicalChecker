@@ -12,6 +12,7 @@
 #include <QSqlError>
 #include <QSqlRecord>
 #include <QString>
+#include <QSqlDriver>
 
 #include "Utilities/ThreadSingleton.h"
 #include "Utilities/QSqlQueryEx.h"

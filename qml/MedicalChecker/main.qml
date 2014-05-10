@@ -21,20 +21,31 @@ StackView
 
     id: rootStackView
 
+    Connections
+    {
+        target: initProxy
+
+        onNotOpened:
+        {
+            initTimer.interval = 500;
+            initTimer.running = true;
+        }
+    }
+
     Timer
     {
         id: initTimer
         interval: 1000; running: false; repeat: false
         onTriggered:
         {
-            initProxy.excuteInit()
+            initProxy.excuteInit();
         }
     }
 
     Component.onCompleted:
     {
-        push(Qt.resolvedUrl("startup.qml"))
-        initTimer.running = true
+        push({item:Qt.resolvedUrl("startup.qml"),destroyOnPop:true});
+        initTimer.running = true;
     }
 
     StackViewDelegate {
