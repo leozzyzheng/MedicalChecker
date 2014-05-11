@@ -10,7 +10,7 @@ Rectangle {
     }
 
     id:timePicker
-    width: 300
+    width: 320
     height: 28*2
     radius: 10
 

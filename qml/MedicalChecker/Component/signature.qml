@@ -18,19 +18,4 @@ Signature
     {
         console.log("error: " + error);
     }
-
-    MouseArea
-    {
-        width:50
-        height:50
-        onClicked:
-        {
-            sig.sendImage("clinica");
-        }
-    }
-
-    StackViewDelegate
-    {
-        id: selftDelegate
-    }
 }

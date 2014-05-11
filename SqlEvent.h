@@ -21,7 +21,8 @@ public:
     explicit    SqlEvent(QObject *parent = 0);
     void        exec(QSqlQueryEx & query);
     void        exec(QString & query);
-    void        abort();
+
+    Q_INVOKABLE void abort();
 
 signals:
     void        error(QString errorString);
