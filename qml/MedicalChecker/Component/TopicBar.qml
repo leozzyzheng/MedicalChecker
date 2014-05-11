@@ -19,7 +19,7 @@ Rectangle {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             font.family: marco.topicFontFa
-            color:marco.fontColor
+            color:marco.fontBlue
         }
     }
 

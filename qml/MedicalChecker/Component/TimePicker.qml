@@ -12,6 +12,7 @@ Rectangle {
     id:timePicker
     width: 300
     height: 28*2
+    radius: 10
 
     Row
     {
@@ -20,6 +21,7 @@ Rectangle {
             id:decBtn
             height:28*2
             width:21*2
+            radius: 10
 
             Image
             {
@@ -57,7 +59,7 @@ Rectangle {
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 font.family: marco.topicFontFa
-                color: marco.fontColor
+                color: marco.fontBlue
             }
         }
 
@@ -66,6 +68,7 @@ Rectangle {
             id:incBtn
             height:28*2
             width:21*2
+            radius: 10
 
             Image
             {

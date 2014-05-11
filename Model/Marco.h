@@ -28,7 +28,11 @@
 #define TRAINING_REMARK_TAG     "remark"
 
 #define QML_TOPIC_FONT_FAMILY   "verdana,Lucida Sans,trebuchet ms,arial,sans-serif"
-#define QML_FONT_COLOR          "#1D568A"
+#define QML_FONT_BLUE_COLOR     "#1D568A"
+#define QML_FONT_BLACK_COLOR    "#FFFFFF"
+#define QML_FONT_WHITE_COLOR    "#000000"
+#define QML_BACK_GRAY_COLOR     "#EEEEEE"
+#define QML_BACK_BLUE_COLOR     "#1D568A"
 
 class QmlMarco : public QObject
 {
@@ -44,7 +48,11 @@ class QmlMarco : public QObject
     Q_PROPERTY(QString trTrid READ getTRAINING_TRAINID_TAG CONSTANT)
     Q_PROPERTY(QString trRemark READ getTRAINING_REMARK_TAG CONSTANT)
     Q_PROPERTY(QString topicFontFa READ getQML_TOPIC_FONT_FAMILY CONSTANT)
-    Q_PROPERTY(QString fontColor READ getQML_FONT_COLOR CONSTANT)
+    Q_PROPERTY(QString fontBlue READ getQML_FONT_BLUE_COLOR CONSTANT)
+    Q_PROPERTY(QString fontBlack READ getQML_FONT_BLACK_COLOR CONSTANT)
+    Q_PROPERTY(QString fontWhite READ getQML_FONT_WHITE_COLOR CONSTANT)
+    Q_PROPERTY(QString backGray READ getQML_BACK_GRAY_COLOR CONSTANT)
+    Q_PROPERTY(QString backBlue READ getQML_BACK_BLUE_COLOR CONSTANT)
 
 public:
     QString getTRAINING_TIME_TAG() const
@@ -102,9 +110,29 @@ public:
         return QML_TOPIC_FONT_FAMILY;
     }
 
-    QString getQML_FONT_COLOR() const
+    QString getQML_FONT_BLUE_COLOR() const
     {
-        return QML_FONT_COLOR;
+        return QML_FONT_BLUE_COLOR;
+    }
+
+    QString getQML_FONT_BLACK_COLOR() const
+    {
+        return QML_FONT_BLACK_COLOR;
+    }
+
+    QString getQML_FONT_WHITE_COLOR() const
+    {
+        return QML_FONT_WHITE_COLOR;
+    }
+
+    QString getQML_BACK_GRAY_COLOR() const
+    {
+        return QML_BACK_GRAY_COLOR;
+    }
+
+    QString getQML_BACK_BLUE_COLOR() const
+    {
+        return QML_BACK_BLUE_COLOR;
     }
 };
 

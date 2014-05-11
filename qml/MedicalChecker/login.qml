@@ -7,6 +7,8 @@ Rectangle {
     width:parent.width
     height:parent.height
 
+    property bool isBusy: false
+
     Connections
     {
         target: initProxy
@@ -65,7 +67,7 @@ Rectangle {
                     font.bold: true
                     horizontalAlignment: Text.AlignRight
                     verticalAlignment: Text.AlignVCenter
-                    color:marco.fontColor
+                    color:marco.fontBlue
                 }
             }
 
@@ -178,7 +180,7 @@ Rectangle {
                     font.bold: true
                     horizontalAlignment: Text.AlignRight
                     verticalAlignment: Text.AlignVCenter
-                    color:marco.fontColor
+                    color:marco.fontBlue
                 }
             }
 

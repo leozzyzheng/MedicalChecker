@@ -33,7 +33,7 @@ Rectangle {
             anchors.fill: parent
             font.family: marco.topicFontFa
             text:labelText
-            color:marco.fontColor
+            color:marco.fontBlue
         }
     }
 

@@ -7,7 +7,7 @@ ListView {
 
     signal clickedIndicator(string originName)
 
-    model: initProxy.getInfoNum();
+    model: initProxy.getInfoNum()
     delegate:
         Rectangle{
 
