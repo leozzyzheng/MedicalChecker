@@ -25,6 +25,18 @@ void SqlEvent::exec(QString &query)
 
 void SqlEvent::abort()
 {
+    std::map<QSqlQueryEx*,char>::iterator it = m_mPastQuery.begin();
+
+    for(;it != m_mPastQuery.end();++it)
+    {
+        QSqlQueryEx * pQuery = it->first;
+
+        if(pQuery != NULL)
+        {
+            pQuery->setExecutable(false);
+        }
+    }
+
     m_mPastQuery.clear();
 }
 

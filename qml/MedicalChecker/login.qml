@@ -234,6 +234,7 @@ Rectangle {
                         if(isBusy)
                         {
                             console.log("Busy");
+                            return;
                         }
 
                         console.log(passwdInput.text);

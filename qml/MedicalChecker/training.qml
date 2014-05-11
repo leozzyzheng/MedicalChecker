@@ -10,7 +10,8 @@ Rectangle {
 
     function changeDate()
     {
-
+        trainProxy.abort();
+        trainProxy.queryTraining(qmlHelper.getCurrDateTime("yyyy-MM-dd HH:mm:ss"));
     }
 
     Component.onCompleted:
@@ -146,7 +147,6 @@ Rectangle {
                             Text
                             {
                                 id:nameText
-                                font.bold: true
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                                 anchors.fill: parent

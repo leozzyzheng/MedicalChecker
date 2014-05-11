@@ -16,9 +16,9 @@ void SqlOperator::Init()
 
     m_pSqlThread = new SqlThread();
 
-    connect(m_pSqlThread, SIGNAL(result(QSqlQueryEx*)),             this, SLOT(result(QSqlQueryEx*)));
-    connect(m_pSqlThread, SIGNAL(error(QSqlError,QSqlQueryEx*)),    this, SLOT(error(QSqlError,QSqlQueryEx*)));
-    connect(this,         SIGNAL(innerExec(QSqlQueryEx *)),         m_pSqlThread, SLOT(exec(QSqlQueryEx *)));
+    connect(m_pSqlThread, SIGNAL(result(QSqlQueryEx*)),             this, SLOT(result(QSqlQueryEx*)),Qt::QueuedConnection);
+    connect(m_pSqlThread, SIGNAL(error(QSqlError,QSqlQueryEx*)),    this, SLOT(error(QSqlError,QSqlQueryEx*)),Qt::QueuedConnection);
+    connect(this,         SIGNAL(innerExec(QSqlQueryEx *)),         m_pSqlThread, SLOT(exec(QSqlQueryEx *)),Qt::QueuedConnection);
     connect(this,         SIGNAL(threadInit()),                     m_pSqlThread, SLOT(init()));
 
     m_pSqlThread->moveToOtherThread();
@@ -52,6 +52,7 @@ void SqlOperator::exec(QSqlQueryEx * sql)
 void SqlOperator::result(QSqlQueryEx * result)
 {
     result->emitResult();
+    qDebug()<<"delete r";
     delete result;
     result = NULL;
 }
@@ -59,6 +60,7 @@ void SqlOperator::result(QSqlQueryEx * result)
 void SqlOperator::error(QSqlError error, QSqlQueryEx * sql)
 {
     sql->emitError(error);
+    qDebug()<<"delete e";
     delete sql;
     sql = NULL;
 }
@@ -118,25 +120,23 @@ void SqlThread::init()
 
 void SqlThread::exec(QSqlQueryEx * sql)
 {
-//    while(m_status != DATABASE_CONNECTED_SUCC)
-//    {
-//        if(m_status == DATABASE_CONNECTED_FAIL)
-//        {
-//            emit error(m_dbError,sql);
-//            return;
-//        }
-
-//        qDebug()<<"wait for db connect...";
-//        this->thread()->sleep(500);
-//    }
-
-    if(!sql->exec())
+    if(!sql->getExecutable())
     {
+        delete sql;
+        sql = NULL;
+        return;
+    }
+
+    qDebug()<<"     basic query";
+    if(!sql->exec(sql->getSqlString()))
+    {
+        qDebug()<<"     basic query done";
         QSqlError err(sql->lastError());
         emit error(err,sql);
     }
     else
     {
+        qDebug()<<"     basic query done";
         emit result(sql);
     }
 }

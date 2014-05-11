@@ -48,7 +48,7 @@ private:
 
 private:
     SqlOperator * m_pSqlOp;
-    std::map<QSqlQuery *,char> m_mPastQuery;
+    std::map<QSqlQueryEx *,char> m_mPastQuery;
 };
 
 #endif // SQLEVENT_H
