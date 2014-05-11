@@ -28,6 +28,7 @@ private:
     void print();
     TrainingInfo m_trainingInfo;
     QString m_ClinicName;
+    QSqlQueryEx m_lastQuery;
 };
 
 #endif // TRAININGPROXY_H

@@ -16,16 +16,19 @@ Rectangle {
         onLoginFail:
         {
             console.log("passwd wrong");
+            isBusy = false;
         }
 
         onLoginSucc:
         {
             rootStackView.push({item:Qt.resolvedUrl("index.qml")});
+            isBusy = false;
         }
 
         onError:
         {
             console.log(errorString);
+            isBusy = false;
         }
     }
 
@@ -228,8 +231,14 @@ Rectangle {
                     anchors.fill: parent
                     onClicked:
                     {
+                        if(isBusy)
+                        {
+                            console.log("Busy");
+                        }
+
                         console.log(passwdInput.text);
                         initProxy.login(nameInput.text, passwdInput.text);
+                        isBusy = true;
                     }
 
                     onPressed:

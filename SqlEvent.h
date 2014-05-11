@@ -4,6 +4,7 @@
 #define SQLEVENT_H
 
 #include <QObject>
+#include <map>
 #include "Utilities/SqlOperator.h"
 
 class SqlEvent : public QObject
@@ -17,9 +18,10 @@ public:
         NONE
     };
 
-    explicit SqlEvent(QObject *parent = 0);
-    void exec(QSqlQueryEx & query);
-    void exec(QString & query);
+    explicit    SqlEvent(QObject *parent = 0);
+    void        exec(QSqlQueryEx & query);
+    void        exec(QString & query);
+    void        abort();
 
 signals:
     void        error(QString errorString);
@@ -45,6 +47,7 @@ private:
 
 private:
     SqlOperator * m_pSqlOp;
+    std::map<QSqlQuery *,char> m_mPastQuery;
 };
 
 #endif // SQLEVENT_H
