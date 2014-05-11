@@ -1,78 +1,85 @@
 import QtQuick 2.0
+import "Component"
 
 
 Rectangle {
     width: parent.width;
     height: parent.height;
 
-    property string checkoff: "Daily Checkoff"
-    property string cleaning: "Daily Cleaning"
-    property string training: "Tranning check"
-    property string sterilization: "Daily Sterilization"
-
-    property string checkoffImage: "qrc:/qml/Resource/stratup.jpg"
-    property string cleaningImage: "qrc:/qml/Resource/stratup.jpg"
-    property string trainingImage: "qrc:/qml/Resource/stratup.jpg"
-    property string sterilizationImage: "qrc:/qml/Resource/stratup.jpg"
-
-    ListModel {
-        id:indexModel
-
-        //only in this way can add property by script
-        Component.onCompleted: {
-            indexModel.append({"name":training,"icon":trainingImage});
-            indexModel.append({"name":cleaning,"icon":cleaningImage});
-            indexModel.append({"name":checkoff,"icon":checkoffImage});
-            indexModel.append({"name":sterilization,"icon":sterilizationImage});
-        }
+    TopBar
+    {
+        id:top
     }
 
-    Component {
-        id: delegate
-        Column {
-            z:wrapper.PathView.isCurrentItem ? 1:-1
-            id: wrapper
+    TopicBar
+    {
+        id:topicBar
+        y:top.y + top.height
+        topic: "Home"
+    }
 
-            Image {
-                anchors.horizontalCenter: nameText.horizontalCenter
-                width: 64; height: 64
-                source: icon
+    Rectangle
+    {
+        y:topicBar.y + topicBar.height
+        width:parent.width
+        height:parent.height - top.height - topicBar.height
 
-                MouseArea
+        Image
+        {
+            anchors.fill: parent
+            source:"qrc:/qml/Resource/background.png"
+            fillMode:Image.Tile
+        }
+
+        Rectangle
+        {
+            width:570
+            height:480
+            color:"#00000000"
+
+            anchors.horizontalCenter: parent.horizontalCenter
+            y:0.382 * (parent.height -height)
+
+            Grid
+            {
+                columns:2
+                columnSpacing : 170
+                rowSpacing: 80
+
+                IndexComponent
                 {
-                    anchors.fill: parent
-                    onClicked:
-                    {
-                        if(nameText.text == checkoff)
-                            rootStackView.push({item:Qt.resolvedUrl("checkoff.qml"),replace:false,destroyOnPop:true});
-                        else if(nameText.text == cleaning)
-                            rootStackView.push({item:Qt.resolvedUrl("cleaning.qml"),replace:false,destroyOnPop:true});
-                        else if(nameText.text == training)
-                            rootStackView.push({item:Qt.resolvedUrl("training.qml"),replace:false,destroyOnPop:true});
-                        else if(nameText.text == sterilization)
-                            rootStackView.push({item:Qt.resolvedUrl("sterilization.qml"),replace:false,destroyOnPop:true});
-                        else
-                            console.log("What's the" + nameText.text + "????");
-                    }
+                    iconSrc: "qrc:/qml/Resource/icon-training.png"
+                    iconClickSrc: "qrc:/qml/Resource/icon-training-click.png"
+                    qmlSrc: "training.qml"
+                    labelText: "TRAINING"
+                }
+
+                IndexComponent
+                {
+                    iconSrc: "qrc:/qml/Resource/icon-CHECK.png"
+                    iconClickSrc: "qrc:/qml/Resource/icon-CHECK-click.png"
+                    qmlSrc: "checkoff.qml"
+                    labelText: "CHECK-OFF"
+                }
+
+                IndexComponent
+                {
+                    iconSrc: "qrc:/qml/Resource/icon-xiaodu.png"
+                    iconClickSrc: "qrc:/qml/Resource/icon-xiaodu-click.png"
+                    qmlSrc: "sterilization.qml"
+                    labelText: "DISINFECT"
+                }
+
+                IndexComponent
+                {
+                    iconSrc: "qrc:/qml/Resource/icon-clean.png"
+                    iconClickSrc: "qrc:/qml/Resource/icon-clean-click.png"
+                    qmlSrc: "cleaning.qml"
+                    labelText: "CLEAN"
                 }
             }
-            Text {
-                id: nameText
-                text: name
-                font.pointSize: 16
-                color: wrapper.PathView.isCurrentItem ? "red" : "black"
-            }
         }
     }
 
-    PathView {
-        anchors.fill: parent
-        model: indexModel
-        delegate: delegate
-        path: Path {
-            startX: 520; startY: 500
-            PathQuad { x: 520; y: 425; controlX: 660; controlY: 475 }
-            PathQuad { x: 520; y: 500; controlX: 380; controlY: 475 }
-        }
-    }
+
 }

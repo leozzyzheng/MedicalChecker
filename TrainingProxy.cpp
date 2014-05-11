@@ -5,12 +5,26 @@ TrainingProxy::TrainingProxy(QObject *parent) :
 {
 }
 
-void TrainingProxy::queryTraining()
+void TrainingProxy::queryTraining(QString dateTime)
 {
-    qDebug()<<"queryTraining";
+    m_ClinicName = GlobalHelper::getGlobalValue("ClinicName");
 
-    //QSqlQueryEx sql(QString("select * from clinica.TrainingHistory where ")+TRAINING_TIME_TAG+" ='" + QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm") + "'");
-    QSqlQueryEx sql(QString("select * from clinica.TrainingHistory where ")+TRAINING_TIME_TAG+" ='2014-01-04 00:00:00'");
+    if(m_ClinicName.isEmpty())
+    {
+        qDebug()<<"Critical Error! No ClinicName but Logined!";
+        return;
+    }
+
+    qDebug()<<m_ClinicName;
+
+    QSqlQueryEx sql(QString("select * from ") +
+                    m_ClinicName +
+                    ".TrainingHistory where " +
+                    TRAINING_TIME_TAG +
+                    " =' " +
+                    dateTime +
+                    " '");
+
     sql.setID("trainingInfo");
     exec(sql);
 }
@@ -88,7 +102,14 @@ void TrainingProxy::innerFinished(QSqlQueryEx query)
             m_trainingInfo.pushData(data);
         }
 
-        QSqlQueryEx sql(QString("select * from clinica.TrainingRecord where ")+ TRAINING_TRAINID_TAG +" ='" + data[TRAINING_TRAINID_TAG] + "'");
+        QSqlQueryEx sql(QString("select * from ") +
+                        m_ClinicName +
+                        ".TrainingRecord where "+
+                        TRAINING_TRAINID_TAG +
+                        " ='" +
+                        data[TRAINING_TRAINID_TAG] +
+                        "'");
+
         sql.setID("signInfo");
         exec(sql);
 

@@ -53,6 +53,7 @@ void InitProxy::login(QString username, QString passwd)
     sql.prepare(QString("select * from") + "`" + username + "`.Clinic where cmPassword = :passwd");
     sql.bindValue(":passwd",passwd);
     sql.setID("login");
+    GlobalHelper::setGlobalValue("ClinicName",username);
     exec(sql);
 }
 
@@ -66,9 +67,14 @@ void InitProxy::innerFinished(QSqlQueryEx query)
     if(query.getID() == "login")
     {
         if(query.size() != 1)
+        {
+            GlobalHelper::clearGloabalValue("ClinicName");
             emit loginFail();
+        }
         else
+        {
             emit loginSucc();
+        }
 
         return;
     }

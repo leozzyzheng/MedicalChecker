@@ -28,6 +28,7 @@
 #define TRAINING_REMARK_TAG     "remark"
 
 #define QML_TOPIC_FONT_FAMILY   "verdana,Lucida Sans,trebuchet ms,arial,sans-serif"
+#define QML_FONT_COLOR          "#1D568A"
 
 class QmlMarco : public QObject
 {
@@ -43,6 +44,7 @@ class QmlMarco : public QObject
     Q_PROPERTY(QString trTrid READ getTRAINING_TRAINID_TAG CONSTANT)
     Q_PROPERTY(QString trRemark READ getTRAINING_REMARK_TAG CONSTANT)
     Q_PROPERTY(QString topicFontFa READ getQML_TOPIC_FONT_FAMILY CONSTANT)
+    Q_PROPERTY(QString fontColor READ getQML_FONT_COLOR CONSTANT)
 
 public:
     QString getTRAINING_TIME_TAG() const
@@ -98,6 +100,11 @@ public:
     QString getQML_TOPIC_FONT_FAMILY() const
     {
         return QML_TOPIC_FONT_FAMILY;
+    }
+
+    QString getQML_FONT_COLOR() const
+    {
+        return QML_FONT_COLOR;
     }
 };
 

@@ -18,7 +18,7 @@ Rectangle {
 
         onLoginSucc:
         {
-            rootStackView.push({item:Qt.resolvedUrl("index.qml"),replace:true,destroyOnPop:true});
+            rootStackView.push({item:Qt.resolvedUrl("index.qml")});
         }
 
         onError:
@@ -65,6 +65,7 @@ Rectangle {
                     font.bold: true
                     horizontalAlignment: Text.AlignRight
                     verticalAlignment: Text.AlignVCenter
+                    color:marco.fontColor
                 }
             }
 
@@ -177,6 +178,7 @@ Rectangle {
                     font.bold: true
                     horizontalAlignment: Text.AlignRight
                     verticalAlignment: Text.AlignVCenter
+                    color:marco.fontColor
                 }
             }
 
@@ -211,13 +213,11 @@ Rectangle {
         {
             width:passwdLabel.width + passwdRect.width
             anchors.horizontalCenter: parent.horizontalCenter
-            y:parent.height * 0.2 > height ? parent.height * 0.6 : height + 30
+            y:parent.height * 0.3 > height ? parent.height * 0.7 : height + 30
 
             Image
             {
                 id:loginBtn
-                width:409
-                height:93
                 anchors.horizontalCenter: parent.horizontalCenter
                 source:"qrc:/qml/Resource/btn-login.png"
 

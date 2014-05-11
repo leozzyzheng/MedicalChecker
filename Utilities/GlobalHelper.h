@@ -5,6 +5,7 @@
 #include <QCoreApplication>
 #include <QString>
 #include <QSettings>
+#include <QDebug>
 
 class GlobalHelper : public QObject
 {
@@ -12,9 +13,10 @@ class GlobalHelper : public QObject
 public:
     explicit GlobalHelper(QObject *parent = 0);
     static void getUserAndPw(QString& username, QString & passwd);
-    static void setUserAndPw(QString& username, QString & passwd);
-    static void setGlobalValue(QString & name, QString & value);
-    static QString getGlobalValue(QString & name);
+    static void setUserAndPw(const QString& username, const QString & passwd);
+    static void setGlobalValue(const QString & name, const QString & value);
+    static QString getGlobalValue(const QString & name);
+    static void clearGloabalValue(const QString & name);
 signals:
 
 public slots:

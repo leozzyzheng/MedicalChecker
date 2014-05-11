@@ -4,34 +4,51 @@ Rectangle {
     signal decDate()
     signal incDate()
 
-    width: 100
-    height: 62
+    function updateText()
+    {
+        dateText.text = qmlHelper.getCurrWeekDay() + " " + qmlHelper.getCurrMonthName() + " " + qmlHelper.getCurrDateTime("dd") + " ";
+    }
+
+    id:timePicker
+    width: 300
+    height: 28*2
 
     Row
     {
-        Image
+        Rectangle
         {
-            width:60
-            height:60
             id:decBtn
-            source:"qrc:/qml/Resource/arrow-left-small.png"
+            height:28*2
+            width:21*2
+
+            Image
+            {
+                anchors.centerIn: parent
+                source:"qrc:/qml/Resource/arrow-left-small.png"
+            }
 
             MouseArea
             {
                 anchors.fill: parent
                 onClicked:
                 {
+                    qmlHelper.addDay(-1);
+                    updateText();
                     decDate();
                 }
             }
         }
 
+
+
         Rectangle
         {
-            width:60
-            height:60
+            width:timePicker.width - decBtn.width - incBtn.width
+            height:timePicker.height
+
             Text
             {
+                anchors.fill: parent
                 width:60
                 height:60
                 id:dateText
@@ -39,25 +56,35 @@ Rectangle {
                 wrapMode: Text.WordWrap
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
-
+                font.family: marco.topicFontFa
+                color: marco.fontColor
             }
         }
 
-        Image
+        Rectangle
         {
-            width:60
-            height:60
             id:incBtn
-            source:"qrc:/qml/Resource/arrow-right-small.png"
+            height:28*2
+            width:21*2
+
+            Image
+            {
+                anchors.centerIn: parent
+                source:"qrc:/qml/Resource/arrow-right-small.png"
+            }
 
             MouseArea
             {
                 anchors.fill: parent
                 onClicked:
                 {
+                    qmlHelper.addDay(1);
+                    updateText();
                     incDate();
                 }
             }
         }
+
+
     }
 }

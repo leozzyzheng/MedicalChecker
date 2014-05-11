@@ -5,6 +5,9 @@ import "Component"
 
 StackView
 {
+    property int waitingTime: 0
+    property int logestWaitingTime: 30000
+
     //for test
     width:1024
     height:768
@@ -27,8 +30,15 @@ StackView
 
         onNotOpened:
         {
+            if(waitingTime > logestWaitingTime)
+            {
+                console.log("wait for too long! Quit now.");
+                Qt.quit();
+            }
+
             initTimer.interval = 500;
             initTimer.running = true;
+            waitingTime += 500;
         }
     }
 

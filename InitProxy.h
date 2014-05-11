@@ -3,6 +3,7 @@
 
 #include "SqlEvent.h"
 #include "Model/LoginInfo.h"
+#include "Utilities/GlobalHelper.h"
 
 class InitProxy : public SqlEvent
 {

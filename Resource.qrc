@@ -15,5 +15,11 @@
         <file>Resource/icon-training.png</file>
         <file>Resource/loading.gif</file>
         <file>Resource/starting page.png</file>
+        <file>Resource/icon-CHECK-click.png</file>
+        <file>Resource/icon-clean.png</file>
+        <file>Resource/icon-clean-click.png</file>
+        <file>Resource/icon-training-click.png</file>
+        <file>Resource/icon-xiaodu.png</file>
+        <file>Resource/icon-xiaodu-click.png</file>
     </qresource>
 </RCC>
