@@ -1,11 +1,15 @@
 import QtQuick 2.0
 
-Image
+Rectangle
 {
     width:parent.width
     height:parent.height
 
-    source:"qrc:/qml/Resource/starting page.png"
+    Image
+    {
+        anchors.centerIn: parent
+        source:"qrc:/qml/Resource/starting page.png"
+    }
 
     Connections {
         target : initProxy

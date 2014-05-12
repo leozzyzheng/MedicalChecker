@@ -15,6 +15,7 @@ public:
     TrainingInfo();
 
     void clear();
+    void clearSignInfo();
     void pushData(std::map<QString,QString> & data);
     void update(int index, QString signature);
     void pushSignData(std::map<QString,QString> & signData);

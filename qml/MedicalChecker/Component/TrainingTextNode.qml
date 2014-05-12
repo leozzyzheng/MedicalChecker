@@ -2,42 +2,39 @@ import QtQuick 2.0
 
 Rectangle {
 
-    property int index: 0
+    property int innerIdx: 0
     property string titleText: "HIPPA"
     property string timeText: "TIME : 06:00PM"
     property string placeText: "PLACE : ROOM1"
     property string staffText: "WHO : GangGe"
-    property string titleColor: marco.fontBlue
-    property string backBlue: marco.backGray
+    property string titleColor: marco.fontBlack
+    property string backColor: marco.backGray
+    property string innerFontColor: marco.fontBlack
 
-    signal clicked(int myIdx)
+    signal nodeClicked()
 
     function select()
     {
         componentRoot.border.width = 1;
         componentRoot.border.color = marco.backBlue;
         titleColor = marco.fontBlue;
-        backBlue = marco.backBlue;
-        timeContent.fontColor = marco.fontWhite;
-        placeContent.fontColor = marco.fontWhite;
-        staffContent.fontColor = marco.fontWhite;
+        backColor = marco.backBlue;
+        innerFontColor = marco.fontWhite;
     }
 
     function clearSelection()
     {
         componentRoot.border.width = 0;
         titleColor = marco.fontBlack;
-        backBlue = marco.backGray;
-        timeContent.fontColor = marco.fontBlack;
-        placeContent.fontColor = marco.fontBlack;
-        staffContent.fontColor = marco.fontBlack;
+        backColor = marco.backGray;
+        innerFontColor = marco.fontBlack;
     }
 
     id:componentRoot
-    width: 320
+    width: parent.width
     height: 150
 
-    Row
+    Column
     {
         Rectangle
         {
@@ -54,7 +51,7 @@ Rectangle {
                 Text
                 {
                     anchors.fill: parent
-                    text:index + "." + titleText
+                    text:innerIdx + "." + titleText
                     font.family: marco.topicFontFa
                     verticalAlignment: Text.AlignVCenter
                     color: titleColor
@@ -65,18 +62,20 @@ Rectangle {
         Rectangle
         {
             id:contentRect
-            x:1
-            width:componentRoot.width-2
-            height:componentRoot.height - title.height - 1
-            color:backBlue
+            x:2
+            width:componentRoot.width - 4
+            height:componentRoot.height - title.height - 2
+            color:backColor
 
-            Row
+            Column
             {
                 TrainingTextInnerContentNode
                 {
                     id:timeContent
                     width: contentRect.width
                     contentText: timeText
+                    innerColor: backColor
+                    fontColor:innerFontColor
                 }
 
                 TrainingTextInnerContentNode
@@ -84,6 +83,8 @@ Rectangle {
                     id:placeContent
                     width: contentRect.width
                     contentText: placeText
+                    innerColor: backColor
+                    fontColor:innerFontColor
                 }
 
                 TrainingTextInnerContentNode
@@ -91,6 +92,8 @@ Rectangle {
                     id:staffContent
                     width: contentRect.width
                     contentText: staffText
+                    innerColor: backColor
+                    fontColor:innerFontColor
                 }
             }
         }
@@ -101,7 +104,7 @@ Rectangle {
         anchors.fill: parent
         onClicked:
         {
-            clicked(index);
+            nodeClicked();
         }
 
         onPressed:
@@ -115,6 +118,11 @@ Rectangle {
         }
 
         onExited:
+        {
+            clearSelection();
+        }
+
+        onCanceled:
         {
             clearSelection();
         }

@@ -11,12 +11,12 @@ Rectangle {
     function changeDate()
     {
         trainProxy.abort();
-        trainProxy.queryTraining(qmlHelper.getCurrDateTime("yyyy-MM-dd HH:mm:ss"));
+        trainProxy.queryTraining(qmlHelper.getCurrDateTime("yyyy-MM-dd"));
     }
 
     Component.onCompleted:
     {
-        trainProxy.queryTraining(qmlHelper.getCurrDateTime("yyyy-MM-dd HH:mm:ss"));
+        trainProxy.queryTraining(qmlHelper.getCurrDateTime("yyyy-MM-dd"));
         isBusy = true;
     }
 
@@ -27,6 +27,33 @@ Rectangle {
         onError:
         {
             console.log(errorString);
+        }
+
+        onTrainingInfoStandBy:
+        {
+            trainingList.model = 0;
+            trainingList.model = trainProxy.getTrainingNum();
+        }
+
+        onStaffInfoStandBy:
+        {
+            nameList.model = 0;
+            nameList.model = trainProxy.getStaffNum();
+        }
+
+        onClear:
+        {
+            trainingList.model = 0;
+            nameList.model = 0;
+            nameText.text = "click me to choose your name";
+            signer.clearImage();
+        }
+
+        onClearSignInfo:
+        {
+            nameList.model = 0;
+            nameText.text = "click me to choose your name";
+            signer.clearImage();
         }
     }
 
@@ -107,22 +134,32 @@ Rectangle {
                     height:550
                     border.width: 2
                     border.color: marco.backBlue
+                    clip:true
 
                     ListView
                     {
-                        anchors.fill: parent
-                        model:0
+                        id:trainingList
+                        width:parent.width - parent.border.width*2
+                        height:parent.height - parent.border.width*2
+                        anchors.centerIn: parent
+                        model:trainProxy.getTrainingNum()
+
+                        Component.onCompleted:
+                        {
+                            console.log(height)
+                        }
+
                         delegate:
                             TrainingTextNode{
-                            index: index
-                            titleText: "HIPPA"
+                            innerIdx: index
+                            titleText: trainProxy.getTrainingInfo(index,marco.trType)
                             timeText: trainProxy.getTrainingInfo(index,marco.trTime)
                             placeText: trainProxy.getTrainingInfo(index,marco.trAdd)
                             staffText: trainProxy.getTrainingInfo(index,marco.trStaff)
 
-                            onClicked:
+                            onNodeClicked:
                             {
-                                console.log(myIdx);
+                                trainProxy.queryTrainingStaff(trainProxy.getTrainingInfo(index,marco.trTrid));
                             }
                         }
                     }
@@ -143,6 +180,7 @@ Rectangle {
                             id:namechooser
                             width:600
                             height:30
+                            z:10
 
                             Text
                             {
@@ -159,19 +197,26 @@ Rectangle {
                                 anchors.fill: parent
                                 onClicked:
                                 {
-                                    nameList.visible = true;
+                                    nameListRect.visible = true;
                                 }
                             }
 
-                            NameList
+                            Rectangle
                             {
-                                id:nameList
+                                id:nameListRect
+                                width:nameList.width
+                                height:nameList.height
                                 visible:false
+                                clip:true
 
-                                onClicked:
+                                NameList
                                 {
-                                    nameText.text = name;
-                                    visible = false;
+                                    id:nameList
+                                    onNodeClicked:
+                                    {
+                                        nameText.text = name;
+                                        nameListRect.visible = false;
+                                    }
                                 }
                             }
                         }

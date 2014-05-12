@@ -3,9 +3,9 @@ import QtQuick 2.0
 ListView {
     id:list
     width:600
-    height:480
+    height:contentHeight > 480 ? 480 : contentHeight
 
-    signal clicked (string name)
+    signal nodeClicked (string name)
 
     model:0
     delegate:
@@ -28,7 +28,7 @@ ListView {
 
             onClicked:
             {
-                clicked(trainProxy.getSignInfo(index,marco.trStaffid));
+                nodeClicked(trainProxy.getSignInfo(index,marco.trStaffid));
             }
 
             onReleased:
@@ -43,6 +43,11 @@ ListView {
             }
 
             onExited:
+            {
+
+            }
+
+            onCanceled:
             {
 
             }

@@ -22,7 +22,7 @@ public:
     QString getSqlString() const;
     void setSqlString(const QString & sql);
 
-    void replaceHolder(const QString & holder,const QVariant & value,bool isQuoted = true);
+    void replaceHolder(const QString & holder,const QVariant & value,bool isQuoted = false);
 
     void setExecutable(bool excutable);
     bool getExecutable() const;

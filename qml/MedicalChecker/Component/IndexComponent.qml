@@ -7,6 +7,22 @@ Rectangle {
     property string qmlSrc: "training.qml"
     property string labelText: "TRAINING"
 
+    function select()
+    {
+        componentImg.source = iconClickSrc;
+        component.color = marco.backBlue;
+        label.color = marco.fontWhite;
+        labelRect.color = marco.backBlue;
+    }
+
+    function clearSelection()
+    {
+        componentImg.source = iconSrc;
+        component.color = "#FFFFFF";
+        label.color = marco.fontBlue;
+        labelRect.color = "#FFFFFF";
+    }
+
     id:component
     width: 200
     height: 200
@@ -21,6 +37,7 @@ Rectangle {
 
     Rectangle
     {
+        id:labelRect
         width:parent.width
         height:parent.height - componentImg.height
         y:componentImg.y + componentImg.height
@@ -28,6 +45,7 @@ Rectangle {
 
         Text
         {
+            id:label
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             anchors.fill: parent
@@ -47,17 +65,22 @@ Rectangle {
 
         onPressed:
         {
-            componentImg.source = iconClickSrc;
+            select();
         }
 
         onReleased:
         {
-            componentImg.source = iconSrc;
+            clearSelection();
         }
 
         onExited:
         {
-            componentImg.source = iconSrc;
+            clearSelection();
+        }
+
+        onCanceled:
+        {
+            clearSelection();
         }
     }
 }

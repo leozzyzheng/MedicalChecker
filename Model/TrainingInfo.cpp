@@ -10,6 +10,11 @@ void TrainingInfo::clear()
     m_vSignInfo.clear();
 }
 
+void TrainingInfo::clearSignInfo()
+{
+    m_vSignInfo.clear();
+}
+
 void TrainingInfo::pushData(std::map<QString,QString> & data)
 {
     m_vTrainingInfo.push_back(data);

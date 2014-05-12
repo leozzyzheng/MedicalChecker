@@ -15,17 +15,48 @@ void TrainingProxy::queryTraining(QString dateTime)
         return;
     }
 
+    m_trainingInfo.clear();
+    emit clear();
+
     qDebug()<<m_ClinicName;
 
-    QSqlQueryEx sql(QString("select * from ") +
-                    m_ClinicName +
-                    ".TrainingHistory where " +
-                    TRAINING_TIME_TAG +
-                    " =' " +
-                    dateTime +
-                    " '");
+    QSqlQueryEx sql("select * from :clinicName.TrainingHistory where date_format(:trainingTime,'%Y-%m-%d') = ':dateTime'");
+    sql.replaceHolder(":clinicName",m_ClinicName);
+    sql.replaceHolder(":trainingTime",TRAINING_TIME_TAG);
+    sql.replaceHolder(":dateTime",dateTime);
+
+    qDebug()<<sql.getSqlString();
 
     sql.setID("trainingInfo");
+    exec(sql);
+}
+
+void TrainingProxy::queryTrainingStaff(QString trainingId)
+{
+    m_trainingInfo.clearSignInfo();
+    emit clearSignInfo();
+
+    QSqlQueryEx sql("select User.:staffName,"
+                    "TrainingRecord.:staffId,"
+                    "TrainingRecord.:trainingIdTag,"
+                    "TrainingRecord.:isSign_In,"
+                    "TrainingRecord.:submitTime,"
+                    "TrainingRecord.:remark "
+                    "from :clinicName.TrainingRecord,:clinicName.User "
+                    "where TrainingRecord.:trainingIdTag = ':id' and User.:userId = ':id'"
+                    );
+
+    sql.replaceHolder(":staffName",USER_NAME_TAG);
+    sql.replaceHolder(":staffId",TRAINING_STAFFID_TAG);
+    sql.replaceHolder(":isSign_In",TRAINING_STAFFSIGN_TAG);
+    sql.replaceHolder(":submitTime",TRAINING_SUBMIT_TAG);
+    sql.replaceHolder(":remark",TRAINING_REMARK_TAG);
+    sql.replaceHolder(":clinicName",m_ClinicName);
+    sql.replaceHolder(":trainingIdTag",TRAINING_TRAINID_TAG);
+    sql.replaceHolder(":id",trainingId);
+    sql.replaceHolder(":userId",USER_NUMBERID_TAG);
+    sql.setID("signInfo");
+    qDebug()<<sql.getSqlString();
     exec(sql);
 }
 
@@ -102,22 +133,11 @@ void TrainingProxy::innerFinished(QSqlQueryEx query)
             m_trainingInfo.pushData(data);
         }
 
-        QSqlQueryEx sql(QString("select * from ") +
-                        m_ClinicName +
-                        ".TrainingRecord where "+
-                        TRAINING_TRAINID_TAG +
-                        " ='" +
-                        data[TRAINING_TRAINID_TAG] +
-                        "'");
-
-        sql.setID("signInfo");
-        exec(sql);
-
         emit trainingInfoStandBy();
 
         return;
     }
-    else
+    else if(query.getID() == "signInfo")
     {
         int staffIdNo = query.record().indexOf(TRAINING_STAFFID_TAG);
         int staffSignNo = query.record().indexOf(TRAINING_STAFFSIGN_TAG);
@@ -144,7 +164,7 @@ void TrainingProxy::innerFinished(QSqlQueryEx query)
             m_trainingInfo.pushSignData(data);
         }
 
-        emit completed();
+        emit staffInfoStandBy();
 
         print();
     }

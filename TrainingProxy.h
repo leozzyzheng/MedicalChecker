@@ -13,12 +13,16 @@ class TrainingProxy : public SqlEvent
 public:
     explicit TrainingProxy(QObject *parent = 0);
     Q_INVOKABLE void queryTraining(QString dateTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+    Q_INVOKABLE void queryTrainingStaff(QString trainingId);
     Q_INVOKABLE int getTrainingNum();
     Q_INVOKABLE QString getTrainingInfo(int index, QString name);
     Q_INVOKABLE int getStaffNum();
     Q_INVOKABLE QString getSignInfo(int index, QString name);
 signals:
     void trainingInfoStandBy();
+    void staffInfoStandBy();
+    void clear();
+    void clearSignInfo();
 public slots:
 
 protected slots:

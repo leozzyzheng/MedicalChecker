@@ -16,6 +16,10 @@
 #define DATABASE_CONNECTED_SUCC 2
 #define DATABASE_CONNECTED_FAIL 3
 
+#define USER_ID_TAG             "userId"
+#define USER_NAME_TAG           "name"
+#define USER_NUMBERID_TAG       "idnumber"
+
 #define TRAINING_TIME_TAG       "trainingTime"
 #define TRAINING_ADDR_TAG       "trainingAddr"
 #define TRAINING_TYPE_TAG       "trainingType"
@@ -29,8 +33,8 @@
 
 #define QML_TOPIC_FONT_FAMILY   "verdana,Lucida Sans,trebuchet ms,arial,sans-serif"
 #define QML_FONT_BLUE_COLOR     "#1D568A"
-#define QML_FONT_BLACK_COLOR    "#FFFFFF"
-#define QML_FONT_WHITE_COLOR    "#000000"
+#define QML_FONT_BLACK_COLOR    "#000000"
+#define QML_FONT_WHITE_COLOR    "#FFFFFF"
 #define QML_BACK_GRAY_COLOR     "#EEEEEE"
 #define QML_BACK_BLUE_COLOR     "#1D568A"
 
