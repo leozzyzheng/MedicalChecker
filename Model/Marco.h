@@ -20,6 +20,8 @@
 #define TABLE_DAILY_CLEAN_RECORD        "DailyCleanRecord"
 #define TABLE_WEEKLY_CLEAN_TASK         "WeeklyCleanTask"
 #define TABLE_WEEKLY_CLEAN_RECORD       "WeeklyCleanRecord"
+#define TABLE_SUPPLY_TASK               "SupplyTask"
+#define TABLE_SUPPLY_RECORD             "CleanSupplyRecord"
 
 #define USER_ID_TAG                     "userId"
 #define USER_NAME_TAG                   "name"
@@ -42,10 +44,13 @@
 #define CLEAN_SIGNSTAFFID_TAG           "SignStaffId"
 
 #define DAILYCLEAN_TASKID_TAG           "DailyCleanTaskId"
-#define DAILYCLEAN_CLEANTIME_TAG        "CleanTime"
+#define DAILYCLEAN_TIME_TAG             "CleanTime"
 
 #define WEEKLYCLEAN_TASKID_TAG          "WeeklyCleanTaskId"
-#define WEEKLYCLEAN_WEEK_TAG            "Week"
+#define WEEKLYCLEAN_TIME_TAG            "Week"
+
+#define SUPPLY_TASKID_TAG               "SupplyTask"
+#define SUPPLY_TIME_TAG                 "ReFillTime"
 
 #define QML_TOPIC_FONT_FAMILY           "verdana,Lucida Sans,trebuchet ms,arial,sans-serif"
 #define QML_FONT_BLUE_COLOR             "#1D568A"

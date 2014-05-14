@@ -1,12 +1,11 @@
-#include "DailyCleanProxy.h"
+#include "SupplyProxy.h"
 
-DailyCleanProxy::DailyCleanProxy(QObject *parent):
+SupplyProxy::SupplyProxy(QObject *parent) :
     SqlEvent(parent)
 {
-
 }
 
-void DailyCleanProxy::queryDaily()
+void SupplyProxy::querySupply()
 {
     m_ClinicName = GlobalHelper::getGlobalValue("ClinicName");
 
@@ -18,49 +17,44 @@ void DailyCleanProxy::queryDaily()
 
     clear();
 
-    QSqlQueryEx sql("select * from :ClinicName.:DailyTableTag");
+    QSqlQueryEx sql("select * from :ClinicName.:SuppTableTag");
     sql.replaceHolder(":ClinicName",m_ClinicName);
-    sql.replaceHolder(":DailyTableTag",TABLE_DAILY_CLEAN_TASK);
+    sql.replaceHolder(":SuppTableTag",TABLE_SUPPLY_TASK);
     sql.setID("getTask");
     exec(sql);
 }
 
-void DailyCleanProxy::queryDailyRecord(QString Date)
+void SupplyProxy::queryRecord(QString date)
 {
-    QSqlQueryEx sql("select * from :ClinicName.:DailyRecord where :CleanTime = ':Date'");
+    QSqlQueryEx sql("select * from :ClinicName.:SupplyRecord where :Time = ':Date'");
     sql.replaceHolder(":ClinicName",m_ClinicName);
-    sql.replaceHolder(":DailyRecord",TABLE_DAILY_CLEAN_RECORD);
-    sql.replaceHolder(":CleanTime",DAILYCLEAN_TIME_TAG);
-    sql.replaceHolder(":Date",Date);
+    sql.replaceHolder(":SupplyRecord",TABLE_SUPPLY_RECORD);
+    sql.replaceHolder(":Time",SUPPLY_TIME_TAG);
+    sql.replaceHolder(":Date",date);
     sql.setID("getRecord");
     exec(sql);
 }
 
-QString DailyCleanProxy::getData(int index, QString key)
-{
-    return m_cleanInfo.getData(index, key);
-}
-
-int DailyCleanProxy::getTaskNum()
+int SupplyProxy::getTaskNum()
 {
     return m_cleanInfo.getContentTableSize();
 }
 
-void DailyCleanProxy::clear()
+void SupplyProxy::clear()
 {
     m_cleanInfo.clear();
 }
 
-void DailyCleanProxy::innerError(QSqlError &error)
+void SupplyProxy::innerError(QSqlError &error)
 {
     emit this->error(error.text());
 }
 
-void DailyCleanProxy::innerFinished(QSqlQueryEx query)
+void SupplyProxy::innerFinished(QSqlQueryEx query)
 {
     if(!query.isActive())
     {
-        emit error("Cannot get DailyClean information!");
+        emit error("Cannot get Supply information!");
         return;
     }
 
@@ -72,15 +66,15 @@ void DailyCleanProxy::innerFinished(QSqlQueryEx query)
 
     if(query.getID() == "getTask")
     {
-        int idNo = query.record().indexOf(DAILYCLEAN_TASKID_TAG);
+        int idNo = query.record().indexOf(SUPPLY_TASKID_TAG);
         int contentNo = query.record().indexOf(CLEAN_TASKCONTENT_TAG);
-        int staffIdNo = query.record().indexOf(CLEAN_STAFFID_TAG);
+        int staffNo = query.record().indexOf(CLEAN_STAFFID_TAG);
 
-        if(idNo == -1||
-           contentNo == -1||
-           staffIdNo == -1)
+        if(idNo == -1 ||
+           contentNo == -1 ||
+           staffNo == -1)
         {
-            emit this->error("DailyClean Task Data is Broken!");
+            emit error("SupplyTask Data is Broken!");
             return;
         }
         else
@@ -90,25 +84,25 @@ void DailyCleanProxy::innerFinished(QSqlQueryEx query)
                 int index = query.record().value(idNo).toInt();
                 m_cleanInfo.pushId(index);
                 m_cleanInfo.setContentTableData(index, query.record().value(contentNo).toString());
-                m_cleanInfo.setStaffTableData(index, query.record().value(staffIdNo).toString());
+                m_cleanInfo.setStaffTableData(index, query.record().value(staffNo).toString());
             }
 
-            emit taskContentStandBy();
+            emit taskDataStandBy();
         }
     }
     else if(query.getID() == "getRecord")
     {
-        int idNo = query.record().indexOf(DAILYCLEAN_TASKID_TAG);
-        int timeNo = query.record().indexOf(DAILYCLEAN_TIME_TAG);
+        int idNo = query.record().indexOf(SUPPLY_TASKID_TAG);
+        int weekNo = query.record().indexOf(SUPPLY_TIME_TAG);
         int sigNo = query.record().indexOf(CLEAN_SIG_TAG);
         int staffNo = query.record().indexOf(CLEAN_SIGNSTAFFID_TAG);
 
-        if(idNo == -1||
-           timeNo == -1||
+        if(idNo == -1 ||
+           weekNo == -1 ||
            sigNo == -1 ||
            staffNo == -1)
         {
-            emit this->error("DailyRecord Data is Broken!");
+            emit error("SupplyRecord Data is Broken!");
             return;
         }
         else
@@ -117,10 +111,9 @@ void DailyCleanProxy::innerFinished(QSqlQueryEx query)
             {
                 std::map<QString,QString> data;
                 int index = query.record().value(idNo).toInt();
-                data[DAILYCLEAN_TIME_TAG] = query.record().value(timeNo).toString();
+                data[SUPPLY_TIME_TAG] = query.record().value(weekNo).toString();
                 data[CLEAN_SIG_TAG] = query.record().value(sigNo).toString();
                 data[CLEAN_TASKCONTENT_TAG] = m_cleanInfo.getContentData(index);
-
                 QString signId = query.record().value(staffNo).toString();
 
                 if(signId.isEmpty())
@@ -131,8 +124,7 @@ void DailyCleanProxy::innerFinished(QSqlQueryEx query)
                 m_cleanInfo.setData(index, data);
             }
 
-            emit recordStandBy();
+            emit recordDataStandBy();
         }
     }
-
 }

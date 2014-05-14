@@ -30,7 +30,7 @@ void WeeklyCleanProxy::queryRecord(QString weekNum)
     QSqlQueryEx sql("select * from :ClinicName.:Record where :Week = ':WeekNum'");
     sql.replaceHolder(":ClinicName",m_ClinicName);
     sql.replaceHolder(":Record",TABLE_WEEKLY_CLEAN_RECORD);
-    sql.replaceHolder(":Week",WEEKLYCLEAN_WEEK_TAG);
+    sql.replaceHolder(":Week",WEEKLYCLEAN_TIME_TAG);
     sql.replaceHolder(":WeekNum",weekNum);
     sql.setID("getRecord");
     exec(sql);
@@ -55,7 +55,7 @@ void WeeklyCleanProxy::innerFinished(QSqlQueryEx query)
 {
     if(!query.isActive())
     {
-        emit error("Cannot get training information!");
+        emit error("Cannot get WeeklyClean information!");
         return;
     }
 
@@ -94,7 +94,7 @@ void WeeklyCleanProxy::innerFinished(QSqlQueryEx query)
     else if(query.getID() == "getRecord")
     {
         int idNo = query.record().indexOf(WEEKLYCLEAN_TASKID_TAG);
-        int weekNo = query.record().indexOf(WEEKLYCLEAN_WEEK_TAG);
+        int weekNo = query.record().indexOf(WEEKLYCLEAN_TIME_TAG);
         int sigNo = query.record().indexOf(CLEAN_SIG_TAG);
         int staffNo = query.record().indexOf(CLEAN_SIGNSTAFFID_TAG);
 
@@ -112,7 +112,7 @@ void WeeklyCleanProxy::innerFinished(QSqlQueryEx query)
             {
                 std::map<QString,QString> data;
                 int index = query.record().value(idNo).toInt();
-                data[WEEKLYCLEAN_WEEK_TAG] = query.record().value(weekNo).toString();
+                data[WEEKLYCLEAN_TIME_TAG] = query.record().value(weekNo).toString();
                 data[CLEAN_SIG_TAG] = query.record().value(sigNo).toString();
                 data[CLEAN_TASKCONTENT_TAG] = m_cleanInfo.getContentData(index);
                 QString signId = query.record().value(staffNo).toString();
