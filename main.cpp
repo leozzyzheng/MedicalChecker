@@ -10,6 +10,7 @@
 #include "Signature.h"
 #include "InitProxy.h"
 #include "TrainingProxy.h"
+#include "DailyCleanProxy.h"
 
 //外部初始化单例
 QThread* ThreadSingleton::m_instance = new QThread();//逻辑单例线程
@@ -37,12 +38,14 @@ int main(int argc, char *argv[])
     TrainingProxy trainProxy;
     QmlHelper qmlHelper;
     QmlMarco marco;
+    DailyCleanProxy dailyCleanProxy;
 
     //注册
     viewer.rootContext()->setContextProperty("initProxy", &initProxy);
     viewer.rootContext()->setContextProperty("trainProxy", &trainProxy);
     viewer.rootContext()->setContextProperty("qmlHelper", &qmlHelper);
     viewer.rootContext()->setContextProperty("marco", &marco);
+    viewer.rootContext()->setContextProperty("dailyCleanProxy", &dailyCleanProxy);
 
     //---------------------------------------------------------------------
 

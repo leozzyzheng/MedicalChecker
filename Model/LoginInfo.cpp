@@ -23,6 +23,9 @@ void LoginInfo::get(QString &key, std::vector<dataStruct> & clinicNames)
         if(index == -1)
             continue;
 
+        if(key.compare(temp,Qt::CaseInsensitive) == 0)
+            continue;
+
         QString origin = temp;
         temp.insert(index + key.length(), "</b>");
         temp.insert(index,"<b>");

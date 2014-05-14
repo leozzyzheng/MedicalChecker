@@ -5,6 +5,7 @@
 
 #include <QObject>
 #include <map>
+#include "Utilities/GlobalHelper.h"
 #include "Utilities/SqlOperator.h"
 
 class SqlEvent : public QObject

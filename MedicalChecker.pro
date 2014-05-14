@@ -22,7 +22,10 @@ SOURCES += main.cpp \
     Utilities/QSqlQueryEx.cpp \
     Utilities/QmlHelper.cpp \
     Utilities/GlobalHelper.cpp \
-    Utilities/QueryHelper.cpp
+    Utilities/QueryHelper.cpp \
+    Model/CleanInfo.cpp \
+    DailyCleanProxy.cpp \
+    WeeklyCleanProxy.cpp
 
 # Installation path
 # target.path =
@@ -45,7 +48,10 @@ HEADERS += \
     Utilities/QmlHelper.h \
     Model/Marco.h \
     Utilities/GlobalHelper.h \
-    Utilities/QueryHelper.h
+    Utilities/QueryHelper.h \
+    Model/CleanInfo.h \
+    DailyCleanProxy.h \
+    WeeklyCleanProxy.h
 
 OTHER_FILES += \
     qml/MedicalChecker/startup.qml \

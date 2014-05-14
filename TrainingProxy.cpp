@@ -82,8 +82,7 @@ QString TrainingProxy::getSignInfo(int index, QString name)
 
 void TrainingProxy::innerError(QSqlError & error)
 {
-    qDebug()<<error.text();
-    emit this->error("error");
+    emit this->error(error.text());
 }
 
 void TrainingProxy::innerFinished(QSqlQueryEx query)

@@ -3,7 +3,6 @@ import QtQuick 2.0
 ListView {
     id:list
     width:600
-    height:contentHeight > 480 ? 480 : contentHeight
 
     signal nodeClicked (string name)
 

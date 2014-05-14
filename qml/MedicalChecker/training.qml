@@ -39,6 +39,7 @@ Rectangle {
         {
             nameList.model = 0;
             nameList.model = trainProxy.getStaffNum();
+            nameList.height = nameList.contentHeight > 480 ? 480 : nameList.contentHeight;
         }
 
         onClear:
@@ -143,11 +144,6 @@ Rectangle {
                         height:parent.height - parent.border.width*2
                         anchors.centerIn: parent
                         model:trainProxy.getTrainingNum()
-
-                        Component.onCompleted:
-                        {
-                            console.log(height)
-                        }
 
                         delegate:
                             TrainingTextNode{
@@ -281,6 +277,9 @@ Rectangle {
 
                                             onClicked:
                                             {
+                                                if(nameText.text == "click me to choose your name")
+                                                    return;
+
                                                 signer.sendImage(nameText.text);
                                             }
 
