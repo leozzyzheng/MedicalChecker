@@ -41,6 +41,11 @@ int WeeklyCleanProxy::getTaskNum()
     return m_cleanInfo.getContentTableSize();
 }
 
+QString WeeklyCleanProxy::getData(int index, QString key)
+{
+    return m_cleanInfo.getData(index,key);
+}
+
 void WeeklyCleanProxy::clear()
 {
     m_cleanInfo.clear();

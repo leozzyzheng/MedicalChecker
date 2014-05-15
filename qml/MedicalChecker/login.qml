@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.1
 import QtQuick.Controls.Styles 1.1
-import "Component"
+import "Component" as MyComponent
 
 Rectangle {
     width:parent.width
@@ -134,7 +134,7 @@ Rectangle {
                 x:inputRect.x
                 visible:false
 
-                Indicator
+                MyComponent.Indicator
                 {
                     id:inputIndicator
                     width:nameInput.width;

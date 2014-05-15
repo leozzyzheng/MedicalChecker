@@ -13,6 +13,7 @@
 #include <QNetworkRequest>
 
 #include "ThreadSingleton.h"
+#include "Model/Marco.h"
 
 #define NAME "upload"
 #define BOUNDARY "---------------------------7de13a39350560"

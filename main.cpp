@@ -11,6 +11,8 @@
 #include "InitProxy.h"
 #include "TrainingProxy.h"
 #include "DailyCleanProxy.h"
+#include "WeeklyCleanProxy.h"
+#include "SupplyProxy.h"
 
 //外部初始化单例
 QThread* ThreadSingleton::m_instance = new QThread();//逻辑单例线程
@@ -24,6 +26,7 @@ int main(int argc, char *argv[])
 
     qRegisterMetaType<QSqlQueryEx>("QSqlQueryEx");
     qRegisterMetaType<QSqlError>("QSqlError");
+    qRegisterMetaType<SignatureSender::ERROR_TYPE>("SignatureSender::ERROR_TYPE");
 
     //注册自定义qml组件------------------------------------------------------
     qmlRegisterType<Signature>("com.zzy.qmlcomponents", 1, 0, "Signature");
@@ -39,6 +42,8 @@ int main(int argc, char *argv[])
     QmlHelper qmlHelper;
     QmlMarco marco;
     DailyCleanProxy dailyCleanProxy;
+    WeeklyCleanProxy weeklyCleanProxy;
+    SupplyProxy supplyProxy;
 
     //注册
     viewer.rootContext()->setContextProperty("initProxy", &initProxy);
@@ -46,6 +51,8 @@ int main(int argc, char *argv[])
     viewer.rootContext()->setContextProperty("qmlHelper", &qmlHelper);
     viewer.rootContext()->setContextProperty("marco", &marco);
     viewer.rootContext()->setContextProperty("dailyCleanProxy", &dailyCleanProxy);
+    viewer.rootContext()->setContextProperty("weeklyCleanProxy", &weeklyCleanProxy);
+    viewer.rootContext()->setContextProperty("supplyProxy", &supplyProxy);
 
     //---------------------------------------------------------------------
 

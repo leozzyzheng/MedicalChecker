@@ -1,17 +1,17 @@
 import QtQuick 2.0
-import "Component"
+import "Component" as MyComponent
 
 
 Rectangle {
     width: parent.width;
     height: parent.height;
 
-    TopBar
+    MyComponent.TopBar
     {
         id:top
     }
 
-    TopicBar
+    MyComponent.TopicBar
     {
         id:topicBar
         y:top.y + top.height
@@ -46,7 +46,7 @@ Rectangle {
                 columnSpacing : 170
                 rowSpacing: 80
 
-                IndexComponent
+                MyComponent.IndexComponent
                 {
                     iconSrc: "qrc:/qml/Resource/icon-training.png"
                     iconClickSrc: "qrc:/qml/Resource/icon-training-click.png"
@@ -54,7 +54,7 @@ Rectangle {
                     labelText: "TRAINING"
                 }
 
-                IndexComponent
+                MyComponent.IndexComponent
                 {
                     iconSrc: "qrc:/qml/Resource/icon-CHECK.png"
                     iconClickSrc: "qrc:/qml/Resource/icon-CHECK-click.png"
@@ -62,7 +62,7 @@ Rectangle {
                     labelText: "CHECK-OFF"
                 }
 
-                IndexComponent
+                MyComponent.IndexComponent
                 {
                     iconSrc: "qrc:/qml/Resource/icon-xiaodu.png"
                     iconClickSrc: "qrc:/qml/Resource/icon-xiaodu-click.png"
@@ -70,7 +70,7 @@ Rectangle {
                     labelText: "DISINFECT"
                 }
 
-                IndexComponent
+                MyComponent.IndexComponent
                 {
                     iconSrc: "qrc:/qml/Resource/icon-clean.png"
                     iconClickSrc: "qrc:/qml/Resource/icon-clean-click.png"

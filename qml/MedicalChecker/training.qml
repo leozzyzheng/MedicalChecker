@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import "Component"
+import "Component" as MyComponent
 
 Rectangle {
     id:trainingPage
@@ -58,7 +58,7 @@ Rectangle {
         }
     }
 
-    TopBar
+    MyComponent.TopBar
     {
         id:top
     }
@@ -70,7 +70,7 @@ Rectangle {
         height: topicBar.height
         width: trainingPage.width
 
-        TopicBar
+        MyComponent.TopicBar
         {
             id:topicBar
             topic: "TRAINING"
@@ -106,7 +106,7 @@ Rectangle {
                 columnSpacing: 30
                 rowSpacing: 10
 
-                TimePicker
+                MyComponent.TimePicker
                 {
                     id:picker
 
@@ -146,7 +146,7 @@ Rectangle {
                         model:trainProxy.getTrainingNum()
 
                         delegate:
-                            TrainingTextNode{
+                            MyComponent.TrainingTextNode{
                             innerIdx: index
                             titleText: trainProxy.getTrainingInfo(index,marco.trType)
                             timeText: trainProxy.getTrainingInfo(index,marco.trTime)
@@ -205,7 +205,7 @@ Rectangle {
                                 visible:false
                                 clip:true
 
-                                NameList
+                                MyComponent.NameList
                                 {
                                     id:nameList
                                     onNodeClicked:
@@ -217,90 +217,11 @@ Rectangle {
                             }
                         }
 
-                        Signature
+                        MyComponent.Signature
                         {
                             id:signer
                             width:600
                             height:485
-
-                            Rectangle
-                            {
-                                anchors.bottom: parent.bottom
-                                anchors.right: parent.right
-                                anchors.rightMargin: 20
-                                anchors.bottomMargin: 10
-                                width:185
-                                height:30
-
-                                Row
-                                {
-                                    spacing: 25
-                                    Image
-                                    {
-                                        id:resetBtn
-                                        source:"qrc:/qml/Resource/btn-reset.png"
-
-                                        MouseArea
-                                        {
-                                            anchors.fill: parent
-
-                                            onClicked:
-                                            {
-                                                signer.clearImage();
-                                            }
-
-                                            onPressed:
-                                            {
-                                                resetBtn.source = "qrc:/qml/Resource/btn-reset-click.png"
-                                            }
-
-                                            onReleased:
-                                            {
-                                                resetBtn.source = "qrc:/qml/Resource/btn-reset.png"
-                                            }
-
-                                            onExited:
-                                            {
-                                                resetBtn.source = "qrc:/qml/Resource/btn-reset.png"
-                                            }
-                                        }
-                                    }
-
-                                    Image
-                                    {
-                                        id:okBtn
-                                        source:"qrc:/qml/Resource/btn-ok.png"
-
-                                        MouseArea
-                                        {
-                                            anchors.fill: parent
-
-                                            onClicked:
-                                            {
-                                                if(nameText.text == "click me to choose your name")
-                                                    return;
-
-                                                signer.sendImage(nameText.text);
-                                            }
-
-                                            onPressed:
-                                            {
-                                                okBtn.source = "qrc:/qml/Resource/btn-ok-click.png"
-                                            }
-
-                                            onReleased:
-                                            {
-                                                okBtn.source = "qrc:/qml/Resource/btn-ok.png"
-                                            }
-
-                                            onExited:
-                                            {
-                                                okBtn.source = "qrc:/qml/Resource/btn-ok.png"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
                         }
                     }
                 }

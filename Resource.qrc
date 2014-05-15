@@ -21,5 +21,11 @@
         <file>Resource/icon-training-click.png</file>
         <file>Resource/icon-xiaodu.png</file>
         <file>Resource/icon-xiaodu-click.png</file>
+        <file>Resource/iOS7_-icons__01_03.png</file>
+        <file>Resource/title-daily.png</file>
+        <file>Resource/title-emplyee.png</file>
+        <file>Resource/title-sign.png</file>
+        <file>Resource/title-supply.png</file>
+        <file>Resource/title-weeely.png</file>
     </qresource>
 </RCC>

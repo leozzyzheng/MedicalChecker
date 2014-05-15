@@ -20,6 +20,7 @@ public slots:
     QString getCurrDateTime(QString format = "yyyy-MM-dd");
     QString getCurrWeekDay();
     QString getCurrMonthName();
+    int     getCurrWeekNum();
     QString addDay(int num, QString format = "yyyy-MM-dd");
 private:
     QDateTime m_date;

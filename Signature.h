@@ -8,6 +8,7 @@
 
 #include "Signature.h"
 #include "Utilities/SignatureSender.h"
+#include "Utilities/GlobalHelper.h"
 
 class Signature : public QQuickPaintedItem
 {
@@ -27,7 +28,7 @@ signals:
     void error(QString error);
 public slots:
     Q_INVOKABLE void clearImage();
-    Q_INVOKABLE void sendImage(QString name);
+    Q_INVOKABLE void sendImage();
 private slots:
     void innerError(SignatureSender::ERROR_TYPE error);
     void innerFinished(QString fileName);

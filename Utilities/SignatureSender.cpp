@@ -38,7 +38,7 @@ void SignatureSender::sendSigature(QImage * image, QString name)
     ba = ba.append("\r\n--").append(BOUNDARY).append("--\r\n");
 
 
-    QNetworkRequest request(QUrl("http://192.168.0.102:8888/Clinic/signUpload.action"));
+    QNetworkRequest request(QUrl(QString("http://") + SIGNATURE_SEND_IP + SIGNATURE_SEND_PORT + "/Clinic/signUpload.action"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, QString("multipart/form-data; boundary=") + BOUNDARY);
     request.setHeader(QNetworkRequest::ContentLengthHeader, ba.length());
     m_pCurrentReply = m_pNetMgr->post(request , ba);

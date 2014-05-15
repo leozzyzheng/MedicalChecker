@@ -70,8 +70,16 @@ void Signature::clearImage()
     update();
 }
 
-void Signature::sendImage(QString name)
+void Signature::sendImage()
 {
+    QString name = GlobalHelper::getGlobalValue("ClinicName");
+
+    if(name.isEmpty())
+    {
+        qDebug()<<"Critical Error! No ClinicName but SendImage!";
+        return;
+    }
+
     m_pSender->sendSigature(m_pPaintImage, name);
 }
 
@@ -101,7 +109,20 @@ void Signature::innerError(SignatureSender::ERROR_TYPE error)
 
 void Signature::innerFinished(QString fileName)
 {
-    emit finished(fileName);
+    //重组文件路径
+    QStringList list = fileName.split("/",QString::SkipEmptyParts);
+
+    if(list.isEmpty())
+    {
+        emit this->error("Do not return sig pic file name!");
+        qDebug()<<"InVaild Name:"<<fileName;
+    }
+    else
+    {
+        QString pngName = list.last();
+        pngName = SIGNATURE_PERFIX + pngName;
+        emit finished(pngName);
+    }
 }
 
 void Signature::paintVecPoint(QPainter *painter, std::vector<QPoint> &points)

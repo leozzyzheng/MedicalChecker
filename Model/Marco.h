@@ -4,17 +4,21 @@
 #include <QObject>
 #include <QString>
 
-#define DATABASE_TYPE "QMYSQL"
-#define DATABASE_HOSTNAME "115.28.226.229"
+#define DATABASE_TYPE                   "QMYSQL"
+#define DATABASE_HOSTNAME               "115.28.226.229"
 #define DATABASE_PORT 3306
-#define DATABASE_USERNAME "yclj"
-#define DATABASE_PASSWD "yclj"
-#define DATABASE_DATABASENAME ""  //"clinic"
+#define DATABASE_USERNAME               "yclj"
+#define DATABASE_PASSWD                 "yclj"
+#define DATABASE_DATABASENAME           ""
 
-#define DATABASE_NOCONNECTING 0
-#define DATABASE_CONNECTING 1
-#define DATABASE_CONNECTED_SUCC 2
-#define DATABASE_CONNECTED_FAIL 3
+#define DATABASE_NOCONNECTING           0
+#define DATABASE_CONNECTING             1
+#define DATABASE_CONNECTED_SUCC         2
+#define DATABASE_CONNECTED_FAIL         3
+
+#define SIGNATURE_SEND_IP               "115.28.226.229"
+#define SIGNATURE_SEND_PORT             ":8080"
+#define SIGNATURE_PERFIX                "Clinic/signFile/"
 
 #define TABLE_DAILY_CLEAN_TASK          "DailyCleanTask"
 #define TABLE_DAILY_CLEAN_RECORD        "DailyCleanRecord"
@@ -22,6 +26,8 @@
 #define TABLE_WEEKLY_CLEAN_RECORD       "WeeklyCleanRecord"
 #define TABLE_SUPPLY_TASK               "SupplyTask"
 #define TABLE_SUPPLY_RECORD             "CleanSupplyRecord"
+#define TABLE_CHECK_TASK                "CheckTask"
+#define TABLE_CHECK_RECORD              "CheckRecord"
 
 #define USER_ID_TAG                     "userId"
 #define USER_NAME_TAG                   "name"
@@ -52,12 +58,31 @@
 #define SUPPLY_TASKID_TAG               "SupplyTask"
 #define SUPPLY_TIME_TAG                 "ReFillTime"
 
+#define CHECK_TASKID_TAG                "CheckTaskId"
+#define CHECK_CONTENT_TAG               "CheckContent"
+#define CHECK_DAY_TAG                   "CheckWeekDay"
+#define CHECK_STAFFID_TAG               "StaffId"
+#define CHECK_TIME_TAG                  "CheckTime"
+#define CHECK_SIG_TAG                   "Signature"
+
 #define QML_TOPIC_FONT_FAMILY           "verdana,Lucida Sans,trebuchet ms,arial,sans-serif"
 #define QML_FONT_BLUE_COLOR             "#1D568A"
 #define QML_FONT_BLACK_COLOR            "#000000"
 #define QML_FONT_WHITE_COLOR            "#FFFFFF"
 #define QML_BACK_GRAY_COLOR             "#EEEEEE"
 #define QML_BACK_BLUE_COLOR             "#1D568A"
+#define QML_DCLEAN_FONT_PXSIZE          "16"
+#define QML_BORDER_COLOR                "#CCCCCC"
+
+//this marco can auto register an marco x to qml named "name" ,but for more code , I don't use it
+#define REGISTER_MARCO(name,x) \
+    private: \
+        Q_PROPERTY(QString name READ getx CONSTANT) \
+    public: \
+        QString getx() const \
+        {   \
+            return x; \
+        } \
 
 class QmlMarco : public QObject
 {
@@ -78,6 +103,13 @@ class QmlMarco : public QObject
     Q_PROPERTY(QString fontWhite READ getQML_FONT_WHITE_COLOR CONSTANT)
     Q_PROPERTY(QString backGray READ getQML_BACK_GRAY_COLOR CONSTANT)
     Q_PROPERTY(QString backBlue READ getQML_BACK_BLUE_COLOR CONSTANT)
+    Q_PROPERTY(QString dCleanFontpSize READ getQML_DCLEAN_FONT_PXSIZE CONSTANT)
+    Q_PROPERTY(QString borderColor READ getQML_BORDER_COLOR CONSTANT)
+    Q_PROPERTY(QString cleanContent READ getCLEAN_TASKCONTENT_TAG CONSTANT)
+    Q_PROPERTY(QString cleanSig READ getCLEAN_SIG_TAG CONSTANT)
+
+    //auto marco usage
+    //REGISTER_MARCO(trTime,TRAINING_TIME_TAG)
 
 public:
     QString getTRAINING_TIME_TAG() const
@@ -158,6 +190,26 @@ public:
     QString getQML_BACK_BLUE_COLOR() const
     {
         return QML_BACK_BLUE_COLOR;
+    }
+
+    QString getQML_DCLEAN_FONT_PXSIZE() const
+    {
+        return QML_DCLEAN_FONT_PXSIZE;
+    }
+
+    QString getQML_BORDER_COLOR() const
+    {
+        return QML_BORDER_COLOR;
+    }
+
+    QString getCLEAN_TASKCONTENT_TAG() const
+    {
+        return CLEAN_TASKCONTENT_TAG;
+    }
+
+    QString getCLEAN_SIG_TAG() const
+    {
+        return CLEAN_SIG_TAG;
     }
 };
 

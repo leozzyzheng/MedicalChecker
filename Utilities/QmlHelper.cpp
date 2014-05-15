@@ -27,6 +27,11 @@ QString QmlHelper::getCurrMonthName()
     return QLocale().monthName(m_date.date().month(),QLocale::ShortFormat);
 }
 
+int QmlHelper::getCurrWeekNum()
+{
+    return m_date.date().dayOfWeek();
+}
+
 QString QmlHelper::addDay(int num, QString format)
 {
     m_date = m_date.addDays(num);

@@ -26,7 +26,9 @@ SOURCES += main.cpp \
     Model/CleanInfo.cpp \
     DailyCleanProxy.cpp \
     WeeklyCleanProxy.cpp \
-    SupplyProxy.cpp
+    SupplyProxy.cpp \
+    CheckProxy.cpp \
+    Model/CheckInfo.cpp
 
 # Installation path
 # target.path =
@@ -53,13 +55,17 @@ HEADERS += \
     Model/CleanInfo.h \
     DailyCleanProxy.h \
     WeeklyCleanProxy.h \
-    SupplyProxy.h
+    SupplyProxy.h \
+    CheckProxy.h \
+    Model/CheckInfo.h
 
 OTHER_FILES += \
     qml/MedicalChecker/startup.qml \
     qml/MedicalChecker/Component/Indicator.qml \
     qml/MedicalChecker/Component/Signature.qml \
-    qml/MedicalChecker/training.qml
+    qml/MedicalChecker/training.qml \
+    qml/MedicalChecker/Component/CleanTextNode.qml \
+    qml/MedicalChecker/singalSig.qml
 
 RESOURCES += \
     Resource.qrc

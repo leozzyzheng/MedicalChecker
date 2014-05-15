@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import "Component"
+import "Component" as MyComponent
 
 Rectangle {
     id:cleanPage
@@ -29,7 +29,7 @@ Rectangle {
     }
 
 
-    TopBar
+    MyComponent.TopBar
     {
         id:top
     }
@@ -41,7 +41,7 @@ Rectangle {
         height: topicBar.height
         width: cleanPage.width
 
-        TopicBar
+        MyComponent.TopicBar
         {
             id:topicBar
             topic: "CLEANING"
@@ -67,68 +67,180 @@ Rectangle {
             id:content
             width:950
             height:610
-            y:10
+            y:39
             anchors.horizontalCenter: parent.horizontalCenter
             color:"#00000000"
 
-            Grid
+            Row
             {
-                columns: 2
-                columnSpacing: 30
-                rowSpacing: 10
+                spacing: 50
 
-                TimePicker
+                Column
                 {
-                    id:picker
+                    spacing: 20
 
-                    onDecDate:
+                    Rectangle
                     {
-                        changeDate();
+                        width:450
+                        height:56
+                        color:"#00000000"
+
+                        MyComponent.TimePicker
+                        {
+                            width:400
+                            anchors.centerIn: parent
+                            id:picker
+
+                            onDecDate:
+                            {
+                                changeDate();
+                            }
+
+                            onIncDate:
+                            {
+                                changeDate();
+                            }
+                        }
                     }
 
-                    onIncDate:
+                    Rectangle
                     {
-                        changeDate();
-                    }
-                }
+                        id:dailyRect
+                        width:450
+                        height:545
+                        clip:true
+                        radius: 5
+                        border.color: marco.backBlue
+                        border.width: 2
 
-                Rectangle
-                {
-                    id:placeHolder
-                    width:1
-                    height:1
-                    color:"#00000000"
-                }
+                        Column
+                        {
+                            Image
+                            {
+                                id:dailyPic
+                                source:"qrc:/qml/Resource/title-daily.png"
+                            }
 
-                Rectangle
-                {
-                    width:320
-                    height:550
-                    border.width: 2
-                    border.color: marco.backBlue
-                    clip:true
+                            Rectangle
+                            {
+                                clip:true;
+                                width:dailyRect.width - dailyRect.border.width*2
+                                height:dailyRect.height - dailyRect.border.width*2 - dailyPic.height
+                                x:dailyRect.border.width
 
-                    ListView
-                    {
-                        id:dailyList
-                        width:parent.width - parent.border.width*2
-                        height:parent.height - parent.border.width*2
-                        anchors.centerIn: parent
-                        model:dailyCleanProxy.getTaskNum();
+                                ListView
+                                {
+                                    id:dailyList
+                                    anchors.fill: parent
+                                    model:0
+                                    delegate:
+                                        MyComponent.CleanTextNode{
+                                        backColor: index%2 == 0 ? marco.backGray : "#FFFFFF"
+                                        innerText: index + "." + dailyCleanProxy.getData(index,marco.cleanContent)
+                                        imgSrc: dailyCleanProxy.getData(index, marco.cleanSig) === "" ? "" : ""
 
-                        delegate:
-                            DailyCleanTextNode{
+                                        onNodeClicked:
+                                        {
+                                            console.log("dailyclicked");
+                                        }
+                                    }
+                                }
+                            }
+
 
                         }
                     }
                 }
 
+                Column
+                {
+                    spacing: 37
 
+                    Rectangle
+                    {
+                        id:weeklyRect
+                        width:450
+                        height:280
+                        clip:true
+                        radius: 5
+                        border.color: marco.backBlue
+                        border.width: 2
 
+                        Column
+                        {
+                            Image
+                            {
+                                id:weeklyPic
+                                source:"qrc:/qml/Resource/title-weeely.png"
+                            }
+
+                            Rectangle
+                            {
+                                clip:true;
+                                width:weeklyRect.width - weeklyRect.border.width*2
+                                height:weeklyRect.height - weeklyRect.border.width*2 - weeklyPic.height
+                                x:weeklyRect.border.width
+
+                                ListView
+                                {
+                                    id:weeklyList
+                                    anchors.fill: parent
+                                    model:0
+                                    delegate:
+                                        MyComponent.CleanTextNode{
+                                        backColor: index%2 == 0 ? marco.backGray : "#FFFFFF"
+                                        innerText: index + "." + weeklyCleanProxy.getData(index,marco.cleanContent)
+                                        imgSrc: weeklyCleanProxy.getData(index, marco.cleanSig) === "" ? "" : ""
+
+                                        onNodeClicked:
+                                        {
+                                            console.log("weeklyclicked");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    Rectangle
+                    {
+                        id:supplyRect
+                        width:450
+                        height:300
+                        clip:true
+                        radius: 5
+                        border.color: marco.backBlue
+                        border.width: 2
+
+                        Column
+                        {
+                            Image
+                            {
+                                source:"qrc:/qml/Resource/title-supply.png"
+                            }
+
+                            GridView
+                            {
+                                id:supplyList
+                                width:supplyRect.width - supplyRect.border.width*2
+                                height:supplyRect.height - supplyRect.border.width*2
+//                                model:0
+//                                delegate:
+//                                    CleanTextNode{
+//                                    backColor: index%2 == 0 ? marco.backGray : "#FFFFFF"
+//                                    innerText: index + "." + weeklyCleanProxy.getData(index,marco.cleanContent)
+//                                    imgSrc: weeklyCleanProxy.getData(index, marco.cleanSig) === "" ? "" : ""
+
+//                                    onNodeClicked:
+//                                    {
+//                                        console.log("weeklyclicked");
+//                                    }
+//                                }
+                            }
+                        }
+                    }
+                }
             }
         }
-
     }
-
-
 }
