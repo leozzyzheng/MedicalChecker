@@ -12,6 +12,7 @@ public:
     Q_INVOKABLE void querySupply();
     Q_INVOKABLE void queryRecord(QString date);
     Q_INVOKABLE int  getTaskNum();
+    Q_INVOKABLE QString getData(int index, QString key);
 
     void clear();
 

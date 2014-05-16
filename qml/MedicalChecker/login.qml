@@ -15,7 +15,7 @@ Rectangle {
 
         onLoginFail:
         {
-            console.log("passwd wrong");
+            rootStackView.showMsg("Wrong Passwd");
             isBusy = false;
         }
 
@@ -27,6 +27,7 @@ Rectangle {
 
         onError:
         {
+            rootStackView.showMsg("Wrong Clinic Name");
             console.log(errorString);
             isBusy = false;
         }

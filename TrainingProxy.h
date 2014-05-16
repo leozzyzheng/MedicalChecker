@@ -18,11 +18,13 @@ public:
     Q_INVOKABLE QString getTrainingInfo(int index, QString name);
     Q_INVOKABLE int getStaffNum();
     Q_INVOKABLE QString getSignInfo(int index, QString name);
+    Q_INVOKABLE void sign(QString trId, QString staffId, QString sig, QString date);
 signals:
     void trainingInfoStandBy();
     void staffInfoStandBy();
     void clear();
     void clearSignInfo();
+    void updateSucc();
 public slots:
 
 protected slots:

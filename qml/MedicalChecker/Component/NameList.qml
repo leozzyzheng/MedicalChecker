@@ -5,6 +5,7 @@ ListView {
     width:600
 
     signal nodeClicked (string name)
+    property string selectedStaffId: ""
 
     model:0
     delegate:
@@ -17,7 +18,7 @@ ListView {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             anchors.fill: parent
-            text:trainProxy.getSignInfo(index,marco.trStaffid) + "|" + trainProxy.getSignInfo(index,marco.trSign)
+            text:trainProxy.getSignInfo(index,marco.userName) + "|" + (trainProxy.getSignInfo(index,marco.trSign) === "" ? "Not Signed" : "Have Signed")
             font.family: marco.topicFontFa
         }
 
@@ -27,7 +28,8 @@ ListView {
 
             onClicked:
             {
-                nodeClicked(trainProxy.getSignInfo(index,marco.trStaffid));
+                selectedStaffId = trainProxy.getSignInfo(index,marco.trStaffid);
+                nodeClicked(trainProxy.getSignInfo(index,marco.userName));
             }
 
             onReleased:

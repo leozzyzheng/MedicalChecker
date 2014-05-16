@@ -90,7 +90,9 @@ void DailyCleanProxy::innerFinished(QSqlQueryEx query)
                 int index = query.record().value(idNo).toInt();
                 m_cleanInfo.pushId(index);
                 m_cleanInfo.setContentTableData(index, query.record().value(contentNo).toString());
+                m_cleanInfo.setData(index,CLEAN_TASKCONTENT_TAG, query.record().value(contentNo).toString());
                 m_cleanInfo.setStaffTableData(index, query.record().value(staffIdNo).toString());
+                m_cleanInfo.setData(index,CLEAN_STAFFID_TAG, query.record().value(staffIdNo).toString());
             }
 
             emit taskContentStandBy();

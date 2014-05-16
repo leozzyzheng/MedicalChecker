@@ -73,6 +73,7 @@
 #define QML_BACK_BLUE_COLOR             "#1D568A"
 #define QML_DCLEAN_FONT_PXSIZE          "16"
 #define QML_BORDER_COLOR                "#CCCCCC"
+#define QML_SUPPLY_FONT_PXSIZE            "14"
 
 //this marco can auto register an marco x to qml named "name" ,but for more code , I don't use it
 #define REGISTER_MARCO(name,x) \
@@ -105,8 +106,10 @@ class QmlMarco : public QObject
     Q_PROPERTY(QString backBlue READ getQML_BACK_BLUE_COLOR CONSTANT)
     Q_PROPERTY(QString dCleanFontpSize READ getQML_DCLEAN_FONT_PXSIZE CONSTANT)
     Q_PROPERTY(QString borderColor READ getQML_BORDER_COLOR CONSTANT)
-    Q_PROPERTY(QString cleanContent READ getCLEAN_TASKCONTENT_TAG CONSTANT)
+    Q_PROPERTY(QString taskContent READ getCLEAN_TASKCONTENT_TAG CONSTANT)
     Q_PROPERTY(QString cleanSig READ getCLEAN_SIG_TAG CONSTANT)
+    Q_PROPERTY(QString userName READ getUSER_NAME_TAG CONSTANT)
+    Q_PROPERTY(QString suppFontpSize READ getQML_SUPPLY_FONT_PXSIZE CONSTANT)
 
     //auto marco usage
     //REGISTER_MARCO(trTime,TRAINING_TIME_TAG)
@@ -210,6 +213,16 @@ public:
     QString getCLEAN_SIG_TAG() const
     {
         return CLEAN_SIG_TAG;
+    }
+
+    QString getUSER_NAME_TAG() const
+    {
+        return USER_NAME_TAG;
+    }
+
+    QString getQML_SUPPLY_FONT_PXSIZE() const
+    {
+        return QML_SUPPLY_FONT_PXSIZE;
     }
 };
 

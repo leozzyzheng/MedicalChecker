@@ -22,7 +22,22 @@ StackView
         Qt.quit();
     }
 
+    function showMsg(msg)
+    {
+        messageBox.msg = msg;
+        messageBox.show();
+    }
+
     id: rootStackView
+
+    MyComponent.Message
+    {
+        id:messageBox
+        anchors.horizontalCenter: parent.horizontalCenter
+        y:parent.height*0.8
+        z:1000
+        visible:false
+    }
 
     Connections
     {

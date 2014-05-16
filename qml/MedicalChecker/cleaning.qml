@@ -10,12 +10,20 @@ Rectangle {
 
     function changeDate()
     {
+        dailyCleanProxy.abort();
+        weeklyCleanProxy.abort();
+        supplyProxy.abort();
 
+        dailyCleanProxy.queryDaily();
+        weeklyCleanProxy.queryWeekly();
+        supplyProxy.querySupply();
     }
 
     Component.onCompleted:
     {
         dailyCleanProxy.queryDaily();
+        weeklyCleanProxy.queryWeekly();
+        supplyProxy.querySupply();
     }
 
     Connections
@@ -25,6 +33,47 @@ Rectangle {
         onTaskContentStandBy:
         {
             dailyCleanProxy.queryDailyRecord(qmlHelper.getCurrDateTime("yyyy-MM-dd"));
+            dailyList.model = 0;
+            dailyList.model = dailyCleanProxy.getTaskNum();
+        }
+
+        onRecordStandBy:
+        {
+
+        }
+    }
+
+    Connections
+    {
+        target: weeklyCleanProxy
+
+        onTaskDataStandBy:
+        {
+            weeklyCleanProxy.queryRecord(qmlHelper.getCurrWeekNum());
+            weeklyList.model = 0;
+            weeklyList.model = weeklyCleanProxy.getTaskNum();
+        }
+
+        onRecordDataStandBy:
+        {
+
+        }
+    }
+
+    Connections
+    {
+        target: supplyProxy
+
+        onTaskDataStandBy:
+        {
+            supplyProxy.queryRecord(qmlHelper.getCurrDateTime("yyyy-MM-dd"));
+            supplyList.model = 0;
+            supplyList.model = supplyProxy.getTaskNum();
+        }
+
+        onRecordDataStandBy:
+        {
+
         }
     }
 
@@ -93,12 +142,12 @@ Rectangle {
 
                             onDecDate:
                             {
-                                changeDate();
+                                changeDate(-1);
                             }
 
                             onIncDate:
                             {
-                                changeDate();
+                                changeDate(1);
                             }
                         }
                     }
@@ -136,12 +185,12 @@ Rectangle {
                                     delegate:
                                         MyComponent.CleanTextNode{
                                         backColor: index%2 == 0 ? marco.backGray : "#FFFFFF"
-                                        innerText: index + "." + dailyCleanProxy.getData(index,marco.cleanContent)
+                                        innerText: index + "." + dailyCleanProxy.getData(index,marco.taskContent)
                                         imgSrc: dailyCleanProxy.getData(index, marco.cleanSig) === "" ? "" : ""
 
                                         onNodeClicked:
                                         {
-                                            console.log("dailyclicked");
+                                            rootStackView.push({item:Qt.resolvedUrl("singleSig.qml"),destroyOnPop:true});
                                         }
                                     }
                                 }
@@ -189,12 +238,12 @@ Rectangle {
                                     delegate:
                                         MyComponent.CleanTextNode{
                                         backColor: index%2 == 0 ? marco.backGray : "#FFFFFF"
-                                        innerText: index + "." + weeklyCleanProxy.getData(index,marco.cleanContent)
+                                        innerText: index + "." + weeklyCleanProxy.getData(index,marco.taskContent)
                                         imgSrc: weeklyCleanProxy.getData(index, marco.cleanSig) === "" ? "" : ""
 
                                         onNodeClicked:
                                         {
-                                            console.log("weeklyclicked");
+                                            rootStackView.push({item:Qt.resolvedUrl("singleSig.qml"),destroyOnPop:true});
                                         }
                                     }
                                 }
@@ -224,18 +273,16 @@ Rectangle {
                                 id:supplyList
                                 width:supplyRect.width - supplyRect.border.width*2
                                 height:supplyRect.height - supplyRect.border.width*2
-//                                model:0
-//                                delegate:
-//                                    CleanTextNode{
-//                                    backColor: index%2 == 0 ? marco.backGray : "#FFFFFF"
-//                                    innerText: index + "." + weeklyCleanProxy.getData(index,marco.cleanContent)
-//                                    imgSrc: weeklyCleanProxy.getData(index, marco.cleanSig) === "" ? "" : ""
+                                model:0
+                                delegate:
+                                    MyComponent.SupplyNode{
+                                    iconText: supplyProxy.getData(index,marco.taskContent);
 
-//                                    onNodeClicked:
-//                                    {
-//                                        console.log("weeklyclicked");
-//                                    }
-//                                }
+                                    onNodeClicked:
+                                    {
+                                        rootStackView.push({item:Qt.resolvedUrl("singleSig.qml"),destroyOnPop:true});
+                                    }
+                                }
                             }
                         }
                     }

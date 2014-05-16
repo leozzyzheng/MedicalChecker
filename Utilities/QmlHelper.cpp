@@ -37,3 +37,10 @@ QString QmlHelper::addDay(int num, QString format)
     m_date = m_date.addDays(num);
     return QLocale().toString(m_date, format);
 }
+
+QString QmlHelper::getCurrAbsDateTime(QString format)
+{
+    QDateTime temp = QDateTime::currentDateTime();
+    temp.setTimeZone(QTimeZone(QTimeZone::systemTimeZoneId()));
+    return QLocale().toString(temp, format);
+}

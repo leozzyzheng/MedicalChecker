@@ -7,6 +7,8 @@ Rectangle {
     height: parent.height
 
     property bool isBusy: false
+    property string trId: ""
+    property string staffId: ""
 
     function changeDate()
     {
@@ -26,6 +28,7 @@ Rectangle {
 
         onError:
         {
+            rootStackView.showMsg(errorString);
             console.log(errorString);
         }
 
@@ -55,6 +58,12 @@ Rectangle {
             nameList.model = 0;
             nameText.text = "click me to choose your name";
             signer.clearImage();
+        }
+
+        onUpdateSucc:
+        {
+            trainProxy.queryTraining(qmlHelper.getCurrDateTime("yyyy-MM-dd"));
+            rootStackView.showMsg("Successfully Sign");
         }
     }
 
@@ -155,7 +164,8 @@ Rectangle {
 
                             onNodeClicked:
                             {
-                                trainProxy.queryTrainingStaff(trainProxy.getTrainingInfo(index,marco.trTrid));
+                                trId = trainProxy.getTrainingInfo(index,marco.trTrid);
+                                trainProxy.queryTrainingStaff(trId);
                             }
                         }
                     }
@@ -193,6 +203,9 @@ Rectangle {
                                 anchors.fill: parent
                                 onClicked:
                                 {
+                                    if(nameList.model === 0)
+                                        return;
+
                                     nameListRect.visible = true;
                                 }
                             }
@@ -208,6 +221,7 @@ Rectangle {
                                 MyComponent.NameList
                                 {
                                     id:nameList
+
                                     onNodeClicked:
                                     {
                                         nameText.text = name;
@@ -222,6 +236,16 @@ Rectangle {
                             id:signer
                             width:600
                             height:485
+
+                            onFinished:
+                            {
+                                trainProxy.sign(trId,nameList.selectedStaffId,fileName,qmlHelper.getCurrAbsDateTime("yyyy-MM-dd HH:mm:ss"));
+                            }
+
+                            onError:
+                            {
+                                rootStackView.showMsg(error);
+                            }
                         }
                     }
                 }

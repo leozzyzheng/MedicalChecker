@@ -39,6 +39,11 @@ void CleanInfo::setData(int index, std::map<QString,QString> & datamap)
     m_data[index] = datamap;
 }
 
+void CleanInfo::setData(int index, const QString &key, const QString &value)
+{
+    m_data[index][key] = value;
+}
+
 QString CleanInfo::getData(int index, QString & key)
 {
     if(m_data.size() <= index)

@@ -43,7 +43,7 @@ void TrainingProxy::queryTrainingStaff(QString trainingId)
                     "TrainingRecord.:submitTime,"
                     "TrainingRecord.:remark "
                     "from :clinicName.TrainingRecord,:clinicName.User "
-                    "where TrainingRecord.:trainingIdTag = ':id' and User.:userId = ':id'"
+                    "where TrainingRecord.:trainingIdTag = ':id' and User.:userId = TrainingRecord.:staffId"
                     );
 
     sql.replaceHolder(":staffName",USER_NAME_TAG);
@@ -80,6 +80,23 @@ QString TrainingProxy::getSignInfo(int index, QString name)
     return m_trainingInfo.getSignInfo(index, name);
 }
 
+void TrainingProxy::sign(QString trId, QString staffId, QString sig, QString date)
+{
+    QSqlQueryEx sql("update :clinicName.TrainingRecord set :sigTag = ':sigValue',:subtime = ':date' where :staffIdTag = ':staffid' and :trIdTag = ':trid'");
+    sql.replaceHolder(":clinicName",m_ClinicName);
+    sql.replaceHolder(":sigTag",TRAINING_STAFFSIGN_TAG);
+    sql.replaceHolder(":sigValue",sig);
+    sql.replaceHolder(":subtime",TRAINING_SUBMIT_TAG);
+    sql.replaceHolder(":date",date);
+    sql.replaceHolder(":staffIdTag",TRAINING_STAFFID_TAG);
+    sql.replaceHolder(":staffid",staffId);
+    sql.replaceHolder(":trIdTag",TRAINING_TRAINID_TAG);
+    sql.replaceHolder(":trid",trId);
+    sql.setID("updateSig");
+    qDebug()<<sql.getSqlString();
+    exec(sql);
+}
+
 void TrainingProxy::innerError(QSqlError & error)
 {
     emit this->error(error.text());
@@ -93,7 +110,7 @@ void TrainingProxy::innerFinished(QSqlQueryEx query)
         return;
     }
 
-    if(query.size() <= 0)
+    if(query.numRowsAffected() <=0 && query.size() <= 0)
     {
         qDebug()<<"nothing find";
         return;
@@ -122,10 +139,11 @@ void TrainingProxy::innerFinished(QSqlQueryEx query)
 
         while (query.next())
         {
+            qDebug()<<query.value(timeNo).typeName();
             data[TRAINING_ADDR_TAG] = query.value(addrNo).toString();
             data[TRAINING_CONTENT_TAG] = query.value(contentNo).toString();
             data[TRAINING_STAFF_TAG] = query.value(staffNo).toString();
-            data[TRAINING_TIME_TAG] = query.value(timeNo).toString();
+            data[TRAINING_TIME_TAG] = query.value(timeNo).toDateTime().toString("yyyy-MM-dd HH:mm:ss");
             data[TRAINING_TYPE_TAG] = query.value(typeNo).toString();
             data[TRAINING_TRAINID_TAG] = query.value(idNo).toString();
 
@@ -142,11 +160,13 @@ void TrainingProxy::innerFinished(QSqlQueryEx query)
         int staffSignNo = query.record().indexOf(TRAINING_STAFFSIGN_TAG);
         int submitNo = query.record().indexOf(TRAINING_SUBMIT_TAG);
         int remarkNo = query.record().indexOf(TRAINING_REMARK_TAG);
+        int nameNo = query.record().indexOf(USER_NAME_TAG);
 
         if(staffIdNo == -1 ||
            staffSignNo == -1 ||
            submitNo == -1 ||
-           remarkNo == -1)
+           remarkNo == -1 ||
+           nameNo == -1)
         {
             emit error("TrainingSign data is broken, please contact developer!");
             return;
@@ -159,13 +179,17 @@ void TrainingProxy::innerFinished(QSqlQueryEx query)
             data[TRAINING_STAFFSIGN_TAG] = query.value(staffSignNo).toString();
             data[TRAINING_SUBMIT_TAG] = query.value(submitNo).toString();
             data[TRAINING_REMARK_TAG] = query.value(remarkNo).toString();
-
+            data[USER_NAME_TAG] = query.value(nameNo).toString();
             m_trainingInfo.pushSignData(data);
         }
 
         emit staffInfoStandBy();
 
-        print();
+        //print();
+    }
+    else if(query.getID() == "updateSig")
+    {
+        emit updateSucc();
     }
 }
 

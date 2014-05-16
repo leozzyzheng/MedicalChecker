@@ -16,6 +16,7 @@ public:
     QString getContentData(int index);
     QString getStaffData(int index);
     void setData(int index, std::map<QString,QString> & datamap);
+    void setData(int index,const QString & key,const QString & value);
     QString getData(int index, QString &key);
     void pushId(int index);
     int getId(int index);

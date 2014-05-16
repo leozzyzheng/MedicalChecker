@@ -26,7 +26,7 @@ void SupplyProxy::querySupply()
 
 void SupplyProxy::queryRecord(QString date)
 {
-    QSqlQueryEx sql("select * from :ClinicName.:SupplyRecord where :Time = ':Date'");
+    QSqlQueryEx sql("select * from :ClinicName.:SupplyRecord where date_format(:Time,'%Y-%m-%d') = ':Date'");
     sql.replaceHolder(":ClinicName",m_ClinicName);
     sql.replaceHolder(":SupplyRecord",TABLE_SUPPLY_RECORD);
     sql.replaceHolder(":Time",SUPPLY_TIME_TAG);
@@ -38,6 +38,11 @@ void SupplyProxy::queryRecord(QString date)
 int SupplyProxy::getTaskNum()
 {
     return m_cleanInfo.getContentTableSize();
+}
+
+QString SupplyProxy::getData(int index, QString key)
+{
+    return m_cleanInfo.getData(index, key);
 }
 
 void SupplyProxy::clear()

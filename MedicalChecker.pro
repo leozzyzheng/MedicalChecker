@@ -65,7 +65,7 @@ OTHER_FILES += \
     qml/MedicalChecker/Component/Signature.qml \
     qml/MedicalChecker/training.qml \
     qml/MedicalChecker/Component/CleanTextNode.qml \
-    qml/MedicalChecker/singalSig.qml
+    qml/MedicalChecker/singleSig.qml
 
 RESOURCES += \
     Resource.qrc
