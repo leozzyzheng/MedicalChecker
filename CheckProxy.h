@@ -12,12 +12,15 @@ public:
     Q_INVOKABLE void queryTask(int weekDay);
     Q_INVOKABLE void queryRecord(QString date);
     Q_INVOKABLE int  getTaskNum();
+    Q_INVOKABLE QString getData(int index);
+    Q_INVOKABLE void sign(QString staffId, QString date, QString sig);
 
     void clear();
 signals:
     void taskDataStandBy();
     void notChecked();
     void isChecked();
+    void updateSucc();
 
 protected slots:
     virtual void innerError(QSqlError &error);

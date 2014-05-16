@@ -28,5 +28,7 @@
         <file>Resource/title-supply.png</file>
         <file>Resource/title-weeely.png</file>
         <file>Resource/done.png</file>
+        <file>Resource/checkoff-btn.png</file>
+        <file>Resource/checkoff-btn-click.png</file>
     </qresource>
 </RCC>

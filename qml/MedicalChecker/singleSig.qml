@@ -169,6 +169,10 @@ Rectangle {
                                 {
                                     supplyProxy.sign(qmlHelper.getData("TaskContent"),qmlHelper.getCurrDateTime("yyyy-MM-dd HH:mm:ss"),qmlHelper.getData("StaffId"),fileName);
                                 }
+                                else if(type === "Check")
+                                {
+                                    checkProxy.sign(qmlHelper.getData("StaffId"),qmlHelper.getCurrDateTime("yyyy-MM-dd HH:mm:ss"),fileName);
+                                }
                             }
                         }
                     }

@@ -6,6 +6,8 @@ Rectangle {
     id:topicRect
     width: parent.width
     height: 44
+
+    signal poped()
     
     Rectangle
     {
@@ -37,6 +39,7 @@ Rectangle {
             anchors.fill: parent
             onClicked:
             {
+                poped();
                 rootStackView.pop();
                 console.log("pop");
             }

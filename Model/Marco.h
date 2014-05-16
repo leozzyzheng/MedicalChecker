@@ -67,6 +67,9 @@
 #define CHECK_SIG_TAG                   "Signature"
 
 #define QML_TOPIC_FONT_FAMILY           "verdana,Lucida Sans,trebuchet ms,arial,sans-serif"
+#define QML_CHECK_FONT_FAMILY           "consolas,verdana,arial,sans-serif"
+#define QML_FONT_YELLOW_COLOR           "#FF9933"
+#define QML_FONT_DARKBLUE_COLOR         "#003366"
 #define QML_FONT_BLUE_COLOR             "#1D568A"
 #define QML_FONT_BLACK_COLOR            "#000000"
 #define QML_FONT_WHITE_COLOR            "#FFFFFF"
@@ -76,6 +79,7 @@
 #define QML_BORDER_COLOR                "#CCCCCC"
 #define QML_SUPPLY_FONT_PXSIZE          14
 #define QML_TOPIC_FONT_PXSIZE           28
+#define QML_CHECK_FONT_PXSIZE           60
 
 //this marco can auto register an marco x to qml named "name" ,but for more code , I don't use it
 #define REGISTER_MARCO(name,x) \
@@ -117,6 +121,11 @@ class QmlMarco : public QObject
     Q_PROPERTY(QString cleanStaffId READ getCLEAN_STAFFID_TAG CONSTANT)
     Q_PROPERTY(QString wCleanTaskId READ getWEEKLYCLEAN_TASKID_TAG CONSTANT)
     Q_PROPERTY(QString sCleanTaskId READ getSUPPLY_TASKID_TAG CONSTANT)
+    Q_PROPERTY(QString checkFontFa READ getQML_CHECK_FONT_FAMILY CONSTANT)
+    Q_PROPERTY(QString fontYellow READ getQML_FONT_YELLOW_COLOR CONSTANT)
+    Q_PROPERTY(int checkFontpSize READ getQML_CHECK_FONT_PXSIZE CONSTANT)
+    Q_PROPERTY(QString fontDarkBlue READ getQML_FONT_DARKBLUE_COLOR CONSTANT)
+
 
     //auto marco usage
     //REGISTER_MARCO(trTime,TRAINING_TIME_TAG)
@@ -255,6 +264,26 @@ public:
     QString getSUPPLY_TASKID_TAG() const
     {
         return SUPPLY_TASKID_TAG;
+    }
+
+    QString getQML_CHECK_FONT_FAMILY() const
+    {
+        return QML_CHECK_FONT_FAMILY;
+    }
+
+    QString getQML_FONT_YELLOW_COLOR() const
+    {
+        return QML_FONT_YELLOW_COLOR;
+    }
+
+    int getQML_CHECK_FONT_PXSIZE() const
+    {
+        return QML_CHECK_FONT_PXSIZE;
+    }
+
+    QString getQML_FONT_DARKBLUE_COLOR() const
+    {
+        return QML_FONT_DARKBLUE_COLOR;
     }
 };
 
