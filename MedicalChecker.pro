@@ -28,7 +28,9 @@ SOURCES += main.cpp \
     WeeklyCleanProxy.cpp \
     SupplyProxy.cpp \
     CheckProxy.cpp \
-    Model/CheckInfo.cpp
+    Model/CheckInfo.cpp \
+    UserProxy.cpp \
+    Model/UserInfo.cpp
 
 # Installation path
 # target.path =
@@ -57,7 +59,9 @@ HEADERS += \
     WeeklyCleanProxy.h \
     SupplyProxy.h \
     CheckProxy.h \
-    Model/CheckInfo.h
+    Model/CheckInfo.h \
+    UserProxy.h \
+    Model/UserInfo.h
 
 OTHER_FILES += \
     qml/MedicalChecker/startup.qml \

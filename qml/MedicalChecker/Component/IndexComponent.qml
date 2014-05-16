@@ -60,7 +60,7 @@ Rectangle {
         anchors.fill: parent
         onClicked:
         {
-            rootStackView.push({item:Qt.resolvedUrl("../" + qmlSrc)});
+            rootStackView.push({item:Qt.resolvedUrl("../" + qmlSrc),destroyOnPop:true});
         }
 
         onPressed:

@@ -13,6 +13,7 @@
 #include "DailyCleanProxy.h"
 #include "WeeklyCleanProxy.h"
 #include "SupplyProxy.h"
+#include "UserProxy.h"
 
 //外部初始化单例
 QThread* ThreadSingleton::m_instance = new QThread();//逻辑单例线程
@@ -44,6 +45,7 @@ int main(int argc, char *argv[])
     DailyCleanProxy dailyCleanProxy;
     WeeklyCleanProxy weeklyCleanProxy;
     SupplyProxy supplyProxy;
+    UserProxy userProxy;
 
     //注册
     viewer.rootContext()->setContextProperty("initProxy", &initProxy);
@@ -53,6 +55,7 @@ int main(int argc, char *argv[])
     viewer.rootContext()->setContextProperty("dailyCleanProxy", &dailyCleanProxy);
     viewer.rootContext()->setContextProperty("weeklyCleanProxy", &weeklyCleanProxy);
     viewer.rootContext()->setContextProperty("supplyProxy", &supplyProxy);
+    viewer.rootContext()->setContextProperty("userProxy", &userProxy);
 
     //---------------------------------------------------------------------
 

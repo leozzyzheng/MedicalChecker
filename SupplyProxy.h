@@ -13,12 +13,14 @@ public:
     Q_INVOKABLE void queryRecord(QString date);
     Q_INVOKABLE int  getTaskNum();
     Q_INVOKABLE QString getData(int index, QString key);
+    Q_INVOKABLE void sign(QString taskContent, QString cleanTime, QString staffId, QString sig);
 
     void clear();
 
 signals:
     void taskDataStandBy();
     void recordDataStandBy();
+    void updateSucc();
 public slots:
 
 private slots:

@@ -8,6 +8,11 @@ Rectangle {
 
     property bool isBusy: false
 
+    Component.onCompleted:
+    {
+        qmlHelper.reset();
+    }
+
     MyComponent.TopBar
     {
         id:top

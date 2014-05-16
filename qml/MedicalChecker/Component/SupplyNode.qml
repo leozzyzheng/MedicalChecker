@@ -11,12 +11,17 @@ Rectangle {
 
     Column
     {
-        Image
+        Rectangle
         {
             id:pic
-            y:20
-            anchors.horizontalCenter: iconRect.horizontalCenter
-            source:"qrc:/qml/Resource/iOS7_-icons__01_03.png"
+            width:iconRect.width
+            height:86
+
+            Image
+            {
+                anchors.centerIn: parent
+                source:"qrc:/qml/Resource/iOS7_-icons__01_03.png"
+            }
         }
 
         Rectangle
@@ -42,7 +47,7 @@ Rectangle {
         anchors.fill: parent
         onClicked:
         {
-            nodeClickde();
+            nodeClicked();
         }
     }
 }

@@ -8,21 +8,40 @@ Rectangle {
 
     property string innerText: "Clean Item"
     property string backColor: "#FFFFFF"
-    property string imgSrc: ""
+    property string imgSrc: "qrc:/qml/Resource/done.png"
+    property bool canClicked: true
+    property bool haveIcon: true
+    property string unvisibleId: ""
+    property bool isSelected: false
 
     signal nodeClicked()
+
+    onIsSelectedChanged:
+    {
+        if(isSelected)
+        {
+            select();
+        }
+        else
+        {
+            clearSelection();
+        }
+    }
 
     function select()
     {
         nodeText.color = marco.fontWhite;
-        nodeText.font.weight = Font.bold;
+        nodeText.font.bold = true;
         selectRect.color = marco.backBlue;
     }
 
     function clearSelection()
     {
+        if(isSelected)
+            return;
+
         nodeText.color = marco.fontBlue;
-        nodeText.font.weight = Font.Normal;
+        nodeText.font.bold = false;
         selectRect.color = "#00000000";
     }
 
@@ -51,21 +70,21 @@ Rectangle {
                     font.pixelSize: marco.dCleanFontpSize
                     color : marco.fontBlue
                     text : innerText
-                    font.weight : Font.Normal
                 }
             }
 
             Rectangle
             {
                 id:doneIcon
-                width:100
+                width:haveIcon ? 100 : 0
                 height:selectRect.height
                 color:"#00000000"
 
                 Image
                 {
+                    scale:0.8
                     anchors.centerIn: parent
-                    source:imgSrc
+                    source:haveIcon ? imgSrc : ""
                 }
             }
         }
@@ -73,8 +92,9 @@ Rectangle {
 
     Rectangle
     {
-        height:1
-        width:parent.width
+        anchors.bottom: component.bottom
+        height:2
+        width:component.width
         border.width: 1
         border.color: marco.borderColor
     }
@@ -86,7 +106,8 @@ Rectangle {
 
         onClicked:
         {
-            nodeClicked();
+            if(canClicked)
+                nodeClicked();
         }
 
         onReleased:

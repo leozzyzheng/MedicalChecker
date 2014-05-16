@@ -13,11 +13,13 @@ public:
     Q_INVOKABLE void queryRecord(QString weekNum);
     Q_INVOKABLE int getTaskNum();
     Q_INVOKABLE QString getData(int index, QString key);
+    Q_INVOKABLE void sign(QString taskContent, int week, QString staffId, QString sig);
 
     void clear();
 signals:
     void taskDataStandBy();
     void recordDataStandBy();
+    void updateSucc();
 
 protected slots:
     virtual void innerError(QSqlError &error);

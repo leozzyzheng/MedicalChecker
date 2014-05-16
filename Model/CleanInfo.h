@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include <QString>
+#include <qDebug>
 
 class CleanInfo
 {
@@ -24,10 +25,13 @@ public:
     int getDataSize();
     int getStaffTableSize();
     void clear();
+    void print();
+    int getIdFromContent(QString content);
 
 private:
     DataMap m_data;
     std::map <int,QString> m_mContentTable;
+    std::map <QString,int> m_mContentToId;
     std::map <int,QString> m_mStaffTable;
     std::vector<int> m_vId;
 };

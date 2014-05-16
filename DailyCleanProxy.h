@@ -13,6 +13,7 @@ public:
     Q_INVOKABLE void queryDailyRecord(QString Date);
     Q_INVOKABLE QString getData(int index, QString key);
     Q_INVOKABLE int getTaskNum();
+    Q_INVOKABLE void sign(QString taskContent, QString cleanTime, QString staffId, QString sig);
 
     void clear();
 
@@ -23,6 +24,7 @@ protected slots:
 signals:
     void taskContentStandBy();
     void recordStandBy();
+    void updateSucc();
 
 private:
     CleanInfo m_cleanInfo;

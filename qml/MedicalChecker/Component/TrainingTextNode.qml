@@ -51,7 +51,7 @@ Rectangle {
                 Text
                 {
                     anchors.fill: parent
-                    text:innerIdx + "." + titleText
+                    text:(innerIdx+1) + "." + titleText
                     font.family: marco.topicFontFa
                     verticalAlignment: Text.AlignVCenter
                     color: titleColor

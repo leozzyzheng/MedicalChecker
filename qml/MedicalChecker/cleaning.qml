@@ -8,8 +8,10 @@ Rectangle {
 
     property bool isBusy: false
 
-    function changeDate()
+    function changeDate(delta)
     {
+        qmlHelper.addDay(delta);
+
         dailyCleanProxy.abort();
         weeklyCleanProxy.abort();
         supplyProxy.abort();
@@ -21,6 +23,7 @@ Rectangle {
 
     Component.onCompleted:
     {
+        qmlHelper.reset();
         dailyCleanProxy.queryDaily();
         weeklyCleanProxy.queryWeekly();
         supplyProxy.querySupply();
@@ -33,13 +36,19 @@ Rectangle {
         onTaskContentStandBy:
         {
             dailyCleanProxy.queryDailyRecord(qmlHelper.getCurrDateTime("yyyy-MM-dd"));
-            dailyList.model = 0;
-            dailyList.model = dailyCleanProxy.getTaskNum();
         }
 
         onRecordStandBy:
         {
+            dailyList.model = 0;
+            dailyList.model = dailyCleanProxy.getTaskNum();
+        }
 
+        onUpdateSucc:
+        {
+            rootStackView.pop();
+            rootStackView.showMsg("Successfully Sign!");
+            dailyCleanProxy.queryDaily();
         }
     }
 
@@ -50,13 +59,19 @@ Rectangle {
         onTaskDataStandBy:
         {
             weeklyCleanProxy.queryRecord(qmlHelper.getCurrWeekNum());
-            weeklyList.model = 0;
-            weeklyList.model = weeklyCleanProxy.getTaskNum();
         }
 
         onRecordDataStandBy:
         {
+            weeklyList.model = 0;
+            weeklyList.model = weeklyCleanProxy.getTaskNum();
+        }
 
+        onUpdateSucc:
+        {
+            rootStackView.pop();
+            rootStackView.showMsg("Successfully Sign!");
+            weeklyCleanProxy.queryWeekly();
         }
     }
 
@@ -67,13 +82,19 @@ Rectangle {
         onTaskDataStandBy:
         {
             supplyProxy.queryRecord(qmlHelper.getCurrDateTime("yyyy-MM-dd"));
-            supplyList.model = 0;
-            supplyList.model = supplyProxy.getTaskNum();
         }
 
         onRecordDataStandBy:
         {
+            supplyList.model = 0;
+            supplyList.model = supplyProxy.getTaskNum();
+        }
 
+        onUpdateSucc:
+        {
+            rootStackView.pop();
+            rootStackView.showMsg("Successfully Sign!");
+            supplyProxy.querySupply();
         }
     }
 
@@ -184,12 +205,29 @@ Rectangle {
                                     model:0
                                     delegate:
                                         MyComponent.CleanTextNode{
-                                        backColor: index%2 == 0 ? marco.backGray : "#FFFFFF"
-                                        innerText: index + "." + dailyCleanProxy.getData(index,marco.taskContent)
-                                        imgSrc: dailyCleanProxy.getData(index, marco.cleanSig) === "" ? "" : ""
+                                        backColor: (index+1)%2 == 0 ? marco.backGray : "#FFFFFF"
+                                        innerText: (index+1) + "." + dailyCleanProxy.getData(index,marco.taskContent)
+
+                                        Component.onCompleted:
+                                        {
+                                            if(dailyCleanProxy.getData(index, marco.cleanSig) === "")
+                                            {
+                                                imgSrc = "";
+                                            }
+                                            else
+                                            {
+                                                canClicked = false;
+                                            }
+                                        }
 
                                         onNodeClicked:
                                         {
+                                            qmlHelper.setData("TaskContent",dailyCleanProxy.getData(index,marco.taskContent));
+
+                                            if(dailyCleanProxy.getData(index, marco.cleanSig) === "")
+                                                qmlHelper.setData("StaffId",dailyCleanProxy.getData(index,marco.cleanStaffId));
+
+                                            qmlHelper.setData("queryType","Daily");
                                             rootStackView.push({item:Qt.resolvedUrl("singleSig.qml"),destroyOnPop:true});
                                         }
                                     }
@@ -237,12 +275,29 @@ Rectangle {
                                     model:0
                                     delegate:
                                         MyComponent.CleanTextNode{
-                                        backColor: index%2 == 0 ? marco.backGray : "#FFFFFF"
-                                        innerText: index + "." + weeklyCleanProxy.getData(index,marco.taskContent)
-                                        imgSrc: weeklyCleanProxy.getData(index, marco.cleanSig) === "" ? "" : ""
+                                        backColor: (index+1)%2 == 0 ? marco.backGray : "#FFFFFF"
+                                        innerText: (index+1) + "." + weeklyCleanProxy.getData(index,marco.taskContent)
+
+                                        Component.onCompleted:
+                                        {
+                                            if(weeklyCleanProxy.getData(index, marco.cleanSig) === "")
+                                            {
+                                                imgSrc = "";
+                                            }
+                                            else
+                                            {
+                                                canClicked = false;
+                                            }
+                                        }
 
                                         onNodeClicked:
                                         {
+                                            qmlHelper.setData("TaskContent",weeklyCleanProxy.getData(index,marco.taskContent));
+
+                                            if(weeklyCleanProxy.getData(index, marco.cleanSig) === "")
+                                                qmlHelper.setData("StaffId",weeklyCleanProxy.getData(index,marco.cleanStaffId));
+
+                                            qmlHelper.setData("queryType","Weekly");
                                             rootStackView.push({item:Qt.resolvedUrl("singleSig.qml"),destroyOnPop:true});
                                         }
                                     }
@@ -265,22 +320,38 @@ Rectangle {
                         {
                             Image
                             {
+                                id:supplyPic
                                 source:"qrc:/qml/Resource/title-supply.png"
                             }
 
-                            GridView
+                            Rectangle
                             {
-                                id:supplyList
                                 width:supplyRect.width - supplyRect.border.width*2
-                                height:supplyRect.height - supplyRect.border.width*2
-                                model:0
-                                delegate:
-                                    MyComponent.SupplyNode{
-                                    iconText: supplyProxy.getData(index,marco.taskContent);
+                                height:supplyRect.height - supplyRect.border.width*2 - supplyPic.height
+                                x:supplyRect.border.width
+                                clip:true
 
-                                    onNodeClicked:
-                                    {
-                                        rootStackView.push({item:Qt.resolvedUrl("singleSig.qml"),destroyOnPop:true});
+                                GridView
+                                {
+                                    id:supplyList
+                                    anchors.fill: parent
+                                    flow:GridView.TopToBottom
+                                    flickableDirection: Flickable.HorizontalFlick
+                                    model:0
+                                    delegate:
+                                        MyComponent.SupplyNode{
+                                        iconText: supplyProxy.getData(index,marco.taskContent);
+
+                                        onNodeClicked:
+                                        {
+                                            qmlHelper.setData("TaskContent",supplyProxy.getData(index,marco.taskContent));
+
+                                            if(supplyProxy.getData(index, marco.cleanSig) === "")
+                                                qmlHelper.setData("StaffId",supplyProxy.getData(index,marco.cleanStaffId));
+
+                                            qmlHelper.setData("queryType","Supply");
+                                            rootStackView.push({item:Qt.resolvedUrl("singleSig.qml"),destroyOnPop:true});
+                                        }
                                     }
                                 }
                             }

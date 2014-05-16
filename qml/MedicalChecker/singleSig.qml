@@ -7,6 +7,25 @@ Rectangle {
     height: parent.height
 
     property bool isBusy: false
+    property string selectedStaffId: ""
+
+    Component.onCompleted:
+    {
+        selectedStaffId = qmlHelper.getData("StaffId");
+        userProxy.queryUser();
+    }
+
+    Connections
+    {
+        target: userProxy
+
+        onUserDataStandBy:
+        {
+            userProxy.prepareName(selectedStaffId);
+            employeeList.model = 0;
+            employeeList.model = userProxy.nameSize();
+        }
+    }
 
     MyComponent.TopBar
     {
@@ -85,6 +104,17 @@ Rectangle {
                                 delegate:
                                     MyComponent.CleanTextNode{
                                     width:employeeList.width
+                                    innerText: userProxy.getUserName(index)
+                                    haveIcon: false
+                                    unvisibleId: userProxy.getUserId(index)
+
+                                    onNodeClicked:
+                                    {
+                                        employeeList.currentItem.isSelected = false;
+                                        employeeList.currentIndex = index;
+                                        isSelected = true;
+                                        qmlHelper.setData("StaffId",unvisibleId);
+                                    }
                                 }
                             }
                         }
@@ -114,6 +144,24 @@ Rectangle {
                             width:rightRect.width - rightRect.border.width*2
                             height:rightRect.height - rightRect.border.width*2 - sigPic.height
                             x:rightRect.border.width
+
+                            onFinished:
+                            {
+                                var type = qmlHelper.getData("queryType");
+
+                                if(type === "Daily")
+                                {
+                                    dailyCleanProxy.sign(qmlHelper.getData("TaskContent"),qmlHelper.getCurrDateTime("yyyy-MM-dd HH:mm:ss"),qmlHelper.getData("StaffId"),fileName);
+                                }
+                                else if(type === "Weekly")
+                                {
+                                    weeklyCleanProxy.sign(qmlHelper.getData("TaskContent"),qmlHelper.getCurrWeekNum(),qmlHelper.getData("StaffId"),fileName);
+                                }
+                                else if(type === "Supply")
+                                {
+                                    supplyProxy.sign(qmlHelper.getData("TaskContent"),qmlHelper.getCurrDateTime("yyyy-MM-dd HH:mm:ss"),qmlHelper.getData("StaffId"),fileName);
+                                }
+                            }
                         }
                     }
                 }

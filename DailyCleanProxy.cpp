@@ -27,7 +27,7 @@ void DailyCleanProxy::queryDaily()
 
 void DailyCleanProxy::queryDailyRecord(QString Date)
 {
-    QSqlQueryEx sql("select * from :ClinicName.:DailyRecord where :CleanTime = ':Date'");
+    QSqlQueryEx sql("select * from :ClinicName.:DailyRecord where date_format(:CleanTime,'%Y-%m-%d') = ':Date'");
     sql.replaceHolder(":ClinicName",m_ClinicName);
     sql.replaceHolder(":DailyRecord",TABLE_DAILY_CLEAN_RECORD);
     sql.replaceHolder(":CleanTime",DAILYCLEAN_TIME_TAG);
@@ -44,6 +44,21 @@ QString DailyCleanProxy::getData(int index, QString key)
 int DailyCleanProxy::getTaskNum()
 {
     return m_cleanInfo.getContentTableSize();
+}
+
+void DailyCleanProxy::sign(QString taskContent, QString cleanTime, QString staffId, QString sig)
+{
+    qDebug()<<taskContent;
+    QSqlQueryEx sql("insert into :ClinicName.:DailyCleanRecord values(:id,':time',':staffid',':sig')");
+    sql.replaceHolder(":ClinicName",m_ClinicName);
+    sql.replaceHolder(":DailyCleanRecord",TABLE_DAILY_CLEAN_RECORD);
+    sql.replaceHolder(":id",QString::number(m_cleanInfo.getIdFromContent(taskContent)));
+    sql.replaceHolder(":time",cleanTime);
+    sql.replaceHolder(":staffid",staffId);
+    sql.replaceHolder(":sig",sig);
+    sql.setID("insertRecord");
+    qDebug()<<sql.getSqlString();
+    exec(sql);
 }
 
 void DailyCleanProxy::clear()
@@ -64,9 +79,15 @@ void DailyCleanProxy::innerFinished(QSqlQueryEx query)
         return;
     }
 
-    if(query.size() <= 0)
+    if(query.numRowsAffected() <=0 && query.size() <= 0)
     {
         qDebug()<<"nothing find";
+
+        if(query.getID() == "getRecord")
+        {
+            emit recordStandBy();
+        }
+
         return;
     }
 
@@ -90,8 +111,8 @@ void DailyCleanProxy::innerFinished(QSqlQueryEx query)
                 int index = query.record().value(idNo).toInt();
                 m_cleanInfo.pushId(index);
                 m_cleanInfo.setContentTableData(index, query.record().value(contentNo).toString());
-                m_cleanInfo.setData(index,CLEAN_TASKCONTENT_TAG, query.record().value(contentNo).toString());
                 m_cleanInfo.setStaffTableData(index, query.record().value(staffIdNo).toString());
+                m_cleanInfo.setData(index,CLEAN_TASKCONTENT_TAG, query.record().value(contentNo).toString());
                 m_cleanInfo.setData(index,CLEAN_STAFFID_TAG, query.record().value(staffIdNo).toString());
             }
 
@@ -130,11 +151,17 @@ void DailyCleanProxy::innerFinished(QSqlQueryEx query)
                 else
                     data[CLEAN_STAFFID_TAG] = signId;
 
+                qDebug()<<"sig"<<data[CLEAN_SIG_TAG];
+
                 m_cleanInfo.setData(index, data);
             }
 
             emit recordStandBy();
         }
+    }
+    else if(query.getID() == "insertRecord")
+    {
+        emit updateSucc();
     }
 
 }

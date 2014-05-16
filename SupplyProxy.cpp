@@ -45,6 +45,20 @@ QString SupplyProxy::getData(int index, QString key)
     return m_cleanInfo.getData(index, key);
 }
 
+void SupplyProxy::sign(QString taskContent, QString cleanTime, QString staffId, QString sig)
+{
+    QSqlQueryEx sql("insert into :ClinicName.:SupplyRecord values(:id,':time',':staffid',':sig')");
+    sql.replaceHolder(":ClinicName",m_ClinicName);
+    sql.replaceHolder(":SupplyRecord",TABLE_SUPPLY_RECORD);
+    sql.replaceHolder(":id",QString::number(m_cleanInfo.getIdFromContent(taskContent)));
+    sql.replaceHolder(":time",cleanTime);
+    sql.replaceHolder(":staffid",staffId);
+    sql.replaceHolder(":sig",sig);
+    sql.setID("insertRecord");
+    qDebug()<<sql.getSqlString();
+    exec(sql);
+}
+
 void SupplyProxy::clear()
 {
     m_cleanInfo.clear();
@@ -63,9 +77,15 @@ void SupplyProxy::innerFinished(QSqlQueryEx query)
         return;
     }
 
-    if(query.size() <= 0)
+    if(query.numRowsAffected() <=0 && query.size() <= 0)
     {
-        qDebug()<<"nothing find";
+        qDebug()<<"supply nothing find";
+
+        if(query.getID() == "getRecord")
+        {
+            emit recordDataStandBy();
+        }
+
         return;
     }
 
@@ -90,6 +110,8 @@ void SupplyProxy::innerFinished(QSqlQueryEx query)
                 m_cleanInfo.pushId(index);
                 m_cleanInfo.setContentTableData(index, query.record().value(contentNo).toString());
                 m_cleanInfo.setStaffTableData(index, query.record().value(staffNo).toString());
+                m_cleanInfo.setData(index,CLEAN_TASKCONTENT_TAG, query.record().value(contentNo).toString());
+                m_cleanInfo.setData(index,CLEAN_STAFFID_TAG, query.record().value(staffNo).toString());
             }
 
             emit taskDataStandBy();
@@ -131,5 +153,9 @@ void SupplyProxy::innerFinished(QSqlQueryEx query)
 
             emit recordDataStandBy();
         }
+    }
+    else if(query.getID() == "insertRecord")
+    {
+        emit updateSucc();
     }
 }

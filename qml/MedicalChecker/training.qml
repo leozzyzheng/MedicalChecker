@@ -18,6 +18,7 @@ Rectangle {
 
     Component.onCompleted:
     {
+        qmlHelper.reset();
         trainProxy.queryTraining(qmlHelper.getCurrDateTime("yyyy-MM-dd"));
         isBusy = true;
     }
@@ -63,7 +64,7 @@ Rectangle {
         onUpdateSucc:
         {
             trainProxy.queryTraining(qmlHelper.getCurrDateTime("yyyy-MM-dd"));
-            rootStackView.showMsg("Successfully Sign");
+            rootStackView.showMsg("Successfully Sign!");
         }
     }
 

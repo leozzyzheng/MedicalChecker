@@ -27,7 +27,7 @@ QString QmlHelper::getCurrMonthName()
     return QLocale().monthName(m_date.date().month(),QLocale::ShortFormat);
 }
 
-int QmlHelper::getCurrWeekNum()
+int QmlHelper::getCurrWeekDayNum()
 {
     return m_date.date().dayOfWeek();
 }
@@ -43,4 +43,41 @@ QString QmlHelper::getCurrAbsDateTime(QString format)
     QDateTime temp = QDateTime::currentDateTime();
     temp.setTimeZone(QTimeZone(QTimeZone::systemTimeZoneId()));
     return QLocale().toString(temp, format);
+}
+
+int QmlHelper::getCurrWeekNum()
+{
+    return 1;
+}
+
+void QmlHelper::setData(QString key, QString value)
+{
+    m_data[key] = value;
+}
+
+QString QmlHelper::getData(QString key)
+{
+    std::map<QString,QString>::iterator it = m_data.find(key);
+
+    if(it != m_data.end())
+    {
+        return it->second;
+    }
+    else
+    {
+        return QString();
+    }
+}
+
+void QmlHelper::clearData(QString key)
+{
+    std::map<QString,QString>::iterator it = m_data.find(key);
+
+    if(it != m_data.end())
+        m_data.erase(it);
+}
+
+void QmlHelper::clearAllData()
+{
+    m_data.clear();
 }

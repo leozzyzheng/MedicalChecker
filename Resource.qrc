@@ -27,5 +27,6 @@
         <file>Resource/title-sign.png</file>
         <file>Resource/title-supply.png</file>
         <file>Resource/title-weeely.png</file>
+        <file>Resource/done.png</file>
     </qresource>
 </RCC>

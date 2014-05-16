@@ -28,6 +28,7 @@
 #define TABLE_SUPPLY_RECORD             "CleanSupplyRecord"
 #define TABLE_CHECK_TASK                "CheckTask"
 #define TABLE_CHECK_RECORD              "CheckRecord"
+#define TABLE_USER                      "User"
 
 #define USER_ID_TAG                     "userId"
 #define USER_NAME_TAG                   "name"
@@ -55,7 +56,7 @@
 #define WEEKLYCLEAN_TASKID_TAG          "WeeklyCleanTaskId"
 #define WEEKLYCLEAN_TIME_TAG            "Week"
 
-#define SUPPLY_TASKID_TAG               "SupplyTask"
+#define SUPPLY_TASKID_TAG               "SupplyTaskId"
 #define SUPPLY_TIME_TAG                 "ReFillTime"
 
 #define CHECK_TASKID_TAG                "CheckTaskId"
@@ -71,9 +72,10 @@
 #define QML_FONT_WHITE_COLOR            "#FFFFFF"
 #define QML_BACK_GRAY_COLOR             "#EEEEEE"
 #define QML_BACK_BLUE_COLOR             "#1D568A"
-#define QML_DCLEAN_FONT_PXSIZE          "16"
+#define QML_DCLEAN_FONT_PXSIZE          16
 #define QML_BORDER_COLOR                "#CCCCCC"
-#define QML_SUPPLY_FONT_PXSIZE            "14"
+#define QML_SUPPLY_FONT_PXSIZE          14
+#define QML_TOPIC_FONT_PXSIZE           28
 
 //this marco can auto register an marco x to qml named "name" ,but for more code , I don't use it
 #define REGISTER_MARCO(name,x) \
@@ -104,12 +106,17 @@ class QmlMarco : public QObject
     Q_PROPERTY(QString fontWhite READ getQML_FONT_WHITE_COLOR CONSTANT)
     Q_PROPERTY(QString backGray READ getQML_BACK_GRAY_COLOR CONSTANT)
     Q_PROPERTY(QString backBlue READ getQML_BACK_BLUE_COLOR CONSTANT)
-    Q_PROPERTY(QString dCleanFontpSize READ getQML_DCLEAN_FONT_PXSIZE CONSTANT)
+    Q_PROPERTY(int dCleanFontpSize READ getQML_DCLEAN_FONT_PXSIZE CONSTANT)
     Q_PROPERTY(QString borderColor READ getQML_BORDER_COLOR CONSTANT)
     Q_PROPERTY(QString taskContent READ getCLEAN_TASKCONTENT_TAG CONSTANT)
     Q_PROPERTY(QString cleanSig READ getCLEAN_SIG_TAG CONSTANT)
     Q_PROPERTY(QString userName READ getUSER_NAME_TAG CONSTANT)
-    Q_PROPERTY(QString suppFontpSize READ getQML_SUPPLY_FONT_PXSIZE CONSTANT)
+    Q_PROPERTY(int suppFontpSize READ getQML_SUPPLY_FONT_PXSIZE CONSTANT)
+    Q_PROPERTY(int topicFontpSize READ getQML_TOPIC_FONT_PXSIZE CONSTANT)
+    Q_PROPERTY(QString dCleanTaskId READ getDAILYCLEAN_TASKID_TAG CONSTANT)
+    Q_PROPERTY(QString cleanStaffId READ getCLEAN_STAFFID_TAG CONSTANT)
+    Q_PROPERTY(QString wCleanTaskId READ getWEEKLYCLEAN_TASKID_TAG CONSTANT)
+    Q_PROPERTY(QString sCleanTaskId READ getSUPPLY_TASKID_TAG CONSTANT)
 
     //auto marco usage
     //REGISTER_MARCO(trTime,TRAINING_TIME_TAG)
@@ -195,7 +202,7 @@ public:
         return QML_BACK_BLUE_COLOR;
     }
 
-    QString getQML_DCLEAN_FONT_PXSIZE() const
+    int getQML_DCLEAN_FONT_PXSIZE() const
     {
         return QML_DCLEAN_FONT_PXSIZE;
     }
@@ -220,9 +227,34 @@ public:
         return USER_NAME_TAG;
     }
 
-    QString getQML_SUPPLY_FONT_PXSIZE() const
+    int getQML_SUPPLY_FONT_PXSIZE() const
     {
         return QML_SUPPLY_FONT_PXSIZE;
+    }
+
+    int getQML_TOPIC_FONT_PXSIZE() const
+    {
+        return QML_TOPIC_FONT_PXSIZE;
+    }
+
+    QString getDAILYCLEAN_TASKID_TAG() const
+    {
+        return DAILYCLEAN_TASKID_TAG;
+    }
+
+    QString getCLEAN_STAFFID_TAG() const
+    {
+        return CLEAN_STAFFID_TAG;
+    }
+
+    QString getWEEKLYCLEAN_TASKID_TAG() const
+    {
+        return WEEKLYCLEAN_TASKID_TAG;
+    }
+
+    QString getSUPPLY_TASKID_TAG() const
+    {
+        return SUPPLY_TASKID_TAG;
     }
 };
 

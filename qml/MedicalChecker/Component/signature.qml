@@ -76,7 +76,7 @@ Signature
                     onClicked:
                     {
                         send();
-                        signer.sendImage();
+                        sig.sendImage();
                     }
 
                     onPressed:

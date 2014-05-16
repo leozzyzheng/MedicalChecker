@@ -13,6 +13,11 @@ Rectangle {
         id:top
     }
 
+    Component.onCompleted:
+    {
+        qmlHelper.reset();
+    }
+
     Rectangle
     {
         id:topicRect
