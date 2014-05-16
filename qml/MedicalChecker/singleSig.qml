@@ -145,6 +145,14 @@ Rectangle {
                             height:rightRect.height - rightRect.border.width*2 - sigPic.height
                             x:rightRect.border.width
 
+                            onSend:
+                            {
+                                if(qmlHelper.getData("StaffId") === "")
+                                    rootStackView.showMsg("Haven't choose your name");
+                                else
+                                    sendImage();
+                            }
+
                             onFinished:
                             {
                                 var type = qmlHelper.getData("queryType");

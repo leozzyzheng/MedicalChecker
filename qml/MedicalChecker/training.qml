@@ -238,6 +238,11 @@ Rectangle {
                             width:600
                             height:485
 
+                            onSend:
+                            {
+                                sendImage();
+                            }
+
                             onFinished:
                             {
                                 trainProxy.sign(trId,nameList.selectedStaffId,fileName,qmlHelper.getCurrAbsDateTime("yyyy-MM-dd HH:mm:ss"));

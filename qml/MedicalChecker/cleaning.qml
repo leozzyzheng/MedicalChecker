@@ -8,10 +8,8 @@ Rectangle {
 
     property bool isBusy: false
 
-    function changeDate(delta)
+    function changeDate()
     {
-        qmlHelper.addDay(delta);
-
         dailyCleanProxy.abort();
         weeklyCleanProxy.abort();
         supplyProxy.abort();
@@ -163,12 +161,12 @@ Rectangle {
 
                             onDecDate:
                             {
-                                changeDate(-1);
+                                changeDate();
                             }
 
                             onIncDate:
                             {
-                                changeDate(1);
+                                changeDate();
                             }
                         }
                     }

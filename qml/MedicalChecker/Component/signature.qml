@@ -18,6 +18,7 @@ Signature
 
     onError:
     {
+        rootStackView.showMsg(error);
         console.log("error: " + error);
     }
 
@@ -76,7 +77,6 @@ Signature
                     onClicked:
                     {
                         send();
-                        sig.sendImage();
                     }
 
                     onPressed:

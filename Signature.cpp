@@ -89,7 +89,7 @@ void Signature::innerError(SignatureSender::ERROR_TYPE error)
 
     if(error == SignatureSender::IMAGE_INVALID)
     {
-        errorString = QString::fromLocal8Bit("Invaild image error");
+        errorString = QString::fromLocal8Bit("Haven't signed anything");
     }
     else if(error == SignatureSender::NETWORK_BUSY)
     {
