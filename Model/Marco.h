@@ -6,9 +6,12 @@
 
 #define DATABASE_TYPE                   "QMYSQL"
 #define DATABASE_HOSTNAME               "115.28.226.229"
-#define DATABASE_PORT 3306
+//#define DATABASE_HOSTNAME               "localhost"
+#define DATABASE_PORT                   3306
 #define DATABASE_USERNAME               "yclj"
+//#define DATABASE_USERNAME               "root"
 #define DATABASE_PASSWD                 "yclj"
+//#define DATABASE_PASSWD                 "6235775"
 #define DATABASE_DATABASENAME           ""
 
 #define DATABASE_NOCONNECTING           0

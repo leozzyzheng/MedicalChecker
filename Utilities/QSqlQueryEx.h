@@ -5,6 +5,7 @@
 #include <QString>
 #include <QMetaType>
 #include <QDebug>
+#include <vector>
 
 #include "QueryHelper.h"
 
@@ -22,7 +23,8 @@ public:
     QString getSqlString() const;
     void setSqlString(const QString & sql);
 
-    void replaceHolder(const QString & holder,const QVariant & value,bool isQuoted = false);
+    void replaceHolder(const QString & holder, const QVariant & value);
+    void threaBindValue(const QString & holder, const QVariant & value);
 
     void setExecutable(bool excutable);
     bool getExecutable() const;
@@ -32,14 +34,23 @@ public:
     void emitResult();
     void emitError(QSqlError &error);
 
+    void bindAll();
+
 private:
+    struct PrepareData
+    {
+        QString holder;
+        QVariant value;
+    };
+
     //disable perpare function for thread safe
-    bool prepare(const QString &query){Q_UNUSED(query);return false;}
+    bool prepare(const QString &query){prepare(query);}
 
     QString m_id;
     QueryHelper m_helper;
     QString m_sql;
     bool m_bCanExecute;
+    std::vector<PrepareData> m_vPre;
 };
 
 Q_DECLARE_METATYPE(QSqlQueryEx)

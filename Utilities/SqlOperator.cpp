@@ -127,6 +127,8 @@ void SqlThread::exec(QSqlQueryEx * sql)
         return;
     }
 
+    sql->bindAll();
+
     qDebug()<<"     basic query";
     if(!sql->exec(sql->getSqlString()))
     {

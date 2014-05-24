@@ -47,7 +47,7 @@ StackView
         {
             if(waitingTime > logestWaitingTime)
             {
-                showMsg("wait for too long! Quit now.");
+                showMsg("Cannot connect to Server! Quit now.");
                 console.log("wait for too long! Quit now.");
                 Qt.quit();
             }

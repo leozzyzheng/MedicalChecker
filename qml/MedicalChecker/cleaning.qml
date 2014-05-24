@@ -332,6 +332,8 @@ Rectangle {
                                 GridView
                                 {
                                     id:supplyList
+                                    cellHeight: 125
+                                    cellWidth: 150
                                     anchors.fill: parent
                                     flow:GridView.TopToBottom
                                     flickableDirection: Flickable.HorizontalFlick

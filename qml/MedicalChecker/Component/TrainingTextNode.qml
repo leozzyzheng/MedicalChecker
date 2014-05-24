@@ -55,6 +55,7 @@ Rectangle {
                     font.family: marco.topicFontFa
                     verticalAlignment: Text.AlignVCenter
                     color: titleColor
+                    font.pixelSize: 25
                 }
             }
         }

@@ -107,6 +107,7 @@ Rectangle {
                                     innerText: userProxy.getUserName(index)
                                     haveIcon: false
                                     unvisibleId: userProxy.getUserId(index)
+                                    backColor: (index+1)%2 == 0 ? marco.backGray : "#FFFFFF"
 
                                     onNodeClicked:
                                     {

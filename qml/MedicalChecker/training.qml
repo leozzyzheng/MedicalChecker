@@ -159,9 +159,9 @@ Rectangle {
                             MyComponent.TrainingTextNode{
                             innerIdx: index
                             titleText: trainProxy.getTrainingInfo(index,marco.trType)
-                            timeText: trainProxy.getTrainingInfo(index,marco.trTime)
-                            placeText: trainProxy.getTrainingInfo(index,marco.trAdd)
-                            staffText: trainProxy.getTrainingInfo(index,marco.trStaff)
+                            timeText: "Time:"+trainProxy.getTrainingInfo(index,marco.trTime)
+                            placeText: "Place:"+trainProxy.getTrainingInfo(index,marco.trAdd)
+                            staffText: "Staff:"+trainProxy.getTrainingInfo(index,marco.trStaff)
 
                             onNodeClicked:
                             {

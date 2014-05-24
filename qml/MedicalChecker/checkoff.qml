@@ -141,6 +141,7 @@ Rectangle {
                 font.pixelSize:60//marco.checkFontpSize
                 color:marco.fontDarkBlue
                 visible: false
+                wrapMode: Text.WordWrap
             }
 
             Image

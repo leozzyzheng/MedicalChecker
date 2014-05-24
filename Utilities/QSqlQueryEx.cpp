@@ -46,17 +46,22 @@ QString QSqlQueryEx::getSqlString() const
 
 void QSqlQueryEx::setSqlString(const QString &sql)
 {
+    m_vPre.clear();
     m_sql = sql;
 }
 
-void QSqlQueryEx::replaceHolder(const QString &holder, const QVariant &value, bool isQuoted)
+void QSqlQueryEx::replaceHolder(const QString &holder, const QVariant &value)
 {
     QString v = value.toString();
-
-    if(isQuoted)
-        v = "'" + v + "'";
-
     m_sql.replace(holder,v);
+}
+
+void QSqlQueryEx::threaBindValue(const QString &holder, const QVariant &value)
+{
+    PrepareData data;
+    data.holder = holder;
+    data.value = value;
+    m_vPre.push_back(data);
 }
 
 void QSqlQueryEx::setExecutable(bool excutable)
@@ -82,6 +87,17 @@ void QSqlQueryEx::emitResult()
 void QSqlQueryEx::emitError(QSqlError & error)
 {
     m_helper.emitError(error, this);
+}
+
+void QSqlQueryEx::bindAll()
+{
+    std::vector<PrepareData>::iterator it = m_vPre.begin();
+
+    for(;it != m_vPre.end();++it)
+    {
+        PrepareData data = *it;
+        this->bindValue(data.holder,data.value);
+    }
 }
 
 
