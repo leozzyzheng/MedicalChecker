@@ -9,11 +9,12 @@ class WeeklyCleanProxy : public SqlEvent
     Q_OBJECT
 public:
     explicit WeeklyCleanProxy(QObject *parent = 0);
-    Q_INVOKABLE void queryWeekly();
-    Q_INVOKABLE void queryRecord(QString weekNum);
-    Q_INVOKABLE int getTaskNum();
-    Q_INVOKABLE QString getData(int index, QString key);
-    Q_INVOKABLE void sign(QString taskContent, int week, QString staffId, QString sig);
+public slots:
+     void queryWeekly();
+     void queryRecord(QString weekNum);
+     int getTaskNum();
+     QString getData(int index, QString key);
+     void sign(QString taskContent, int week, QString staffId, QString sig);
 
     void clear();
 signals:

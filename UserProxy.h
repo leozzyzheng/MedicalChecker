@@ -9,12 +9,13 @@ class UserProxy : public SqlEvent
     Q_OBJECT
 public:
     explicit UserProxy(QObject * parent = 0);
-    Q_INVOKABLE void queryUser();
-    Q_INVOKABLE QString getData(QString idnumber, QString key);
-    Q_INVOKABLE void prepareName(QString staffId);
-    Q_INVOKABLE QString getUserName(int index);
-    Q_INVOKABLE QString getUserId(int index);
-    Q_INVOKABLE int nameSize();
+public slots:
+     void queryUser();
+     QString getData(QString idnumber, QString key);
+     void prepareName(QString staffId);
+     QString getUserName(int index);
+     QString getUserId(int index);
+     int nameSize();
 
     void clear();
 

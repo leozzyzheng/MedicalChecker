@@ -9,11 +9,12 @@ class DailyCleanProxy : public SqlEvent
     Q_OBJECT
 public:
     explicit DailyCleanProxy(QObject *parent = 0);
-    Q_INVOKABLE void queryDaily();
-    Q_INVOKABLE void queryDailyRecord(QString Date);
-    Q_INVOKABLE QString getData(int index, QString key);
-    Q_INVOKABLE int getTaskNum();
-    Q_INVOKABLE void sign(QString taskContent, QString cleanTime, QString staffId, QString sig);
+public slots:
+     void queryDaily();
+     void queryDailyRecord(QString Date);
+     QString getData(int index, QString key);
+     int getTaskNum();
+     void sign(QString taskContent, QString cleanTime, QString staffId, QString sig);
 
     void clear();
 

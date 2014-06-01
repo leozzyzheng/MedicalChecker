@@ -9,11 +9,12 @@ class SupplyProxy : public SqlEvent
     Q_OBJECT
 public:
     explicit SupplyProxy(QObject *parent = 0);
-    Q_INVOKABLE void querySupply();
-    Q_INVOKABLE void queryRecord(QString date);
-    Q_INVOKABLE int  getTaskNum();
-    Q_INVOKABLE QString getData(int index, QString key);
-    Q_INVOKABLE void sign(QString taskContent, QString cleanTime, QString staffId, QString sig);
+public slots:
+     void querySupply();
+     void queryRecord(QString date);
+     int  getTaskNum();
+     QString getData(int index, QString key);
+     void sign(QString taskContent, QString cleanTime, QString staffId, QString sig);
 
     void clear();
 

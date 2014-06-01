@@ -27,8 +27,8 @@ signals:
     void finished(QString fileName);
     void error(QString error);
 public slots:
-    Q_INVOKABLE void clearImage();
-    Q_INVOKABLE void sendImage();
+    void clearImage();
+    void sendImage();
 private slots:
     void innerError(SignatureSender::ERROR_TYPE error);
     void innerFinished(QString fileName);

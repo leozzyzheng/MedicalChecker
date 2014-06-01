@@ -23,14 +23,13 @@ public:
     void        exec(QSqlQueryEx & query);
     void        exec(QString & query);
 
-    Q_INVOKABLE void abort();
-
 signals:
     void        error(QString errorString);
     void        completed();
 
 public slots:
     EventType type() const;
+    void abort();
 
     //提供两个可以被重写的槽函数来自定义sql查询后的操作
     //默认不做任何操作
