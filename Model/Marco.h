@@ -84,15 +84,15 @@
 
 #define QML_TOPIC_FONT_FAMILY           "verdana,Lucida Sans,trebuchet ms,arial,sans-serif"
 #define QML_CHECK_FONT_FAMILY           "consolas,verdana,arial,sans-serif"
-#define QML_FONT_YELLOW_COLOR           "#FF9933"
+#define QML_FONT_YELLOW_COLOR           "#ff9933"
 #define QML_FONT_DARKBLUE_COLOR         "#003366"
-#define QML_FONT_BLUE_COLOR             "#1D568A"
+#define QML_FONT_BLUE_COLOR             "#1d568a"
 #define QML_FONT_BLACK_COLOR            "#000000"
-#define QML_FONT_WHITE_COLOR            "#FFFFFF"
-#define QML_BACK_GRAY_COLOR             "#EEEEEE"
-#define QML_BACK_BLUE_COLOR             "#1D568A"
+#define QML_FONT_WHITE_COLOR            "#ffffff"
+#define QML_BACK_GRAY_COLOR             "#eeeeee"
+#define QML_BACK_BLUE_COLOR             "#1d568a"
 #define QML_DCLEAN_FONT_PXSIZE          16
-#define QML_BORDER_COLOR                "#CCCCCC"
+#define QML_BORDER_COLOR                "#cccccc"
 #define QML_SUPPLY_FONT_PXSIZE          14
 #define QML_TOPIC_FONT_PXSIZE           28
 #define QML_CHECK_FONT_PXSIZE           60

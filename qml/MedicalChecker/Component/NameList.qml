@@ -10,15 +10,19 @@ ListView {
     model:0
     delegate:
         Rectangle{
+        id:delegateRect
         width:list.width
-        height:30
+        height:60
+        border.width: 1
+        border.color: "black"
+        color:trainProxy.getSignInfo(index,marco.trSign) === "" ? marco.backBlue : "#FFFFFF"
 
         Text
         {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            anchors.fill: parent
-            text:trainProxy.getSignInfo(index,marco.userName) + "|" + (trainProxy.getSignInfo(index,marco.trSign) === "" ? "Not Signed" : "Have Signed")
+            anchors.centerIn: parent
+            text:trainProxy.getSignInfo(index,marco.userName)
             font.family: marco.topicFontFa
         }
 
@@ -28,6 +32,13 @@ ListView {
 
             onClicked:
             {
+                //do not change == to ===
+                if(delegateRect.color == marco.backBlue)
+                {
+                    nodeClicked("");
+                    return;
+                }
+
                 selectedStaffId = trainProxy.getSignInfo(index,marco.trStaffid);
                 nodeClicked(trainProxy.getSignInfo(index,marco.userName));
             }

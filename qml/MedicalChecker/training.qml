@@ -14,6 +14,7 @@ Rectangle {
     {
         trainProxy.abort();
         trainProxy.queryTraining(qmlHelper.getCurrDateTime("yyyy-MM-dd"));
+        signer.enabled = false;
     }
 
     Component.onCompleted:
@@ -167,6 +168,7 @@ Rectangle {
                             {
                                 trId = trainProxy.getTrainingInfo(index,marco.trTrid);
                                 trainProxy.queryTrainingStaff(trId);
+                                signer.enabled = false;
                             }
                         }
                     }
@@ -203,16 +205,18 @@ Rectangle {
                             {
                                 anchors.fill: parent
                                 onClicked:
-                                {
+                                {   
                                     if(nameList.model === 0)
                                         return;
 
-                                    nameListRect.visible = true;
+                                    nameListRect.visible = !nameListRect.visible;
+                                    nameText.text = "click me to cancel";
                                 }
                             }
 
                             Rectangle
                             {
+                                y:30
                                 id:nameListRect
                                 width:nameList.width
                                 height:nameList.height
@@ -225,8 +229,17 @@ Rectangle {
 
                                     onNodeClicked:
                                     {
-                                        nameText.text = name;
-                                        nameListRect.visible = false;
+                                        if(name === "")
+                                        {
+                                            nameListRect.visible = false;
+                                            signer.enabled = false;
+                                        }
+                                        else
+                                        {
+                                            nameText.text = name;
+                                            nameListRect.visible = false;
+                                            signer.enabled = true;
+                                        }
                                     }
                                 }
                             }
@@ -237,6 +250,7 @@ Rectangle {
                             id:signer
                             width:600
                             height:485
+                            enabled: false
 
                             onSend:
                             {
