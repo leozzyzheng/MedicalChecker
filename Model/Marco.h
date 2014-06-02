@@ -32,6 +32,7 @@
 #define TABLE_CHECK_TASK                "CheckTask"
 #define TABLE_CHECK_RECORD              "CheckRecord"
 #define TABLE_USER                      "User"
+#define TABLE_INVEN                     "Inventory"
 
 #define USER_ID_TAG                     "userId"
 #define USER_NAME_TAG                   "name"
@@ -68,6 +69,18 @@
 #define CHECK_STAFFID_TAG               "StaffId"
 #define CHECK_TIME_TAG                  "CheckTime"
 #define CHECK_SIG_TAG                   "Signature"
+
+#define STER_TASKID_TAG                 "SterilizeTaskId"
+#define STER_STIME_TAG                  "TaskStartTime"
+#define STER_ETIME_TAG                  "TaskEndTime"
+#define STER_INVEN_TAG                  "InventoryIds"
+#define STER_CHECKTIME_TAG              "CheckTime"
+#define STER_STAFFID_TAG                "StaffId"
+#define STER_SIG_TAG                    "Signature"
+
+#define INVEN_ID_TAG                    "InventoryId"
+#define INVEN_NAME_TAG                  "Name"
+#define INVEN_NUM_TAG                   "Amount"
 
 #define QML_TOPIC_FONT_FAMILY           "verdana,Lucida Sans,trebuchet ms,arial,sans-serif"
 #define QML_CHECK_FONT_FAMILY           "consolas,verdana,arial,sans-serif"
@@ -128,6 +141,8 @@ class QmlMarco : public QObject
     Q_PROPERTY(QString fontYellow READ getQML_FONT_YELLOW_COLOR CONSTANT)
     Q_PROPERTY(int checkFontpSize READ getQML_CHECK_FONT_PXSIZE CONSTANT)
     Q_PROPERTY(QString fontDarkBlue READ getQML_FONT_DARKBLUE_COLOR CONSTANT)
+    Q_PROPERTY(QString sterSTime READ getSTER_STIME_TAG CONSTANT)
+    Q_PROPERTY(QString sterETime READ getSTER_ETIME_TAG CONSTANT)
 
 
     //auto marco usage
@@ -287,6 +302,16 @@ public:
     QString getQML_FONT_DARKBLUE_COLOR() const
     {
         return QML_FONT_DARKBLUE_COLOR;
+    }
+
+    QString getSTER_STIME_TAG() const
+    {
+        return STER_STIME_TAG;
+    }
+
+    QString getSTER_ETIME_TAG() const
+    {
+        return STER_ETIME_TAG;
     }
 };
 

@@ -9,6 +9,14 @@ Signature
     width:parent.width
     height:parent.height
 
+    Rectangle
+    {
+        visible: sig.enabled ? false : true
+        anchors.fill: parent
+        z:1000
+        color:"#CCCCCCCC"
+    }
+
     signal send()
 
     onFinished:

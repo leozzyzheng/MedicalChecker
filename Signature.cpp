@@ -23,7 +23,7 @@ void Signature::paint(QPainter *painter)
     if(m_vPoints.size() == 0 && m_vCurrentPoints.size() == 0)
         return;
 
-    QPen pen(QColor(Qt::black));
+    QPen pen;
     pen.setWidth(2);
     painter->setPen(pen);
 

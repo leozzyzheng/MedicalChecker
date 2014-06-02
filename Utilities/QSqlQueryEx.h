@@ -44,7 +44,7 @@ private:
     };
 
     //disable perpare function for thread safe
-    bool prepare(const QString &query){prepare(query);}
+    bool prepare(const QString &query){return prepare(query);}
 
     QString m_id;
     QueryHelper m_helper;

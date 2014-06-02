@@ -30,7 +30,11 @@ SOURCES += main.cpp \
     CheckProxy.cpp \
     Model/CheckInfo.cpp \
     UserProxy.cpp \
-    Model/UserInfo.cpp
+    Model/UserInfo.cpp \
+    InventoryProxy.cpp \
+    Model/Inventory.cpp \
+    SterilizeProxy.cpp \
+    Model/SterilizeInfo.cpp
 
 # Installation path
 # target.path =
@@ -61,7 +65,11 @@ HEADERS += \
     CheckProxy.h \
     Model/CheckInfo.h \
     UserProxy.h \
-    Model/UserInfo.h
+    Model/UserInfo.h \
+    InventoryProxy.h \
+    Model/Inventory.h \
+    SterilizeProxy.h \
+    Model/SterilizeInfo.h
 
 OTHER_FILES += \
     qml/MedicalChecker/startup.qml \

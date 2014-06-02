@@ -30,5 +30,7 @@
         <file>Resource/done.png</file>
         <file>Resource/checkoff-btn.png</file>
         <file>Resource/checkoff-btn-click.png</file>
+        <file>Resource/disinfect.png</file>
+        <file>Resource/disinfect-un.png</file>
     </qresource>
 </RCC>

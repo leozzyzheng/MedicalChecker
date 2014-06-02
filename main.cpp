@@ -15,6 +15,7 @@
 #include "SupplyProxy.h"
 #include "UserProxy.h"
 #include "CheckProxy.h"
+#include "SterilizeProxy.h"
 
 //外部初始化单例
 QThread* ThreadSingleton::m_instance = new QThread();//逻辑单例线程
@@ -48,6 +49,7 @@ int main(int argc, char *argv[])
     SupplyProxy supplyProxy;
     UserProxy userProxy;
     CheckProxy checkProxy;
+    SterilizeProxy sterProxy;
 
     //注册
     viewer.rootContext()->setContextProperty("initProxy", &initProxy);
@@ -59,6 +61,7 @@ int main(int argc, char *argv[])
     viewer.rootContext()->setContextProperty("supplyProxy", &supplyProxy);
     viewer.rootContext()->setContextProperty("userProxy", &userProxy);
     viewer.rootContext()->setContextProperty("checkProxy", &checkProxy);
+    viewer.rootContext()->setContextProperty("sterProxy", &sterProxy);
 
     //---------------------------------------------------------------------
 

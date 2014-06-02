@@ -104,6 +104,7 @@ Rectangle {
                                 delegate:
                                     MyComponent.CleanTextNode{
                                     width:employeeList.width
+                                    height:50
                                     innerText: userProxy.getUserName(index)
                                     haveIcon: false
                                     unvisibleId: userProxy.getUserId(index)
@@ -111,6 +112,7 @@ Rectangle {
 
                                     onNodeClicked:
                                     {
+                                        sig.enabled = true;
                                         employeeList.currentItem.isSelected = false;
                                         employeeList.currentIndex = index;
                                         isSelected = true;
@@ -142,9 +144,11 @@ Rectangle {
 
                         MyComponent.Signature
                         {
+                            id:sig
                             width:rightRect.width - rightRect.border.width*2
                             height:rightRect.height - rightRect.border.width*2 - sigPic.height
                             x:rightRect.border.width
+                            enabled:false
 
                             onSend:
                             {
@@ -173,6 +177,10 @@ Rectangle {
                                 else if(type === "Check")
                                 {
                                     checkProxy.sign(qmlHelper.getData("StaffId"),qmlHelper.getCurrDateTime("yyyy-MM-dd HH:mm:ss"),fileName);
+                                }
+                                else if(type === "Ster")
+                                {
+                                    sterProxy.sign(qmlHelper.getData("TaskId"),qmlHelper.getData("StaffId"),qmlHelper.getCurrDateTime("yyyy-MM-dd HH:mm:ss"),fileName);
                                 }
                             }
                         }
