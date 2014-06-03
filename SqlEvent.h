@@ -34,12 +34,12 @@ public slots:
     //提供两个可以被重写的槽函数来自定义sql查询后的操作
     //默认不做任何操作
 protected slots:
-    virtual void innerError(QSqlError &error);
+    virtual void innerError(QSqlErrorEx &error);
     virtual void innerFinished(QSqlQueryEx query);
 
 private slots:
     void __finished(QSqlQueryEx * query);
-    void __error(QSqlError &error, QSqlQueryEx * query);
+    void __error(QSqlErrorEx &error, QSqlQueryEx * query);
 
 private:
     void __innerconnect(QSqlQueryEx* pQuery);

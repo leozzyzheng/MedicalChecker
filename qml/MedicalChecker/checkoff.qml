@@ -74,6 +74,11 @@ Rectangle {
         {
             console.log(errorString);
         }
+
+        onNoTask:
+        {
+            isChecked.visible = true;
+        }
     }
 
     Rectangle

@@ -16,7 +16,7 @@ public slots:
     QString getName(int id);
 
 protected slots:
-    virtual void innerError(QSqlError &error);
+    virtual void innerError(QSqlErrorEx &error);
     virtual void innerFinished(QSqlQueryEx query);
 
 private:

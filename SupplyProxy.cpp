@@ -64,7 +64,7 @@ void SupplyProxy::clear()
     m_cleanInfo.clear();
 }
 
-void SupplyProxy::innerError(QSqlError &error)
+void SupplyProxy::innerError(QSqlErrorEx &error)
 {
     emit this->error(error.text());
 }

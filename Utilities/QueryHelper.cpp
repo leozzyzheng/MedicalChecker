@@ -11,7 +11,7 @@ void QueryHelper::emitResult(QSqlQueryEx *pQuery)
     emit result(pQuery);
 }
 
-void QueryHelper::emitError(QSqlError &error, QSqlQueryEx *pQuery)
+void QueryHelper::emitError(QSqlErrorEx &error, QSqlQueryEx *pQuery)
 {
     emit this->error(error,pQuery);
 }

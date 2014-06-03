@@ -8,11 +8,7 @@
 #include <QObject>
 #include <QThread>
 #include <QtGui/QGuiApplication>
-#include <QSqlDatabase>
-#include <QSqlError>
-#include <QSqlRecord>
 #include <QString>
-#include <QSqlDriver>
 
 #include "Utilities/ThreadSingleton.h"
 #include "Utilities/QSqlQueryEx.h"
@@ -27,7 +23,7 @@ public :
     ~SqlThread();
     void        moveToOtherThread();
     bool        isOpen();
-    const QSqlError   getLastError();
+    const QSqlErrorEx   getLastError();
 
 public slots:
     void        exec(QSqlQueryEx * sql);
@@ -35,12 +31,11 @@ public slots:
 
 signals:
     void        result(QSqlQueryEx * result);
-    void        error(QSqlError error, QSqlQueryEx* sql);
+    void        error(QSqlErrorEx error, QSqlQueryEx* sql);
 
 private:
-    QSqlDatabase    m_db;
     unsigned int    m_status;
-    QSqlError       m_dbError;
+    QSqlErrorEx     m_dbError;
 };
 
 //数据库操作主线程封装类
@@ -52,7 +47,7 @@ public :
     ~           SqlOperator();
     void        Init();
     bool        isOpen();
-    const QSqlError   getLastError();
+    const QSqlErrorEx   getLastError();
 
 signals:
     void        threadInit();
@@ -60,7 +55,7 @@ signals:
 public slots:
     void        exec(QSqlQueryEx * sql);
     void        result(QSqlQueryEx * result);
-    void        error(QSqlError error, QSqlQueryEx *sql);
+    void        error(QSqlErrorEx error, QSqlQueryEx *sql);
 
 signals:
     void        innerExec(const QString & sql);

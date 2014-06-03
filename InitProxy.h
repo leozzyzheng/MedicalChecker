@@ -23,7 +23,7 @@ signals:
     void notOpened();
 public slots:
 protected slots:
-    void innerError(QSqlError & error);
+    void innerError(QSqlErrorEx & error);
     void innerFinished(QSqlQueryEx query);
 private:
     LoginInfo m_logInfo;

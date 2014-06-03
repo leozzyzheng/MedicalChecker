@@ -4,15 +4,8 @@
 #include <QObject>
 #include <QString>
 
-#define DATABASE_TYPE                   "QMYSQL"
 #define DATABASE_HOSTNAME               "115.28.226.229"
-//#define DATABASE_HOSTNAME               "localhost"
-#define DATABASE_PORT                   3306
-#define DATABASE_USERNAME               "yclj"
-//#define DATABASE_USERNAME               "root"
-#define DATABASE_PASSWD                 "yclj"
-//#define DATABASE_PASSWD                 "6235775"
-#define DATABASE_DATABASENAME           ""
+#define DATABASE_URL                    "http://115.28.226.229:8080/Clinic/DataController"
 
 #define DATABASE_NOCONNECTING           0
 #define DATABASE_CONNECTING             1

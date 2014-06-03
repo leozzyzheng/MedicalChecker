@@ -7,13 +7,13 @@ InitProxy::InitProxy(QObject *parent) :
 
 bool InitProxy::excuteInit()
 {
-    QSqlQueryEx test("test");
+//    QSqlQueryEx test("test");
 
-    if(!test.driver()->isOpen())
-    {
-        emit notOpened();
-        return false;
-    }
+//    if(!test.driver()->isOpen())
+//    {
+//        emit notOpened();
+//        return false;
+//    }
 
     QString sql = "SELECT clinicName FROM `TheWholeClinicName`.ClinicName";
     exec(sql);
@@ -57,7 +57,7 @@ void InitProxy::login(QString username, QString passwd)
     exec(sql);
 }
 
-void InitProxy::innerError(QSqlError & error)
+void InitProxy::innerError(QSqlErrorEx & error)
 {
     emit this->error("An error occured:" + error.text() + "!");
 }

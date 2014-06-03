@@ -1,20 +1,27 @@
 #ifndef QSQLQUERYEX_H
 #define QSQLQUERYEX_H
 
-#include <QSqlQuery>
 #include <QString>
 #include <QMetaType>
 #include <QDebug>
 #include <vector>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QtCore>
+#include "Model/Marco.h"
 
 #include "QueryHelper.h"
+#include "QSqlRecordEx.h"
+#include "QSqlErrorEx.h"
 
-class QSqlQueryEx : public QSqlQuery
+class QSqlQueryEx
 {
 public:
-    explicit QSqlQueryEx(QSqlResult *r);
-    explicit QSqlQueryEx(const QString& query = QString(), QSqlDatabase db = QSqlDatabase());
-    explicit QSqlQueryEx(QSqlDatabase db);
+    explicit QSqlQueryEx(const QString& query = QString());
     QSqlQueryEx(const QSqlQueryEx & other);
 
     void setID(const QString &id);
@@ -32,9 +39,24 @@ public:
     QueryHelper *getHelper();
 
     void emitResult();
-    void emitError(QSqlError &error);
+    void emitError(QSqlErrorEx &error);
 
-    void bindAll();
+    bool exec();
+
+    bool next();
+
+    QSqlRecordEx record() const;
+    QVariant value(int index);
+
+    int size() const;
+    int numRowsAffected() const;
+
+    QSqlErrorEx error() const;
+
+    bool isActive() const;
+    int getCurrCount() const;
+    QVector<QSqlRecordEx> getAllData() const;
+
 
 private:
     struct PrepareData
@@ -43,14 +65,18 @@ private:
         QVariant value;
     };
 
-    //disable perpare function for thread safe
-    bool prepare(const QString &query){return prepare(query);}
-
     QString m_id;
     QueryHelper m_helper;
     QString m_sql;
     bool m_bCanExecute;
     std::vector<PrepareData> m_vPre;
+    QNetworkReply * m_pReply;
+    QVector<QSqlRecordEx> m_vRecord;
+    int m_currCount;
+    int m_size;
+    int m_numRowsAffected;
+    QSqlErrorEx m_error;
+    bool m_bActive;
 };
 
 Q_DECLARE_METATYPE(QSqlQueryEx)

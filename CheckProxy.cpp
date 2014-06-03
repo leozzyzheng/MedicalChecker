@@ -88,7 +88,7 @@ void CheckProxy::clear()
     m_checkInfo.clear();
 }
 
-void CheckProxy::innerError(QSqlError &error)
+void CheckProxy::innerError(QSqlErrorEx &error)
 {
     emit this->error(error.text());
 }
@@ -106,6 +106,11 @@ void CheckProxy::innerFinished(QSqlQueryEx query)
         if(query.getID() == "getRecord")
         {
             emit notChecked();
+            return;
+        }
+        else if(query.getID() == "getTask")
+        {
+            emit noTask();
             return;
         }
 
@@ -130,7 +135,7 @@ void CheckProxy::innerFinished(QSqlQueryEx query)
         {
             while(query.next())
             {
-                int id = query.value(CHECK_TASKID_TAG).toInt();
+                int id = query.value(idNo).toInt();
                 QString day = query.record().value(dayNo).toString();
                 QStringList dayList = day.split(",",QString::SkipEmptyParts);
 

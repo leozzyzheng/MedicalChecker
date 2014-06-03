@@ -54,7 +54,7 @@ void UserProxy::clear()
     m_userInfo.clear();
 }
 
-void UserProxy::innerError(QSqlError &error)
+void UserProxy::innerError(QSqlErrorEx &error)
 {
     emit this->error(error.text());
 }

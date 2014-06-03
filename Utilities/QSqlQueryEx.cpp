@@ -1,32 +1,23 @@
 #include "QSqlQueryEx.h"
 
-QSqlQueryEx::QSqlQueryEx(QSqlResult *r):
-    QSqlQuery(r),
-    m_bCanExecute(true)
-{
-
-}
-
-QSqlQueryEx::QSqlQueryEx(const QString &query, QSqlDatabase db):
-    QSqlQuery("",db),
-    m_bCanExecute(true)
+QSqlQueryEx::QSqlQueryEx(const QString &query):
+    m_bCanExecute(true),
+    m_pReply(NULL)
 {
     m_sql = query;
 }
 
-QSqlQueryEx::QSqlQueryEx(QSqlDatabase db):
-    QSqlQuery(db),
-    m_bCanExecute(true)
-{
-
-}
-
 QSqlQueryEx::QSqlQueryEx(const QSqlQueryEx &other):
-    QSqlQuery(other)
+    m_pReply(NULL)
 {
     m_id = other.getID();
     m_sql = other.getSqlString();
     m_bCanExecute = other.getExecutable();
+    m_currCount = other.getCurrCount();
+    m_size = other.size();
+    m_numRowsAffected = other.numRowsAffected();
+    m_bActive = other.isActive();
+    m_vRecord = other.getAllData();
 }
 
 void QSqlQueryEx::setID(const QString &id)
@@ -84,20 +75,196 @@ void QSqlQueryEx::emitResult()
     m_helper.emitResult(this);
 }
 
-void QSqlQueryEx::emitError(QSqlError & error)
+void QSqlQueryEx::emitError(QSqlErrorEx & error)
 {
     m_helper.emitError(error, this);
 }
 
-void QSqlQueryEx::bindAll()
+bool QSqlQueryEx::exec()
 {
-    std::vector<PrepareData>::iterator it = m_vPre.begin();
+    QString type;
+    m_bActive = false;
+    QNetworkAccessManager * pMgr = new QNetworkAccessManager();
 
-    for(;it != m_vPre.end();++it)
+    if(m_sql.contains("insert",Qt::CaseInsensitive))
+        type = "insert";
+    else if(m_sql.contains("update",Qt::CaseInsensitive))
     {
-        PrepareData data = *it;
-        this->bindValue(data.holder,data.value);
+        type = "update";
+    }
+    else if(m_sql.contains("select",Qt::CaseInsensitive))
+    {
+        type = "select";
+    }
+    else
+        return false;
+
+    QString encodedSql = m_sql.replace("%","%25");
+    encodedSql = m_sql.replace("\"","'");
+
+    QNetworkRequest request(QUrl(DATABASE_URL));
+    QJsonObject obj;
+    obj.insert("type",type);
+    obj.insert("sql",encodedSql);
+    QJsonDocument doc(obj);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    postData = "jsonStr="+postData;
+
+    if(m_pReply)
+    {
+        m_pReply->abort();
+        delete m_pReply;
+    }
+
+    request.setHeader(QNetworkRequest::ContentTypeHeader,"application/x-www-form-urlencoded");
+    qDebug()<<postData;
+
+    m_pReply = pMgr->post(request,postData);
+
+    QEventLoop eventLoop;
+    QTimer timer;
+    QObject::connect(pMgr, SIGNAL(finished(QNetworkReply*)), &eventLoop, SLOT(quit()));
+    QObject::connect(m_pReply, SIGNAL(error(QNetworkReply::NetworkError)), &eventLoop, SLOT(quit()));
+    QObject::connect(&timer,SIGNAL(timeout()),&eventLoop,SLOT(quit()));
+    timer.start(30000);
+    eventLoop.exec();       //block until finish
+
+    if (timer.isActive()){
+        timer.stop();
+    } else {
+        m_pReply->abort();
+        m_error.setText("NetWork timeout!");
+        return false;
+    }
+
+    if(m_pReply->error() != QNetworkReply::NoError)
+    {
+        m_error.setText(m_pReply->errorString());
+        return false;
+    }
+
+    QJsonParseError * error =  new QJsonParseError();
+    QByteArray dataGot = m_pReply->readAll();
+    doc = QJsonDocument::fromJson(dataGot,error);
+
+    qDebug()<<error->errorString();
+    qDebug()<<dataGot;
+    m_error.setText("");
+
+    if(error->error == QJsonParseError::NoError)
+    {
+        QJsonObject obj = doc.object();
+
+        if(obj.value("error").toString() == "0")
+        {
+            m_currCount = -1;
+            m_bActive = true;
+
+            if(type == "select")
+            {
+                m_size = obj.value("rows").toInt();
+                m_numRowsAffected = -1;
+
+                QJsonArray array = obj.value("result").toArray();
+                m_vRecord.clear();
+
+                for(int i = 0; i < array.size(); ++i)
+                {
+                    QSqlRecordEx rec;
+                    QJsonObject obj = array.at(i).toObject();
+                    rec.push(obj.toVariantMap());
+                    m_vRecord.push_back(rec);
+                }
+            }
+            else
+            {
+                m_size = -1;
+                m_numRowsAffected = obj.value("rows").toInt();
+            }
+        }
+        else
+        {
+            m_error.setText(obj.value("error").toString());
+        }
+    }
+    else
+    {
+        m_error.setText(error->errorString());
+    }
+
+    pMgr->deleteLater();
+    delete error;
+
+    if(m_error.text().isEmpty())
+        return true;
+    else
+        return false;
+}
+
+bool QSqlQueryEx::next()
+{
+    m_currCount++;
+
+    if(m_currCount >= m_vRecord.size())
+        return false;
+    else
+        return true;
+}
+
+QSqlRecordEx QSqlQueryEx::record() const
+{
+    if(m_currCount >= m_vRecord.size())
+    {
+        return QSqlRecordEx();
+    }
+    else
+    {
+        return m_vRecord[m_currCount];
     }
 }
+
+QVariant QSqlQueryEx::value(int index)
+{
+    if(m_currCount >= m_vRecord.size())
+    {
+        return QVariant();
+    }
+    else
+    {
+        return m_vRecord[m_currCount].value(index);
+    }
+}
+
+int QSqlQueryEx::size() const
+{
+    return m_size;
+}
+
+int QSqlQueryEx::numRowsAffected() const
+{
+    return m_numRowsAffected;
+}
+
+QSqlErrorEx QSqlQueryEx::error() const
+{
+    return m_error;
+}
+
+bool QSqlQueryEx::isActive() const
+{
+    return m_bActive;
+}
+
+int QSqlQueryEx::getCurrCount() const
+{
+    return m_currCount;
+}
+
+QVector<QSqlRecordEx> QSqlQueryEx::getAllData() const
+{
+    return m_vRecord;
+}
+
+
 
 

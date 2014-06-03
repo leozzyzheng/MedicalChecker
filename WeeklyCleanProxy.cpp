@@ -64,7 +64,7 @@ void WeeklyCleanProxy::clear()
     m_cleanInfo.clear();
 }
 
-void WeeklyCleanProxy::innerError(QSqlError &error)
+void WeeklyCleanProxy::innerError(QSqlErrorEx &error)
 {
     emit this->error(error.text());
 }

@@ -97,7 +97,7 @@ void TrainingProxy::sign(QString trId, QString staffId, QString sig, QString dat
     exec(sql);
 }
 
-void TrainingProxy::innerError(QSqlError & error)
+void TrainingProxy::innerError(QSqlErrorEx & error)
 {
     emit this->error(error.text());
 }

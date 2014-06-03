@@ -38,7 +38,7 @@ QString InventoryProxy::getName(int id)
     return m_data.getName(id);
 }
 
-void InventoryProxy::innerError(QSqlError &error)
+void InventoryProxy::innerError(QSqlErrorEx &error)
 {
     emit this->error(error.text());
 }

@@ -19,12 +19,13 @@ public slots:
     void clear();
 signals:
     void taskDataStandBy();
+    void noTask();
     void notChecked();
     void isChecked();
     void updateSucc();
 
 protected slots:
-    virtual void innerError(QSqlError &error);
+    virtual void innerError(QSqlErrorEx &error);
     virtual void innerFinished(QSqlQueryEx query);
 
 private:

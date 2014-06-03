@@ -123,7 +123,7 @@ void SterilizeProxy::sign(QString id, QString staffId, QString date, QString fil
     exec(sql);
 }
 
-void SterilizeProxy::innerError(QSqlError &error)
+void SterilizeProxy::innerError(QSqlErrorEx &error)
 {
     emit this->error(error.text());
 }

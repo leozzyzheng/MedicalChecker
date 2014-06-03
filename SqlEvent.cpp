@@ -46,7 +46,7 @@ SqlEvent::EventType SqlEvent::type() const
     return m_type;
 }
 
-void SqlEvent::innerError(QSqlError & error)
+void SqlEvent::innerError(QSqlErrorEx & error)
 {
     qDebug()<<"error";
     Q_UNUSED(error);
@@ -60,13 +60,13 @@ void SqlEvent::innerFinished(QSqlQueryEx query)
 void SqlEvent::__innerconnect(QSqlQueryEx* pQuery)
 {
     connect((pQuery->getHelper()),SIGNAL(result(QSqlQueryEx*)),this,SLOT(__finished(QSqlQueryEx*)));
-    connect((pQuery->getHelper()),SIGNAL(error(QSqlError&,QSqlQueryEx*)),this,SLOT(__error(QSqlError&,QSqlQueryEx*)));
+    connect((pQuery->getHelper()),SIGNAL(error(QSqlErrorEx&,QSqlQueryEx*)),this,SLOT(__error(QSqlErrorEx&,QSqlQueryEx*)));
 }
 
 void SqlEvent::__innerdisconnect(QSqlQueryEx* pQuery)
 {
     disconnect((pQuery->getHelper()),SIGNAL(result(QSqlQueryEx*)),this,SLOT(__finished(QSqlQueryEx*)));
-    disconnect((pQuery->getHelper()),SIGNAL(error(QSqlError&,QSqlQueryEx*)),this,SLOT(__error(QSqlError&,QSqlQueryEx*)));
+    disconnect((pQuery->getHelper()),SIGNAL(error(QSqlErrorEx&,QSqlQueryEx*)),this,SLOT(__error(QSqlErrorEx&,QSqlQueryEx*)));
 }
 
 void SqlEvent::__finished(QSqlQueryEx * query)
@@ -80,7 +80,7 @@ void SqlEvent::__finished(QSqlQueryEx * query)
     }
 }
 
-void SqlEvent::__error(QSqlError & error,QSqlQueryEx * query)
+void SqlEvent::__error(QSqlErrorEx & error,QSqlQueryEx * query)
 {
     if(m_mPastQuery.find(query) != m_mPastQuery.end())
     {

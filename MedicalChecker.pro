@@ -4,7 +4,7 @@ folder_01.target = qml
 
 DEPLOYMENTFOLDERS = folder_01
 
-QT += sql qml
+QT += qml
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
@@ -34,7 +34,9 @@ SOURCES += main.cpp \
     InventoryProxy.cpp \
     Model/Inventory.cpp \
     SterilizeProxy.cpp \
-    Model/SterilizeInfo.cpp
+    Model/SterilizeInfo.cpp \
+    Utilities/QSqlErrorEx.cpp \
+    Utilities/QSqlRecordEx.cpp
 
 # Installation path
 # target.path =
@@ -69,7 +71,9 @@ HEADERS += \
     InventoryProxy.h \
     Model/Inventory.h \
     SterilizeProxy.h \
-    Model/SterilizeInfo.h
+    Model/SterilizeInfo.h \
+    Utilities/QSqlErrorEx.h \
+    Utilities/QSqlRecordEx.h
 
 OTHER_FILES += \
     qml/MedicalChecker/startup.qml \

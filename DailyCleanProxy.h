@@ -19,7 +19,7 @@ public slots:
     void clear();
 
 protected slots:
-    virtual void innerError(QSqlError &error);
+    virtual void innerError(QSqlErrorEx &error);
     virtual void innerFinished(QSqlQueryEx query);
 
 signals:

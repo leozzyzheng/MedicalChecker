@@ -25,10 +25,11 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
     QtQuick2ApplicationViewer viewer;
+    viewer.reportContentOrientationChange(Qt::PortraitOrientation);
     QLocale::setDefault(QLocale::C);
 
     qRegisterMetaType<QSqlQueryEx>("QSqlQueryEx");
-    qRegisterMetaType<QSqlError>("QSqlError");
+    qRegisterMetaType<QSqlErrorEx>("QSqlErrorEx");
     qRegisterMetaType<SignatureSender::ERROR_TYPE>("SignatureSender::ERROR_TYPE");
 
     //注册自定义qml组件------------------------------------------------------
