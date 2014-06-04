@@ -104,3 +104,5 @@ RESOURCES += \
     Resource.qrc
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+
+INCLUDEPATH += $$PWD
