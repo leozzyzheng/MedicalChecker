@@ -7,14 +7,13 @@
 #include <QTimeZone>
 #include <QDebug>
 #include <map>
+#include <QGuiApplication>
 
 class QmlHelper : public QObject
 {
     Q_OBJECT
 public:
     explicit QmlHelper(QObject *parent = 0);
-
-signals:
 
 public slots:
     void reset();
@@ -32,6 +31,10 @@ public slots:
     QString getData(QString key);
     void    clearData(QString key);
     void    clearAllData();
+
+    void    quit();
+signals:
+    void    appQuit();
 
 private:
     QDateTime m_date;

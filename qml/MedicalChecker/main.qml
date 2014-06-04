@@ -12,6 +12,16 @@ StackView
     width:1024
     height:768
 
+    function handleBackPressed()
+    {
+        if(depth >= 1)
+        {
+            pop();
+        }
+        else
+            qmlHelper.quit();
+    }
+
     function resetDelegate()
     {
         delegate = defaultDelegate;

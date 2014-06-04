@@ -4,6 +4,7 @@ QmlHelper::QmlHelper(QObject *parent) :
     QObject(parent)
 {
     reset();
+    connect(this,SIGNAL(appQuit()),QGuiApplication::instance(),SLOT(quit()));
 }
 
 void QmlHelper::reset()
@@ -80,4 +81,9 @@ void QmlHelper::clearData(QString key)
 void QmlHelper::clearAllData()
 {
     m_data.clear();
+}
+
+void QmlHelper::quit()
+{
+    emit appQuit();
 }

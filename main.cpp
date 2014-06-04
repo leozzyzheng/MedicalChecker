@@ -18,19 +18,18 @@
 #include "SterilizeProxy.h"
 
 //外部初始化单例
-QThread* ThreadSingleton::m_instance = new QThread();//逻辑单例线程
+QThread* ThreadSingleton::m_instance = NULL;//逻辑单例线程
 SqlOperator* SqlSingleton::m_instance = NULL;//多线程数据库封装单例,多线程不安全
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
     QtQuick2ApplicationViewer viewer;
-    viewer.reportContentOrientationChange(Qt::PortraitOrientation);
     QLocale::setDefault(QLocale::C);
 
-    //qRegisterMetaType<QSqlQueryEx>("QSqlQueryEx");
-    //qRegisterMetaType<QSqlErrorEx>("QSqlErrorEx");
-    //qRegisterMetaType<SignatureSender::ERROR_TYPE>("SignatureSender::ERROR_TYPE");
+    qRegisterMetaType<QSqlQueryEx>("QSqlQueryEx");
+    qRegisterMetaType<QSqlErrorEx>("QSqlErrorEx");
+    qRegisterMetaType<SignatureSender::ERROR_TYPE>("SignatureSender::ERROR_TYPE");
 
     //注册自定义qml组件------------------------------------------------------
     qmlRegisterType<Signature>("com.zzy.qmlcomponents", 1, 0, "Signature");
@@ -79,7 +78,7 @@ int main(int argc, char *argv[])
     //---------------------------------------------------------------------
 
     viewer.setMainQmlFile(QStringLiteral("qml/MedicalChecker/main.qml"));
-    viewer.showExpanded();
+    viewer.showFullScreen();
 
     return app.exec();
 }

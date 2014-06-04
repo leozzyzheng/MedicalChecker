@@ -23,8 +23,11 @@ public:
 
     void setMainQmlFile(const QString &file);
     void addImportPath(const QString &path);
-
     void showExpanded();
+
+protected:
+    void keyPressEvent(QKeyEvent * event);
+    void keyReleaseEvent(QKeyEvent * event);
 
 private:
     class QtQuick2ApplicationViewerPrivate *d;

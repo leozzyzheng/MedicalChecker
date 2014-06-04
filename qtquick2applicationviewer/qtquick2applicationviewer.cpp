@@ -85,3 +85,27 @@ void QtQuick2ApplicationViewer::showExpanded()
     show();
 #endif
 }
+
+void QtQuick2ApplicationViewer::keyPressEvent(QKeyEvent *event)
+{
+#if defined(Q_OS_ANDROID)
+    if(event->key() != Qt::Key_Back) // pass on everything but the back key
+        QQuickView::keyPressEvent(event);
+#else
+    QQuickView::keyPressEvent(e);
+#endif
+}
+
+void QtQuick2ApplicationViewer::keyReleaseEvent(QKeyEvent *event)
+{
+#if defined(Q_OS_ANDROID)
+    if(event->key() != Qt::Key_Back) // pass on everything but the back key
+        QQuickView::keyPressEvent(event);
+    else
+    {
+        QMetaObject::invokeMethod((QObject*)rootObject(), "handleBackPressed");
+    }
+#else
+    QQuickView::keyPressEvent(e);
+#endif
+}
