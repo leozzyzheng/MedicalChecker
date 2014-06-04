@@ -2,7 +2,7 @@
 #define QSQLERROREX_H
 
 #include <QString>
-#include <QMetaType>
+//#include <QMetaType>
 
 class QSqlErrorEx
 {
@@ -17,6 +17,6 @@ private:
     QString m_txt;
 };
 
-Q_DECLARE_METATYPE(QSqlErrorEx)
+//Q_DECLARE_METATYPE(QSqlErrorEx)
 
 #endif // QSQLERROREX_H

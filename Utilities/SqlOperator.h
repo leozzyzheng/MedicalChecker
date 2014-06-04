@@ -14,6 +14,8 @@
 #include "Utilities/QSqlQueryEx.h"
 #include "Model/Marco.h"
 
+class SqlOperator;
+
 //数据操作子线程类
 class SqlThread : public QObject
 {
@@ -23,19 +25,14 @@ public :
     ~SqlThread();
     void        moveToOtherThread();
     bool        isOpen();
-    const QSqlErrorEx   getLastError();
 
 public slots:
     void        exec(QSqlQueryEx * sql);
-    void        init();
+    void        init(SqlOperator *self);
 
 signals:
-    void        result(QSqlQueryEx * result);
-    void        error(QSqlErrorEx error, QSqlQueryEx* sql);
-
-private:
-    unsigned int    m_status;
-    QSqlErrorEx     m_dbError;
+    void        innerresult(QSqlQueryEx * result);
+    void        innererror(QSqlErrorEx error, QSqlQueryEx* sql);
 };
 
 //数据库操作主线程封装类
@@ -47,10 +44,9 @@ public :
     ~           SqlOperator();
     void        Init();
     bool        isOpen();
-    const QSqlErrorEx   getLastError();
 
 signals:
-    void        threadInit();
+    void        threadInit(SqlOperator * self);
 
 public slots:
     void        exec(QSqlQueryEx * sql);
@@ -70,12 +66,17 @@ private:
 class SqlSingleton
 {
 private:
-    static SqlOperator* m_instance;
     SqlSingleton(){}
+    static SqlOperator * m_instance;
 
 public:
-    static SqlOperator* getInstance()
+    static SqlOperator * getInstance()
     {
+        if(m_instance == NULL)
+        {
+            m_instance = new SqlOperator();
+        }
+
         return m_instance;
     }
 };

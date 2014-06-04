@@ -19,7 +19,7 @@
 
 //外部初始化单例
 QThread* ThreadSingleton::m_instance = new QThread();//逻辑单例线程
-SqlOperator* SqlSingleton::m_instance = new SqlOperator;//多线程数据库封装单例
+SqlOperator* SqlSingleton::m_instance = NULL;//多线程数据库封装单例,多线程不安全
 
 int main(int argc, char *argv[])
 {
@@ -28,9 +28,9 @@ int main(int argc, char *argv[])
     viewer.reportContentOrientationChange(Qt::PortraitOrientation);
     QLocale::setDefault(QLocale::C);
 
-    qRegisterMetaType<QSqlQueryEx>("QSqlQueryEx");
-    qRegisterMetaType<QSqlErrorEx>("QSqlErrorEx");
-    qRegisterMetaType<SignatureSender::ERROR_TYPE>("SignatureSender::ERROR_TYPE");
+    //qRegisterMetaType<QSqlQueryEx>("QSqlQueryEx");
+    //qRegisterMetaType<QSqlErrorEx>("QSqlErrorEx");
+    //qRegisterMetaType<SignatureSender::ERROR_TYPE>("SignatureSender::ERROR_TYPE");
 
     //注册自定义qml组件------------------------------------------------------
     qmlRegisterType<Signature>("com.zzy.qmlcomponents", 1, 0, "Signature");
@@ -66,7 +66,10 @@ int main(int argc, char *argv[])
 
     //---------------------------------------------------------------------
 
-
+    //初始化数据库连接------------------------------------------------------
+    SqlOperator * ins = SqlSingleton::getInstance();
+    ins->Init();
+    //---------------------------------------------------------------------
 
     //启动逻辑线程----------------------------------------------------------
     QThread * pLogicThread = ThreadSingleton::getInstance();
@@ -75,13 +78,7 @@ int main(int argc, char *argv[])
     pLogicThread->start();
     //---------------------------------------------------------------------
 
-
-
-    //初始化数据库连接------------------------------------------------------
-    SqlSingleton::getInstance()->Init();
-    //---------------------------------------------------------------------
-
-    viewer.setSource(QStringLiteral("qml/MedicalChecker/main.qml"));
+    viewer.setMainQmlFile(QStringLiteral("qml/MedicalChecker/main.qml"));
     viewer.showExpanded();
 
     return app.exec();

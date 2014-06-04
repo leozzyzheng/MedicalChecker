@@ -36,7 +36,8 @@ SOURCES += main.cpp \
     SterilizeProxy.cpp \
     Model/SterilizeInfo.cpp \
     Utilities/QSqlErrorEx.cpp \
-    Utilities/QSqlRecordEx.cpp
+    Utilities/QSqlRecordEx.cpp \
+    Utilities/ThreadSingleton.cpp
 
 # Installation path
 # target.path =
@@ -76,12 +77,33 @@ HEADERS += \
     Utilities/QSqlRecordEx.h
 
 OTHER_FILES += \
-    qml/MedicalChecker/startup.qml \
-    qml/MedicalChecker/Component/Indicator.qml \
-    qml/MedicalChecker/Component/Signature.qml \
-    qml/MedicalChecker/training.qml \
-    qml/MedicalChecker/Component/CleanTextNode.qml \
-    qml/MedicalChecker/singleSig.qml
+#    qml/MedicalChecker/Component/CleanTextNode.qml \
+#    qml/MedicalChecker/Component/IndexComponent.qml \
+#    qml/MedicalChecker/Component/Indicator.qml \
+#    qml/MedicalChecker/Component/Message.qml \
+#    qml/MedicalChecker/Component/NameList.qml \
+#    qml/MedicalChecker/Component/Signature.qml \
+#    qml/MedicalChecker/Component/SupplyNode.qml \
+#    qml/MedicalChecker/Component/TimePicker.qml \
+#    qml/MedicalChecker/Component/TopBar.qml \
+#    qml/MedicalChecker/Component/TopicBar.qml \
+#    qml/MedicalChecker/Component/TrainingTextInnerContentNode.qml \
+#    qml/MedicalChecker/Component/TrainingTextNode.qml \
+#    qml/MedicalChecker/checkoff.qml \
+#    qml/MedicalChecker/cleaning.qml \
+#    qml/MedicalChecker/index.qml \
+#    qml/MedicalChecker/login.qml \
+#    qml/MedicalChecker/main.qml \
+#    qml/MedicalChecker/singleSig.qml \
+#    qml/MedicalChecker/startup.qml \
+#    qml/MedicalChecker/sterilization.qml \
+#    qml/MedicalChecker/training.qml \
+    android/AndroidManifest.xml \
+    qml/MedicalChecker/Component/Signature.qml
+
+
 
 RESOURCES += \
     Resource.qrc
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

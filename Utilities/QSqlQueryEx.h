@@ -2,7 +2,7 @@
 #define QSQLQUERYEX_H
 
 #include <QString>
-#include <QMetaType>
+//#include <QMetaType>
 #include <QDebug>
 #include <vector>
 #include <QNetworkAccessManager>
@@ -79,6 +79,6 @@ private:
     bool m_bActive;
 };
 
-Q_DECLARE_METATYPE(QSqlQueryEx)
+//Q_DECLARE_METATYPE(QSqlQueryEx)
 
 #endif // QSQLQUERYEX_H

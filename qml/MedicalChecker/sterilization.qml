@@ -57,6 +57,8 @@ Rectangle {
 
         onError:
         {
+            icon.source = "qrc:/qml/Resource/disinfect-un.png";
+            iconLabel.text = "No Task";
             console.log(errorString);
         }
 

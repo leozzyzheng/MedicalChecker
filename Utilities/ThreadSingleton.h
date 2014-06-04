@@ -14,10 +14,7 @@ private:
     ThreadSingleton(){}
 
 public:
-    static QThread* getInstance()
-    {
-        return m_instance;
-    }
+    static QThread* getInstance();
 };
 
 #endif // THREADSINGLETON_H

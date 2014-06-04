@@ -147,7 +147,6 @@ bool QSqlQueryEx::exec()
     QByteArray dataGot = m_pReply->readAll();
     doc = QJsonDocument::fromJson(dataGot,error);
 
-    qDebug()<<error->errorString();
     qDebug()<<dataGot;
     m_error.setText("");
 
