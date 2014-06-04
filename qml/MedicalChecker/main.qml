@@ -14,12 +14,15 @@ StackView
 
     function handleBackPressed()
     {
-        if(depth >= 1)
+        if(depth >= 2)
         {
             pop();
         }
         else
-            qmlHelper.quit();
+        {
+            console.log("quit");
+            Qt.quit();
+        }
     }
 
     function resetDelegate()

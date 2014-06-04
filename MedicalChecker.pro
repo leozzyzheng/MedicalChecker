@@ -98,7 +98,8 @@ OTHER_FILES += \
     qml/MedicalChecker/startup.qml \
     qml/MedicalChecker/sterilization.qml \
     qml/MedicalChecker/training.qml \
-    android/AndroidManifest.xml
+    android/AndroidManifest.xml \
+    qml/MedicalChecker/Component/Signature.qml
 
 RESOURCES += \
     Resource.qrc
