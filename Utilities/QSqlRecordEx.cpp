@@ -23,9 +23,6 @@ void QSqlRecordEx::push(const QVariantMap &map)
     if(map.size() == 0)
         return;
 
-    m_data.clear();
-    m_keys.clear();
-
     QVariantMap::const_iterator it = map.constBegin();
 
     for(; it != map.constEnd(); ++it)

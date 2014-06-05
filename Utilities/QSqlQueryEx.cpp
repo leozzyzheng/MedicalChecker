@@ -5,6 +5,7 @@ QSqlQueryEx::QSqlQueryEx(const QString &query):
     m_pReply(NULL)
 {
     m_sql = query;
+    m_currCount = -1;
 }
 
 QSqlQueryEx::QSqlQueryEx(const QSqlQueryEx &other):
@@ -202,17 +203,24 @@ bool QSqlQueryEx::exec()
 
 bool QSqlQueryEx::next()
 {
-    m_currCount++;
+    ++m_currCount;
 
     if(m_currCount >= m_vRecord.size())
+    {
         return false;
+    }
     else
+    {
         return true;
+    }
 }
 
 QSqlRecordEx QSqlQueryEx::record() const
 {
-    if(m_currCount >= m_vRecord.size())
+    if(m_currCount == -1 && m_vRecord.size() != 0)
+        return m_vRecord[0];
+
+    else if(m_currCount>= m_vRecord.size())
     {
         return QSqlRecordEx();
     }

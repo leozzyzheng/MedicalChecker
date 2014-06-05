@@ -78,7 +78,12 @@ int main(int argc, char *argv[])
     //---------------------------------------------------------------------
 
     viewer.setMainQmlFile(QStringLiteral("qml/MedicalChecker/main.qml"));
+
+#if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
     viewer.showFullScreen();
+#else
+    viewer.showExpanded();
+#endif
 
     return app.exec();
 }
