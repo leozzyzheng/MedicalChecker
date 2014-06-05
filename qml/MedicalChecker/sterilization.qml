@@ -37,6 +37,7 @@ Rectangle {
 
         onRecordFound:
         {
+            icon.source = "qrc:/qml/Resource/disinfect-un.png";
             var id = qmlHelper.getData("nextId");
             iconLabel.text = "Next Task :\n"+ sterProxy.getData(id,marco.taskContent) +" Will Start At: \n"+sterProxy.getData(id,marco.sterSTime);
         }

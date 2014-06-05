@@ -178,8 +178,15 @@ bool QSqlQueryEx::exec()
             }
             else
             {
+                if(obj.value("rows").isString())
+                {
+                    m_numRowsAffected = obj.value("rows").toString().replace(" ","").toInt();
+                }
+                else
+                    m_numRowsAffected = obj.value("rows").toInt();
+
                 m_size = -1;
-                m_numRowsAffected = obj.value("rows").toInt();
+
             }
         }
         else

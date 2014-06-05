@@ -43,7 +43,7 @@ void UserInfo::prepareName(QString staffId)
 {
     m_vTempName.clear();
 
-    if(!staffId.isEmpty())
+    if(!staffId.isEmpty() && staffId != "null" && !staffId.isNull())
     {
         DataMap::iterator it = m_data.find(staffId);
 

@@ -79,7 +79,7 @@ void DailyCleanProxy::innerFinished(QSqlQueryEx query)
         return;
     }
 
-    if(query.numRowsAffected() <=0 && query.size() <= 0)
+    if(query.numRowsAffected() <= 0 && query.size() <= 0)
     {
         qDebug()<<"nothing find";
 
