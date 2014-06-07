@@ -90,14 +90,14 @@
 #define QML_TOPIC_FONT_PXSIZE           28
 #define QML_CHECK_FONT_PXSIZE           60
 
-//this marco can auto register an marco x to qml named "name" ,but for more code , I don't use it
-#define REGISTER_MARCO(name,x) \
+//this marco can auto register an marco "marco" to qml named "name"
+#define REGISTER_MARCO(name,functionName,marco) \
     private: \
-        Q_PROPERTY(QString name READ getx CONSTANT) \
+        Q_PROPERTY(QString name READ functionName CONSTANT) \
     public: \
-        QString getx() const \
+        QString functionName() const \
         {   \
-            return x; \
+            return marco; \
         } \
 
 class QmlMarco : public QObject
@@ -139,7 +139,8 @@ class QmlMarco : public QObject
 
 
     //auto marco usage
-    //REGISTER_MARCO(trTime,TRAINING_TIME_TAG)
+    //REGISTER_MARCO(trTime,tr,TRAINING_TIME_TAG)
+    //REGISTER_MARCO(sterETime,te,STER_ETIME_TAG)
 
 public:
     QString getTRAINING_TIME_TAG() const
