@@ -187,7 +187,7 @@ Rectangle {
                             text:"Conformed"
                             color:marco.fontBlue
                             font.family: marco.topicFontFa
-                            font.pixelSize: 40
+                            font.pixelSize: 25
                         }
                     }
 
