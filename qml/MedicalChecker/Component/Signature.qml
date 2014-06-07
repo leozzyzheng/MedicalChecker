@@ -53,7 +53,7 @@ Signature
 
                     onClicked:
                     {
-                        signer.clearImage();
+                        sig.clearImage();
                     }
 
                     onPressed:
