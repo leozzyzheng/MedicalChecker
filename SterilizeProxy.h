@@ -13,7 +13,7 @@ public:
 
 signals:
     void taskStandBy();
-    void recordFound();
+    void recordStandBy();
     void recordNotFound();
     void nextId(QString id);
     void noTask();
@@ -22,8 +22,9 @@ signals:
 public slots:
     void queryTask();
     void queryRecord(QString date);
-    QString getData(QString id, QString key);
+    QString getData(int index, QString key);
     void sign(QString id,QString staffId, QString date, QString fileName);
+    int  getNum();
 
 protected slots:
     virtual void innerError(QSqlErrorEx &error);

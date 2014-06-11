@@ -31,84 +31,78 @@ void SterilizeProxy::queryTask()
 
 void SterilizeProxy::queryRecord(QString date)
 {
-    QString startTime;
-    QString endTime;
-    QString id;
-    qint64 now = QDateTime::fromString(date,"HH:mm:ss").toMSecsSinceEpoch();
+//    QString startTime;
+//    QString endTime;
+//    QString id;
+//    qint64 now = QDateTime::fromString(date,"HH:mm:ss").toMSecsSinceEpoch();
 
-    int num = m_data.getNum();
+//    int num = m_data.getNum();
 
-    if(num == 0)
-    {
-        emit noTask();
-        return;
-    }
+//    if(num == 0)
+//    {
+//        emit noTask();
+//        return;
+//    }
 
-    for(int i = 0; i < num; ++i)
-    {
-        QString sTime = m_data.getData(i,STER_STIME_TAG);
-        QString eTime = m_data.getData(i,STER_ETIME_TAG);
+//    for(int i = 0; i < num; ++i)
+//    {
+//        QString sTime = m_data.getData(i,STER_STIME_TAG);
+//        QString eTime = m_data.getData(i,STER_ETIME_TAG);
 
-        qint64 s = QDateTime::fromString(sTime,"HH:mm:ss").toMSecsSinceEpoch();
-        qint64 e = QDateTime::fromString(eTime,"HH:mm:ss").toMSecsSinceEpoch();
+//        qint64 s = QDateTime::fromString(sTime,"HH:mm:ss").toMSecsSinceEpoch();
+//        qint64 e = QDateTime::fromString(eTime,"HH:mm:ss").toMSecsSinceEpoch();
 
-        if(now >= s && now <= e)
-        {
-            startTime = sTime;
-            endTime = eTime;
-            id = m_data.getData(i,STER_TASKID_TAG);
-            break;
-        }
-        else if(now < s)
-        {
-            startTime = sTime;
-            endTime = eTime;
-            id = m_data.getData(i,STER_TASKID_TAG);
-        }
-        else if(now > e)
-        {
-            //do nothing
-        }
-    }
+//        if(now >= s && now <= e)
+//        {
+//            startTime = sTime;
+//            endTime = eTime;
+//            id = m_data.getData(i,STER_TASKID_TAG);
+//            break;
+//        }
+//        else if(now < s)
+//        {
+//            startTime = sTime;
+//            endTime = eTime;
+//            id = m_data.getData(i,STER_TASKID_TAG);
+//        }
+//        else if(now > e)
+//        {
+//            //do nothing
+//        }
+//    }
 
-    if(startTime.isEmpty())
-    {
-        emit completed();
-        return;
-    }
-    else
-    {
-        emit nextId(id);
-    }
+//    if(startTime.isEmpty())
+//    {
+//        emit completed();
+//        return;
+//    }
+//    else
+//    {
+//        emit nextId(id);
+//    }
 
-    startTime = QDateTime::currentDateTime().toString("yyyy-MM-dd ")+startTime;
-    endTime = QDateTime::currentDateTime().toString("yyyy-MM-dd ")+endTime;
+//    startTime = QDateTime::currentDateTime().toString("yyyy-MM-dd ")+startTime;
+//    endTime = QDateTime::currentDateTime().toString("yyyy-MM-dd ")+endTime;
 
-    QSqlQueryEx sql("Select * from :ClinicName.SterilizeRecord where unix_timestamp(:time) between unix_timestamp(':stime') and unix_timestamp(':etime')");
+//    QSqlQueryEx sql("Select * from :ClinicName.SterilizeRecord where unix_timestamp(:time) between unix_timestamp(':stime') and unix_timestamp(':etime')");
+//    sql.replaceHolder(":ClinicName",m_ClinicName);
+//    sql.replaceHolder(":time",STER_CHECKTIME_TAG);
+//    sql.replaceHolder(":stime",startTime);
+//    sql.replaceHolder(":etime",endTime);
+//    sql.setID("record");
+//    exec(sql);
+
+    QSqlQueryEx sql("Select * from :ClinicName.SterilizeRecord where date_format(:time,'%Y-%m-%d') = ':dateTime'");
     sql.replaceHolder(":ClinicName",m_ClinicName);
     sql.replaceHolder(":time",STER_CHECKTIME_TAG);
-    sql.replaceHolder(":stime",startTime);
-    sql.replaceHolder(":etime",endTime);
+    sql.replaceHolder(":dateTime",date);
     sql.setID("record");
     exec(sql);
 }
 
-QString SterilizeProxy::getData(QString id,QString key)
+QString SterilizeProxy::getData(int index, QString key)
 {
-    int num = m_data.getNum();
-
-    if(num == 0)
-        return QString();
-
-    for(int i = 0; i < num; ++i)
-    {
-        QString data = m_data.getData(i,STER_TASKID_TAG);
-
-        if(!data.isEmpty() && data == id)
-            return m_data.getData(i,key);
-    }
-
-    return QString();
+    return m_data.getData(index,key);
 }
 
 void SterilizeProxy::sign(QString id, QString staffId, QString date, QString fileName)
@@ -121,6 +115,11 @@ void SterilizeProxy::sign(QString id, QString staffId, QString date, QString fil
     sql.replaceHolder(":sig",fileName);
     sql.setID("update");
     exec(sql);
+}
+
+int SterilizeProxy::getNum()
+{
+    return m_data.getNum();
 }
 
 void SterilizeProxy::innerError(QSqlErrorEx &error)
@@ -142,7 +141,7 @@ void SterilizeProxy::innerFinished(QSqlQueryEx query)
 
         if(query.getID() == "record")
         {
-            emit recordNotFound();
+            emit recordStandBy();
         }
         else if(query.getID() == "task")
         {
@@ -179,7 +178,7 @@ void SterilizeProxy::innerFinished(QSqlQueryEx query)
                 data[STER_STIME_TAG] = query.value(stimeNo).toDateTime().toString("HH:mm:ss");
                 data[STER_ETIME_TAG] = query.value(etimeNo).toDateTime().toString("HH:mm:ss");
                 data[STER_INVEN_TAG] = query.value(inVenNo).toString();
-                m_data.setData(data);
+                m_data.setData(data, query.value(idNo).toString());
             }
 
             emit taskStandBy();
@@ -187,7 +186,27 @@ void SterilizeProxy::innerFinished(QSqlQueryEx query)
     }
     else if(query.getID() == "record")
     {
-        emit recordFound();
+        int idNo = query.record().indexOf(STER_TASKID_TAG);
+        int staffNo = query.record().indexOf(STER_SIG_TAG);
+
+        if(idNo == -1||
+           staffNo == -1)
+        {
+            emit error("Sterilize record broken!");
+            return;
+        }
+        else
+        {
+            while(query.next())
+            {
+                std::map<QString,QString> data;
+                QString id = query.value(idNo).toString();
+                data[STER_SIG_TAG] = query.value(staffNo).toString();
+                m_data.setRecordData(data,id);
+            }
+
+            emit recordStandBy();
+        }
     }
     else if(query.getID() == "update")
     {

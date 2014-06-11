@@ -20,41 +20,42 @@ Rectangle {
 
         onTaskStandBy:
         {
-            sterProxy.queryRecord(Qt.formatDateTime(new Date(),"HH:mm:ss"));
-        }
-
-        onCompleted:
-        {
-            icon.source = "qrc:/qml/Resource/disinfect-un.png";
-            iconLabel.text = "All Sterilization Completed";
+            sterProxy.queryRecord(Qt.formatDateTime(new Date(),"yyyy-MM-dd"));
         }
 
         onNoTask:
         {
-            icon.source = "qrc:/qml/Resource/disinfect-un.png";
-            iconLabel.text = "No Task";
+            list.model = 1;
+//            icon.source = "qrc:/qml/Resource/disinfect-un.png";
+//            iconLabel.text = "No Task";
         }
 
-        onRecordFound:
+        onRecordStandBy:
         {
-            icon.source = "qrc:/qml/Resource/disinfect-un.png";
-            var id = qmlHelper.getData("nextId");
-            iconLabel.text = "Next Task :\n"+ sterProxy.getData(id,marco.taskContent) +" Will Start At: \n"+sterProxy.getData(id,marco.sterSTime);
+            list.model = 0;
+            list.model = sterProxy.getNum();
         }
 
-        onRecordNotFound:
-        {
-            icon.source = "qrc:/qml/Resource/disinfect.png";
-            var id = qmlHelper.getData("nextId");
-            iconLabel.text = "This Task :\n"+ sterProxy.getData(id,marco.taskContent) +" Will End At: \n"+sterProxy.getData(id,marco.sterETime);
-        }
+//        onRecordFound:
+//        {
+//            icon.source = "qrc:/qml/Resource/disinfect-un.png";
+//            var id = qmlHelper.getData("nextId");
+//            iconLabel.text = "Next Task :\n"+ sterProxy.getData(id,marco.taskContent) +" Will Start At: \n"+sterProxy.getData(id,marco.sterSTime);
+//        }
 
-        onNextId:
-        {
-            icon.source = "qrc:/qml/Resource/disinfect-un.png";
-            iconLabel.text = "Getting Next Task ...";
-            qmlHelper.setData("nextId",id);
-        }
+//        onRecordNotFound:
+//        {
+//            icon.source = "qrc:/qml/Resource/disinfect.png";
+//            var id = qmlHelper.getData("nextId");
+//            iconLabel.text = "This Task :\n"+ sterProxy.getData(id,marco.taskContent) +" Will End At: \n"+sterProxy.getData(id,marco.sterETime);
+//        }
+
+//        onNextId:
+//        {
+//            icon.source = "qrc:/qml/Resource/disinfect-un.png";
+//            iconLabel.text = "Getting Next Task ...";
+//            qmlHelper.setData("nextId",id);
+//        }
 
         onError:
         {
@@ -67,6 +68,16 @@ Rectangle {
         {
             rootStackView.pop();
             rootStackView.showMsg("Successfully Confirm!");
+            sterProxy.queryTask();
+        }
+    }
+
+    Timer
+    {
+        id:refresher
+        interval: 30000; running:true; repeat: true
+        onTriggered:
+        {
             sterProxy.queryTask();
         }
     }
@@ -96,6 +107,7 @@ Rectangle {
         width:sterilizePage.width
         height:sterilizePage.height - top.height - topicBar.height
         y:topicRect.y + topicRect.height
+        //clip: true
 
         Image
         {
@@ -104,110 +116,41 @@ Rectangle {
             source:"qrc:/qml/Resource/background.png"
         }
 
-        Rectangle
+        ListView
         {
-            id:content
-            width:400
-            height:430
-            y:100
-            anchors.horizontalCenter: parent.horizontalCenter
-            color:"#00000000"
+            id:list
+            orientation: ListView.Horizontal
+            anchors.centerIn: background
+            spacing: 20
 
-            Column
-            {
-                spacing: 80
+            model:0
+            delegate:
+                MyComponent.SterilizeNode{
+                    sterId: sterProxy.getData(index,marco.sterId)
+                    labelText: sterProxy.getData(index,marco.taskContent)
+                    isConformed: sterProxy.getData(index,marco.cleanSig) == "" ? false : true
 
-                Rectangle
-                {
-                    id:timer
-                    width:content.width
-                    height:50
-                    color:"#D5E2F8C8"
-                    border.width: 2
-                    border.color:"#7D8A90";
-                    radius: 10
-
-                    Timer
+                    onNodeClicked:
                     {
-                        id:counter
-                        interval: 1000; running: true; repeat: true
-                        onTriggered:
+
+                    }
+
+                    Component.onCompleted:
+                    {
+                        list.height = height;
+
+                        if(list.width == background.width)
+                            return;
+
+                        if(list.width + width > background.width)
                         {
-                            t.text = Qt.formatDateTime(new Date(),"HH:mm:ss");
+                            list.width = background.width;
+                        }
+                        else
+                        {
+                            list.width += width;
                         }
                     }
-
-                    Timer
-                    {
-                        id:refresher
-                        interval: 30000; running:true; repeat: true
-                        onTriggered:
-                        {
-                            sterProxy.queryTask();
-                        }
-                    }
-
-                    Text
-                    {
-                        id:t
-                        anchors.centerIn: parent
-                        font.family: marco.checkFontFa
-                        font.pixelSize: 25
-                        color: marco.fontBlue
-                        text:Qt.formatDateTime(new Date(),"HH:mm:ss")
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                    }
-                }
-
-                Rectangle
-                {
-                    width:content.width
-                    height:300
-                    color:"#00000000"
-
-                    Image
-                    {
-                        id:icon
-                        anchors.centerIn: parent
-                        source:"qrc:/qml/Resource/disinfect.png"
-                    }
-
-                    Rectangle
-                    {
-                        y:200
-                        width:parent.width
-                        height:100
-                        color:"#00000000"
-
-                        Text
-                        {
-                            id:iconLabel
-                            anchors.centerIn: parent
-                            text:"Conformed"
-                            color:marco.fontBlue
-                            font.family: marco.topicFontFa
-                            font.pixelSize: 25
-                        }
-                    }
-
-                    MouseArea
-                    {
-                        anchors.fill: parent
-                        onClicked:
-                        {
-                            if(icon.source == "qrc:/qml/Resource/disinfect-un.png")
-                                return;
-
-                            if(sterProxy.getData(qmlHelper.getData("nextId"), marco.cleanSig) === "")
-                                qmlHelper.setData("StaffId",sterProxy.getData(qmlHelper.getData("nextId"),marco.cleanStaffId));
-
-                            qmlHelper.setData("TaskId",qmlHelper.getData("nextId"));
-                            qmlHelper.setData("queryType","Ster");
-                            rootStackView.push({item:Qt.resolvedUrl("singleSig.qml"),destroyOnPop:true});
-                        }
-                    }
-                }
             }
         }
     }

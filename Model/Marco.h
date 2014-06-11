@@ -136,6 +136,8 @@ class QmlMarco : public QObject
     Q_PROPERTY(QString fontDarkBlue READ getQML_FONT_DARKBLUE_COLOR CONSTANT)
     Q_PROPERTY(QString sterSTime READ getSTER_STIME_TAG CONSTANT)
     Q_PROPERTY(QString sterETime READ getSTER_ETIME_TAG CONSTANT)
+    Q_PROPERTY(QString sterId READ getSTER_TASKID_TAG CONSTANT)
+
 
 
     //auto marco usage
@@ -306,6 +308,11 @@ public:
     QString getSTER_ETIME_TAG() const
     {
         return STER_ETIME_TAG;
+    }
+
+    QString getSTER_TASKID_TAG() const
+    {
+        return STER_TASKID_TAG;
     }
 };
 
