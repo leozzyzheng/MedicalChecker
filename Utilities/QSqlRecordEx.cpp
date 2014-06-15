@@ -27,7 +27,11 @@ void QSqlRecordEx::push(const QVariantMap &map)
 
     for(; it != map.constEnd(); ++it)
     {
-        m_data.push_back(it.value());
+//        if(it.value().toString() == "null")
+//            m_data.push_back("");
+//        else
+            m_data.push_back(it.value());
+
         m_keys.push_back(it.key());
     }
 }

@@ -15,7 +15,7 @@ ListView {
         height:60
         border.width: 1
         border.color: "black"
-        color:trainProxy.getSignInfo(index,marco.trSign) === "" ? marco.backBlue : "#FFFFFF"
+        color:trainProxy.getSignInfo(index,marco.trSign) == "" ? "#FFFFFF":marco.backBlue
 
         Text
         {
@@ -32,6 +32,7 @@ ListView {
 
             onClicked:
             {
+                console.log(trainProxy.getSignInfo(index,marco.trSign));
                 //do not change == to ===
                 if(delegateRect.color == marco.backBlue)
                 {
