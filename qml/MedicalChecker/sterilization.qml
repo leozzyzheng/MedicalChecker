@@ -59,8 +59,8 @@ Rectangle {
 
         onError:
         {
-            icon.source = "qrc:/qml/Resource/disinfect-un.png";
-            iconLabel.text = "No Task";
+            //icon.source = "qrc:/qml/Resource/disinfect-un.png";
+            //iconLabel.text = "No Task";
             console.log(errorString);
         }
 
@@ -128,7 +128,7 @@ Rectangle {
                 MyComponent.SterilizeNode{
                     sterId: sterProxy.getData(index,marco.sterId)
                     labelText: sterProxy.getData(index,marco.taskContent)
-                    isConformed: sterProxy.getData(index,marco.cleanSig) == "" ? false : true
+                    isConfirmed: sterProxy.getData(index,marco.cleanSig) == "" ? false : true
 
                     onNodeClicked:
                     {

@@ -210,7 +210,11 @@ Rectangle {
                                         return;
 
                                     nameListRect.visible = !nameListRect.visible;
-                                    nameText.text = "click me to cancel";
+
+                                    if(nameText.text != "click me to cancel")
+                                        nameText.text = "click me to cancel";
+                                    else
+                                        nameText.text = "click me to choose your name";
                                 }
                             }
 

@@ -50,7 +50,7 @@ QString InitProxy::getOriginName(int index)
 void InitProxy::login(QString username, QString passwd)
 {
     QSqlQueryEx sql;
-    sql.setSqlString(QString("select cmPassword from") + "`" + username + "`.Clinic where cmPassword = :passwd");
+    sql.setSqlString(QString("select cmPassword from") + "`" + username + "`.Clinic where cmPassword = ':passwd' ");
     sql.replaceHolder(":passwd",passwd);
     sql.setID("login");
     GlobalHelper::setGlobalValue("ClinicName",username);

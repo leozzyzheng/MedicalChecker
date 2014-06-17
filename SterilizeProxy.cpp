@@ -92,7 +92,7 @@ void SterilizeProxy::queryRecord(QString date)
 //    sql.setID("record");
 //    exec(sql);
 
-    QSqlQueryEx sql("Select * from :ClinicName.SterilizeRecord where date_format(:time,'%Y-%m-%d') = ':dateTime'");
+    QSqlQueryEx sql("Select * from :ClinicName.SterilizeRecord where date_format(:time,'%Y-%m-%d') = ':dateTime' order by CheckTime");
     sql.replaceHolder(":ClinicName",m_ClinicName);
     sql.replaceHolder(":time",STER_CHECKTIME_TAG);
     sql.replaceHolder(":dateTime",date);
@@ -188,9 +188,11 @@ void SterilizeProxy::innerFinished(QSqlQueryEx query)
     {
         int idNo = query.record().indexOf(STER_TASKID_TAG);
         int staffNo = query.record().indexOf(STER_SIG_TAG);
+        int timeNo  =  query.record().indexOf(STER_CHECKTIME_TAG);
 
         if(idNo == -1||
-           staffNo == -1)
+           staffNo == -1||
+           timeNo == -1)
         {
             emit error("Sterilize record broken!");
             return;
@@ -202,6 +204,7 @@ void SterilizeProxy::innerFinished(QSqlQueryEx query)
                 std::map<QString,QString> data;
                 QString id = query.value(idNo).toString();
                 data[STER_SIG_TAG] = query.value(staffNo).toString();
+                data[STER_CHECKTIME_TAG] = query.value(timeNo).toDateTime().toString("HH:mm:ss");
                 m_data.setRecordData(data,id);
             }
 

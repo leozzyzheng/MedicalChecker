@@ -5,7 +5,7 @@ Rectangle
     signal nodeClicked()
     property string labelText: ""
     property string sterId: ""
-    property bool isConformed: true
+    property bool isConfirmed: true
 
     onLabelTextChanged:
     {
@@ -23,7 +23,7 @@ Rectangle
     {
         id:icon
         anchors.centerIn: parent
-        source:isConformed ? "qrc:/qml/Resource/disinfect-un.png" : "qrc:/qml/Resource/disinfect.png"
+        source:"qrc:/qml/Resource/disinfect.png"
     }
 
     Rectangle
@@ -32,14 +32,17 @@ Rectangle
         width:parent.width
         height:100
         color:"#00000000"
+        clip:true
 
         Text
         {
             id:iconLabel
             anchors.centerIn: parent
-            text:isConformed ?  labelText + " Conformed" : labelText
+            text:isConfirmed ?  labelText + "\n Last Check At:"+sterProxy.getData(index,marco.checkTime) : labelText
             color:marco.fontBlue
             font.family: marco.topicFontFa
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 25
             wrapMode: Text.WordWrap
         }
@@ -50,9 +53,6 @@ Rectangle
         anchors.fill: parent
         onClicked:
         {
-            if(isConformed)
-                return;
-
             qmlHelper.setData("TaskId",sterId);
             qmlHelper.setData("queryType","Ster");
             rootStackView.push({item:Qt.resolvedUrl("../singleSig.qml"),destroyOnPop:true});

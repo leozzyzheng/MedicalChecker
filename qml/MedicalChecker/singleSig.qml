@@ -164,23 +164,28 @@ Rectangle {
 
                                 if(type === "Daily")
                                 {
-                                    dailyCleanProxy.sign(qmlHelper.getData("TaskContent"),qmlHelper.getCurrDateTime("yyyy-MM-dd HH:mm:ss"),qmlHelper.getData("StaffId"),fileName);
+                                    dailyCleanProxy.sign(qmlHelper.getData("TaskContent"),Qt.formatDateTime(new Date(),"yyyy-MM-dd HH:mm:ss"),qmlHelper.getData("StaffId"),fileName);
+                                    qmlHelper.clearData("StaffId");
                                 }
                                 else if(type === "Weekly")
                                 {
                                     weeklyCleanProxy.sign(qmlHelper.getData("TaskContent"),qmlHelper.getCurrWeekNum(),qmlHelper.getData("StaffId"),fileName);
+                                    qmlHelper.clearData("StaffId");
                                 }
                                 else if(type === "Supply")
                                 {
-                                    supplyProxy.sign(qmlHelper.getData("TaskContent"),qmlHelper.getCurrDateTime("yyyy-MM-dd HH:mm:ss"),qmlHelper.getData("StaffId"),fileName);
+                                    supplyProxy.sign(qmlHelper.getData("TaskContent"),Qt.formatDateTime(new Date(),"yyyy-MM-dd HH:mm:ss"),qmlHelper.getData("StaffId"),fileName);
+                                    qmlHelper.clearData("StaffId");
                                 }
                                 else if(type === "Check")
                                 {
-                                    checkProxy.sign(qmlHelper.getData("StaffId"),qmlHelper.getCurrDateTime("yyyy-MM-dd HH:mm:ss"),fileName);
+                                    checkProxy.sign(qmlHelper.getData("StaffId"),Qt.formatDateTime(new Date(),"yyyy-MM-dd HH:mm:ss"),fileName);
+                                    qmlHelper.clearData("StaffId");
                                 }
                                 else if(type === "Ster")
                                 {
-                                    sterProxy.sign(qmlHelper.getData("TaskId"),qmlHelper.getData("StaffId"),qmlHelper.getCurrDateTime("yyyy-MM-dd HH:mm:ss"),fileName);
+                                    sterProxy.sign(qmlHelper.getData("TaskId"),qmlHelper.getData("StaffId"),Qt.formatDateTime(new Date(),"yyyy-MM-dd HH:mm:ss"),fileName);
+                                    qmlHelper.clearData("StaffId");
                                 }
                             }
                         }
